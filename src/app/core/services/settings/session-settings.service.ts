@@ -85,7 +85,7 @@ export class SessionSettingsService {
 
     private getHours(lastLogin: string): number {
         const now = moment(new Date());
-        const end = moment(lastLogin);
+        const end = moment(new Date(lastLogin));
         const duration = moment.duration(now.diff(end));
         return duration.asHours();
     }

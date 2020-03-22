@@ -23,7 +23,7 @@ export class AuthComponent {
     private auth: AuthService
   ) { }
 
-  public onSubmit() {
+  public onSubmit(authForm: any) {
 
     if (this.currentForm && this.currentForm.valid) {
 

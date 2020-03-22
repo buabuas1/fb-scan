@@ -17,10 +17,11 @@
     "tsconfig": "tsconfig.app.json",
     "testTsconfig": "tsconfig.spec.json",
     "prefix": "app",
-    "styles": [
-      "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-      "styles.scss"
-    ],
+      "styles": [
+          "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "../node_modules/@progress/kendo-theme-default/dist/all.css",
+          "styles.scss"
+      ],
     "scripts": [],
     "environmentSource": "environments/environment.ts",
     "environments": {

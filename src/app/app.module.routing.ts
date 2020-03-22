@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthComponent } from './components/auth';
 import { PageNotFoundComponent } from './shared/page-not-found';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header';
@@ -21,8 +20,12 @@ const mainRoutes: Routes = [
         path: '',
         component: HeaderComponent,
         outlet: 'header'
-      }
+      },
     ]
+  },
+  {
+    path: 'hr',
+    loadChildren: 'app/components/hr/hr.module#HrModule'
   },
   {
     path: '**',
@@ -32,7 +35,6 @@ const mainRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(mainRoutes, {
-      enableTracing: true,
       useHash: true
     })
   ],

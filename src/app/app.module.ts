@@ -8,6 +8,8 @@ import { HeaderModule } from './components/header';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.module.routing';
 import { DashboardModule } from './components/dashboard';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {GridModule} from "@progress/kendo-angular-grid";
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { DashboardModule } from './components/dashboard';
     HeaderModule,
     DashboardModule,
     AppRoutingModule,
+    GridModule,
     SharedModule.forRoot(),
     CoreModule
   ],

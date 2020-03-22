@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Log, Level } from 'ng2-logger';
+import { Log, Level } from 'ng2-logger/src';
 
 @Injectable()
 export class Logger {
