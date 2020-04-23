@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import RouteConfigs from '../../configs/route.configs';
 import { AuthService } from '@core/services/auth';
+import {RouteConfigs} from "../../configs/route.configs";
 
 @Component({
   selector: 'm-app-header',

@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth.component';
-import RouteConfigs from '../../configs/route.configs';
+import {RouteConfigs} from '../../configs/route.configs';
+
 
 const loginRoutes: Routes = [
   {
