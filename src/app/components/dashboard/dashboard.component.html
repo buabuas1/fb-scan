@@ -49,7 +49,6 @@
             [skip]="skip"
             [pageable]="true"
             style="height: 100%"
-            (cellClick)="onStudentDetail($event)"
             (pageChange)="pageChange($event)">
     <kendo-grid-column title="STT" width="40">
         <ng-template kendoGridCellTemplate let-dataItem, let-rowIndex="rowIndex">
