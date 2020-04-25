@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard.module.routing';
 import { DashboardComponent } from './dashboard.component';
-import {FormsModule} from "@angular/forms";
-import {GridModule, SharedModule} from "@progress/kendo-angular-grid";
-import {ExcelExportModule} from "@progress/kendo-angular-excel-export";
+import {FormsModule} from '@angular/forms';
+import {GridModule, SharedModule as SharedModuleKendo} from '@progress/kendo-angular-grid';
+import {ExcelExportModule} from '@progress/kendo-angular-excel-export';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import {SharedModule} from '@shared/shared.module';
 
 @NgModule({
     imports: [
@@ -12,8 +14,10 @@ import {ExcelExportModule} from "@progress/kendo-angular-excel-export";
         DashboardRoutingModule,
         FormsModule,
         GridModule,
-        SharedModule,
-        ExcelExportModule
+        SharedModuleKendo,
+        ExcelExportModule,
+        DateInputsModule,
+        SharedModule
     ],
   declarations: [
     DashboardComponent

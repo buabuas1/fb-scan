@@ -1,0 +1,7 @@
+export const BdsType = {
+    CHO_THUE_PHONG: 'CHO_THUE_PHONG',
+    TIM_PHONG: 'TIM_PHONG',
+    SANG_NHUONG: 'SANG_NHUONG',
+    VAN_PHONG: 'VAN_PHONG',
+    THANH_LY: 'THANH_LY',
+};

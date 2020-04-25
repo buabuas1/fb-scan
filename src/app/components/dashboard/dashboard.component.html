@@ -1,23 +1,71 @@
 <h1>
     Danh sách
 </h1>
-<div class="Block">
-<input type='file' (change)="fileChanged($event)">
+<div class="row">
+    <div class="col-md-3">
+        <div class="Block">
+            <input type='file' (change)="fileChanged($event)">
+        </div>
+        <button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
+        <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
+            <kendo-excelexport-column field="content" [locked]="true" title="Nội dung" [width]="200" [cellOptions]="{ wrap: true }">
+            </kendo-excelexport-column>
+            <kendo-excelexport-column field="url" title="Link bài viết" [width]="350">
+            </kendo-excelexport-column>
+            <kendo-excelexport-column field="costsView" title="Giá" [width]="350">
+            </kendo-excelexport-column>
+            <kendo-excelexport-column field="postTimeView" title="Ngày đăng" [width]="350" [cellOptions]="{ format: 'HH:mm dd/MM/yyyy' }">
+            </kendo-excelexport-column>
+            <kendo-excelexport-column field="commentCount" title="Số comment" [width]="350">
+            </kendo-excelexport-column>
+        </kendo-excelexport>
+        <div (click)="deleteFile()">xoa file</div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <div>
+            <label><b>Thời gian</b></label>
+            <div>
+                <input class="k-radio" type="radio" name="type" id="female" (click)="changeViewType('all')" [(ngModel)]="model.type" value="all">
+                <label class="k-radio-label text-success font-weight-bold" for="female">Tất cả</label>
+
+                <input class="k-radio" type="radio" name="type" id="male" (click)="changeViewType('spec')" [(ngModel)]="model.type" value="spec">
+                <label class="k-radio-label text-info font-weight-bold" for="male">Chọn ngày</label>
+                <div [hidden]="model.type === 'all'">
+                    <div class="mb-10">
+                        <label style="width: 30px">Từ</label>
+                        <input kvKendoDateTimePicker
+                               [kvOptions]="dateOptions"
+                               [placeholder]="'Từ'"
+                               (kvModelChange)="onDateChange($event, true)"
+                               [(kvModel)]="model.from"
+                               style="width: 200px"
+                        />
+                    </div>
+                    <div class="mb-10">
+                        <label style="width: 30px">Đến</label>
+                        <input kvKendoDateTimePicker
+                               [kvOptions]="dateOptions"
+                               [placeholder]="'Đến'"
+                               (kvModelChange)="onDateChange($event, false)"
+                               [(kvModel)]="model.to"
+                               style="width: 200px"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <label><b>Giá</b></label>
+        </div>
+        <div>
+            <label><b>Loại</b></label>
+        </div>
+    </div>
 </div>
-<button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
-<kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
-    <kendo-excelexport-column field="content" [locked]="true" title="Nội dung" [width]="200" [cellOptions]="{ wrap: true }">
-    </kendo-excelexport-column>
-    <kendo-excelexport-column field="url" title="Link bài viết" [width]="350">
-    </kendo-excelexport-column>
-    <kendo-excelexport-column field="costsView" title="Giá" [width]="350">
-    </kendo-excelexport-column>
-    <kendo-excelexport-column field="postTimeView" title="Ngày đăng" [width]="350" [cellOptions]="{ format: 'HH:mm dd/MM/yyyy' }">
-    </kendo-excelexport-column>
-    <kendo-excelexport-column field="commentCount" title="Số comment" [width]="350">
-    </kendo-excelexport-column>
-</kendo-excelexport>
-<div (click)="deleteFile()">xoa file</div>
+
 <kendo-grid [data]="gridView"
             [pageSize]="pageSize"
             [skip]="skip"
