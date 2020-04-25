@@ -1,52 +1,27 @@
 <h1>
-    dashboard works!
+    Danh sách
 </h1>
-<button (click)="login()">click</button>
 <div class="Block">
-    <label id="lbl">Code </label>
-    <input type='file' (change)="fileChanged($event)">
-
+<input type='file' (change)="fileChanged($event)">
 </div>
 <button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
-
 <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
     <kendo-excelexport-column field="content" [locked]="true" title="Nội dung" [width]="200" [cellOptions]="{ wrap: true }">
     </kendo-excelexport-column>
     <kendo-excelexport-column field="url" title="Link bài viết" [width]="350">
     </kendo-excelexport-column>
     <kendo-excelexport-column field="costsView" title="Giá" [width]="350">
-<!--        <ng-template kendoExcelExportGroupHeaderTemplate  let-dataItem>-->
-<!--            <div>{{dataItem.costs.join('-')}}</div>-->
-<!--        </ng-template>-->
     </kendo-excelexport-column>
     <kendo-excelexport-column field="postTimeView" title="Ngày đăng" [width]="350" [cellOptions]="{ format: 'HH:mm dd/MM/yyyy' }">
-<!--        <ng-template kendoExcelExportGroupHeaderTemplate  let-value="value" >-->
-<!--            <div>{{value | date: 'HH:mm dd/MM/yyyy'}}</div>-->
-<!--        </ng-template>-->
     </kendo-excelexport-column>
     <kendo-excelexport-column field="commentCount" title="Số comment" [width]="350">
     </kendo-excelexport-column>
-<!--    <kendo-excelexport-column-group title="Availability" [headerCellOptions]="{ textAlign: 'center' }">-->
-<!--        <kendo-excelexport-column field="UnitPrice" title="Unit Price" [width]="120"-->
-<!--                                  [cellOptions]="{ format: '$#,##0.00' }"-->
-<!--                                  [groupFooterCellOptions]="{ textAlign: 'right' }"-->
-<!--                                  [footerCellOptions]="{ wrap: true, textAlign: 'center' }">-->
-<!--        </kendo-excelexport-column>-->
-<!--        <kendo-excelexport-column field="UnitsOnOrder" title="Units On Order" [width]="120">-->
-<!--        </kendo-excelexport-column>-->
-<!--        <kendo-excelexport-column field="UnitsInStock" title="Units In Stock" [width]="120">-->
-<!--        </kendo-excelexport-column>-->
-<!--    </kendo-excelexport-column-group>-->
-<!--    <kendo-excelexport-column field="Discontinued" width="120" [hidden]="true">-->
-<!--        <ng-template kendoExcelExportGroupHeaderTemplate  let-value="value">-->
-<!--            Discontinued: {{value}}-->
-<!--        </ng-template>-->
-<!--    </kendo-excelexport-column>-->
 </kendo-excelexport>
 <div (click)="deleteFile()">xoa file</div>
 <kendo-grid [data]="gridView"
             [pageSize]="pageSize"
             [skip]="skip"
+            [resizable]="true"
             [pageable]="true"
             style="height: 100%"
             (pageChange)="pageChange($event)">
@@ -57,7 +32,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="content" title="Nội dung" width="400">
     </kendo-grid-column>
-    <kendo-grid-column field="url" title="Link bài viết" width="200">
+    <kendo-grid-column field="url" title="Link bài viết" width="100">
     </kendo-grid-column>
     <kendo-grid-column field="contentTypes" title="Loại" width="50">
     </kendo-grid-column>
@@ -71,6 +46,6 @@
             <div>{{dataItem.postTime | date: 'HH:mm dd/MM/yyyy'}}</div>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="commentCount" title="Số comment" width="50">
+    <kendo-grid-column field="commentCount" title="Số comment" width="80">
     </kendo-grid-column>
 </kendo-grid>
