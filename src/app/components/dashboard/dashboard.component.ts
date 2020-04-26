@@ -41,7 +41,8 @@ export class DashboardComponent implements OnInit {
         bdsType: [BdsTypeArray[1]], // TIM_PHONG
         typePrice: 'all',
         priceFrom: 0,
-        priceTo: 100000000
+        priceTo: 100000000,
+        searchText: ''
     };
     public listItemsPrice = [];
     public dateOptions: kendo.ui.DateTimePickerOptions = {
@@ -75,17 +76,10 @@ export class DashboardComponent implements OnInit {
                 return m;
             });
             this.data = this.convertData(this.data);
-            this.dataExport = process(this.viewData, {
-                // group: this.group
-            }).data;
             this.updateFilter();
             this.loadItems();
         };
         fileReader.readAsText(this.file);
-    }
-
-    deleteFile() {
-        this.file = null;
     }
 
     public pageChange(event: PageChangeEvent): void {
@@ -98,6 +92,9 @@ export class DashboardComponent implements OnInit {
             data: this.viewData.slice(this.skip, this.skip + this.pageSize),
             total: this.viewData.length
         };
+        this.dataExport = process(this.viewData, {
+            // group: this.group
+        }).data;
     }
 
     changeViewType(raise: string) {
@@ -114,7 +111,7 @@ export class DashboardComponent implements OnInit {
         this.updateFilter();
     }
 
-    updateFilter() {
+    public updateFilter() {
         // date
         this.viewData = this.data;
         if (this.model.typeDate === 'spec') {
@@ -134,6 +131,11 @@ export class DashboardComponent implements OnInit {
         if (this.model.typePrice === 'spec' && this.model.priceTo >= 0) {
             this.viewData =
                 this.viewData.filter(d => R.any(nc => nc <= this.model.priceTo, d.numberCosts || []));
+        }
+        // search text
+        if (this.model.searchText) {
+            this.viewData =
+                this.viewData.filter(v => v.content.indexOf(this.model.searchText) >= 0);
         }
         this.loadItems();
     }

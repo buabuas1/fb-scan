@@ -19,12 +19,11 @@
             <kendo-excelexport-column field="commentCount" title="Số comment" [width]="350">
             </kendo-excelexport-column>
         </kendo-excelexport>
-        <div (click)="deleteFile()">xoa file</div>
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-4">
         <div>
-            <label><b>Thời gian</b></label>
+            <label><b>Thời gian:</b></label>
             <div>
                 <input class="k-radio" type="radio" name="type" id="female" (change)="changeViewType('all')" [(ngModel)]="model.typeDate" value="all">
                 <label class="k-radio-label text-success font-weight-bold" for="female">Tất cả</label>
@@ -55,10 +54,14 @@
                 </div>
             </div>
         </div>
+        <div>
+            <label><b>Nội dung:</b></label>
+            <input type="text" [(ngModel)]="model.searchText" (ngModelChange)="updateFilter()" [placeholder]="'ví dụ: đống đa'">
+        </div>
     </div>
     <div class="col-md-4">
         <div>
-            <label><b>Giá</b></label>
+            <label><b>Giá:</b></label>
             <input class="k-radio" type="radio" name="price" id="priceF" (change)="changeViewPriceType('all')" [(ngModel)]="model.typePrice" value="all">
             <label class="k-radio-label text-success font-weight-bold" for="priceF">Tất cả</label>
 
@@ -80,7 +83,7 @@
             </div>
         </div>
         <div>
-            <label><b>Loại</b></label>
+            <label><b>Loại:</b></label>
             <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
         </div>
     </div>
