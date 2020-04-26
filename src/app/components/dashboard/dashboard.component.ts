@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
 import {aggregateBy, process} from '@progress/kendo-data-query';
 import * as moment from 'moment';
-import {BdsType} from '../../common/constants';
+import {BdsType, BdsTypeArray, MAX_DBS_PRICE, MID_DBS_PRICE} from '../../common/constants';
+import * as R from 'ramda';
+import {DecimalPipe} from '@angular/common';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -31,19 +33,25 @@ export class DashboardComponent implements OnInit {
     public dataExport: any[] = [];
 
     public total: any = aggregateBy(this.viewData, this.aggregates);
+    public listItems = BdsTypeArray;
     model: any = {
-        type: 'all',
+        typeDate: 'all',
         from: moment(new Date().setHours(0, 0, 0, 0)).toDate(),
         to: new Date(),
-        bdsType: BdsType.TIM_PHONG
+        bdsType: [BdsTypeArray[1]], // TIM_PHONG
+        typePrice: 'all',
+        priceFrom: 0,
+        priceTo: 100000000
     };
+    public listItemsPrice = [];
     public dateOptions: kendo.ui.DateTimePickerOptions = {
         format: 'dd/MM/yyyy HH:mm',
     };
-    constructor() {
+    constructor(private decimalPipe: DecimalPipe) {
     }
 
     ngOnInit() {
+        this.makePriceDropDown();
     }
 
     login() {
@@ -61,14 +69,12 @@ export class DashboardComponent implements OnInit {
             console.log(fileReader.result);
             const a = fileReader.result;
             this.data = JSON.parse(a);
-            // this.data = this.data.filter(r => r.contentTypes && r.contentTypes.indexOf('TIM_PHONG') >= 0);
-            // console.log(this.data);
-            // this.export(this.data);
             this.data = this.data.map(m => {
                 m.postTimeView = new Date(m.postTime);
                 m.costsView = m.costs.join('-');
                 return m;
             });
+            this.data = this.convertData(this.data);
             this.dataExport = process(this.viewData, {
                 // group: this.group
             }).data;
@@ -95,7 +101,7 @@ export class DashboardComponent implements OnInit {
     }
 
     changeViewType(raise: string) {
-        this.model.type = raise;
+        // this.model.typeDate = raise;
         this.updateFilter();
     }
 
@@ -111,14 +117,80 @@ export class DashboardComponent implements OnInit {
     updateFilter() {
         // date
         this.viewData = this.data;
-        if (this.model.type === 'spec') {
+        if (this.model.typeDate === 'spec') {
             this.viewData =
                 this.viewData.filter(d => d.postTime > this.model.from.getTime() && d.postTime.getTime() < this.model.to);
         }
         // type
         if (this.model.bdsType) {
-            this.viewData = this.viewData.filter(r => r.contentTypes && r.contentTypes.indexOf('TIM_PHONG'));
+            this.viewData = this.viewData
+                .filter(r => R.any(f => r.contentTypes && r.contentTypes.indexOf(f.key) >= 0, this.model.bdsType));
+        }
+        // price
+        if (this.model.typePrice === 'spec' && this.model.priceFrom >= 0) {
+            this.viewData =
+                this.viewData.filter(d => R.any(nc => nc > this.model.priceFrom, d.numberCosts || []));
+        }
+        if (this.model.typePrice === 'spec' && this.model.priceTo >= 0) {
+            this.viewData =
+                this.viewData.filter(d => R.any(nc => nc <= this.model.priceTo, d.numberCosts || []));
         }
         this.loadItems();
+    }
+
+    onBdsTypeChange($event: any[]) {
+        this.updateFilter();
+    }
+
+    changeViewPriceType(all: string) {
+        this.updateFilter();
+    }
+
+    private makePriceDropDown() {
+        for (let i = 0; i < MID_DBS_PRICE; i = i + 500000) {
+            this.listItemsPrice.push({
+                id: i,
+                value: this.decimalPipe.transform(i, '1.0')
+            });
+        }
+        for (let i = MID_DBS_PRICE; i <= MAX_DBS_PRICE; i = i + 10000000) {
+            this.listItemsPrice.push({
+                id: i,
+                value: this.decimalPipe.transform(i, '1.0')
+            });
+        }
+    }
+
+    makeValueFromString(values: [any]) {
+        const rsArr = [];
+        try {
+            values.forEach(valueStr => {
+                let result = 0;
+                const arrDecimal = valueStr.split('tr');
+                result = parseFloat(arrDecimal[0].replace(',', '.')) * 1000000; // * 1tr
+                if (arrDecimal.length === 2 && !isNaN(parseFloat('0.' + arrDecimal[1]))) {
+                    result += parseFloat('0.' + arrDecimal[1]) * 1000000; // * 100 ng
+                }
+                rsArr.push(result);
+            });
+            return rsArr;
+        } catch (e) {
+            alert('Không thể convert string to number: ' + values);
+        }
+
+    }
+
+    private convertData(data: any[]) {
+        // convert price string to number
+        data.forEach(value => {
+            if (value && value.costs && value.costs.length > 0) {
+                value.numberCosts = this.makeValueFromString(value.costs);
+            }
+        });
+        return data;
+    }
+
+    onPriceChange($event: any) {
+        this.updateFilter();
     }
 }

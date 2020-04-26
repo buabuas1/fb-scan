@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-3">
         <div class="Block">
-            <input type='file' (change)="fileChanged($event)">
+            <input type='file' (change)="fileChanged($event)" onclick="this.value = null">
         </div>
         <button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
         <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
@@ -26,12 +26,12 @@
         <div>
             <label><b>Thời gian</b></label>
             <div>
-                <input class="k-radio" type="radio" name="type" id="female" (click)="changeViewType('all')" [(ngModel)]="model.type" value="all">
+                <input class="k-radio" type="radio" name="type" id="female" (change)="changeViewType('all')" [(ngModel)]="model.typeDate" value="all">
                 <label class="k-radio-label text-success font-weight-bold" for="female">Tất cả</label>
 
-                <input class="k-radio" type="radio" name="type" id="male" (click)="changeViewType('spec')" [(ngModel)]="model.type" value="spec">
+                <input class="k-radio" type="radio" name="type" id="male" (change)="changeViewType('spec')" [(ngModel)]="model.typeDate" value="spec">
                 <label class="k-radio-label text-info font-weight-bold" for="male">Chọn ngày</label>
-                <div [hidden]="model.type === 'all'">
+                <div [hidden]="model.typeDate === 'all'">
                     <div class="mb-10">
                         <label style="width: 30px">Từ</label>
                         <input kvKendoDateTimePicker
@@ -59,9 +59,29 @@
     <div class="col-md-4">
         <div>
             <label><b>Giá</b></label>
+            <input class="k-radio" type="radio" name="price" id="priceF" (change)="changeViewPriceType('all')" [(ngModel)]="model.typePrice" value="all">
+            <label class="k-radio-label text-success font-weight-bold" for="priceF">Tất cả</label>
+
+            <input class="k-radio" type="radio" name="price" id="priceT" (change)="changeViewPriceType('spec')" [(ngModel)]="model.typePrice" value="spec">
+            <label class="k-radio-label text-info font-weight-bold" for="priceT">Khoảng giá</label>
+            <div [hidden]="model.typePrice === 'all'">
+                <div class="mb-10">
+                    <label style="width: 30px">Từ</label>
+                    <kendo-dropdownlist [data]="listItemsPrice" [(ngModel)]="model.priceFrom" [valuePrimitive]="true"
+                                        (valueChange)="onPriceChange($event)" [textField]="'value'" [valueField]="'id'">
+                    </kendo-dropdownlist>
+                </div>
+                <div class="mb-10">
+                    <label style="width: 30px">Đến</label>
+                    <kendo-dropdownlist [data]="listItemsPrice" [(ngModel)]="model.priceTo" [valuePrimitive]="true"
+                                        (valueChange)="onPriceChange($event)" [textField]="'value'" [valueField]="'id'">
+                    </kendo-dropdownlist>
+                </div>
+            </div>
         </div>
         <div>
             <label><b>Loại</b></label>
+            <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
         </div>
     </div>
 </div>
