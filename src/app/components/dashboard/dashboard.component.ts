@@ -137,6 +137,7 @@ export class DashboardComponent implements OnInit {
             this.viewData =
                 this.viewData.filter(v => v.content.indexOf(this.model.searchText) >= 0);
         }
+        this.skip = 0;
         this.loadItems();
     }
 
