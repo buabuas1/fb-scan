@@ -11,6 +11,7 @@ import {DashboardModule} from './components/dashboard';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GridModule} from '@progress/kendo-angular-grid';
 import '@progress/kendo-ui';
+import {BsModalService} from 'ngx-bootstrap';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,7 @@ import '@progress/kendo-ui';
         CoreModule,
         BrowserAnimationsModule
     ],
-    providers: [],
+    providers: [BsModalService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

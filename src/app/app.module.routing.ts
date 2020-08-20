@@ -27,6 +27,10 @@ const mainRoutes: Routes = [
     path: 'hr',
     loadChildren: 'app/components/hr/hr.module#HrModule'
   },
+    {
+        path: 'fb',
+        loadChildren: 'app/components/fb-comment/fb-comment.module#FbCommentModule'
+    },
   {
     path: '**',
     component: PageNotFoundComponent

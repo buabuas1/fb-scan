@@ -7,7 +7,7 @@ import {GridModule, SharedModule as SharedModuleKendo} from '@progress/kendo-ang
 import {ExcelExportModule} from '@progress/kendo-angular-excel-export';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import {SharedModule} from '@shared/shared.module';
-import {DropDownsModule} from "@progress/kendo-angular-dropdowns";
+import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
     imports: [

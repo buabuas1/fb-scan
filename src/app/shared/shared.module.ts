@@ -5,23 +5,37 @@ import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found';
 import {KendoDateTimePickerDirective} from '@shared/directive/kendo-date-time-picker.directive';
 import {KendoDatePickerDirective} from '@shared/directive/kendo-date-picker.directive';
+import {ModalComponent} from '../common/modal/modal.component';
+import {ConfirmComponent} from '../common/confirm/confirm.component';
+import {BsModalService} from "ngx-bootstrap";
 
 @NgModule({
     declarations: [
         PageNotFoundComponent,
         KendoDateTimePickerDirective,
-        KendoDatePickerDirective
+        KendoDatePickerDirective,
+        ModalComponent,
+        ConfirmComponent
     ],
     exports: [
         PageNotFoundComponent,
         KendoDatePickerDirective,
-        KendoDateTimePickerDirective
+        KendoDateTimePickerDirective,
+        ModalComponent,
+        ConfirmComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         RouterModule
     ],
+    entryComponents: [
+        ModalComponent,
+        ConfirmComponent
+    ],
+    providers: [
+        BsModalService
+    ]
 })
 export class SharedModule {
     static forRoot(): ModuleWithProviders {

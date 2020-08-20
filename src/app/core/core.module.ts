@@ -4,17 +4,23 @@ import { AuthService } from './services/auth/auth.service';
 import { AuthGuard } from './services/auth/auth.guard';
 import { Logger } from './services/logger';
 import { SessionSettingsService } from './services/settings';
-
+import {ModalService} from '@core/services/modal/modal.service';
+import {BsModalService, ComponentLoaderFactory, ModalModule, PositioningService} from 'ngx-bootstrap';
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+      ModalModule
   ],
   declarations: [],
   providers: [
     Logger,
     AuthService,
     AuthGuard,
-    SessionSettingsService
+    SessionSettingsService,
+      BsModalService,
+      ModalService,
+      ComponentLoaderFactory,
+      PositioningService
   ]
 })
 export class CoreModule { }
