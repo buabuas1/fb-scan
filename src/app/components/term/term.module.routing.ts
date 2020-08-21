@@ -9,8 +9,6 @@ const mainRoutes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
         component: TermComponent,
         outlet: 'body'
     },
