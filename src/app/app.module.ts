@@ -12,7 +12,16 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GridModule} from '@progress/kendo-angular-grid';
 import '@progress/kendo-ui';
 import {BsModalService} from 'ngx-bootstrap';
-
+import {reducers} from './state-management/app-state';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {StoreModule} from '@ngrx/store';
+import {ToastModule, ToastOptions} from 'ng2-toastr';
+export class CustomOption extends ToastOptions {
+    animate = 'flyRight'; // you can override any options available
+    newestOnTop = false;
+    showCloseButton = true;
+    positionClass = 'toast-bottom-right';
+}
 @NgModule({
     declarations: [
         AppComponent
@@ -24,11 +33,19 @@ import {BsModalService} from 'ngx-bootstrap';
         DashboardModule,
         AppRoutingModule,
         GridModule,
+        StoreModule.forRoot(reducers, {
+            // metaReducers
+        }),
         SharedModule.forRoot(),
         CoreModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        true ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
+        ToastModule.forRoot()
     ],
-    providers: [BsModalService],
+    providers: [
+        BsModalService,
+        {provide: ToastOptions, useClass: CustomOption},
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

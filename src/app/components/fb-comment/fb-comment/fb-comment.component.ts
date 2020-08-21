@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalService} from "@core/services/modal/modal.service";
 import {CommentFormComponent} from "../comment-form/comment-form.component";
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../../state-management/app-state";
+import {getFilterState} from "../../../state-management/reducers/filter.reducer";
 
 @Component({
   selector: 'app-fb-comment',
@@ -9,7 +12,7 @@ import {CommentFormComponent} from "../comment-form/comment-form.component";
 })
 export class FbCommentComponent implements OnInit {
 
-  constructor(private modalService: ModalService) { }
+  constructor(private modalService: ModalService, private store: Store<AppStates>) { }
 
   ngOnInit() {
   }
@@ -23,5 +26,7 @@ export class FbCommentComponent implements OnInit {
             onSubmit: () => {
             }
         }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
+        this.store.select(getFilterState)
+            .subscribe(rs => console.log(rs));
     }
 }
