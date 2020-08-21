@@ -7,6 +7,7 @@ import {CoreModule} from '@core/core.module';
 import {HeaderModule} from '../header';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import {ModalService} from '@core/services/modal/modal.service';
+import {GroupFbService} from "@core/services/facebook/group-fb.service";
 
 @NgModule({
     imports: [
@@ -17,7 +18,10 @@ import {ModalService} from '@core/services/modal/modal.service';
         FbCommentModuleRouting
     ],
     declarations: [FbCommentComponent, CommentFormComponent],
-    providers: [ModalService],
+    providers: [
+        ModalService,
+        GroupFbService
+    ],
     entryComponents: [CommentFormComponent]
 })
 export class FbCommentModule {

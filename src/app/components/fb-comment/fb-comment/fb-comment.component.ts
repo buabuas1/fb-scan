@@ -4,6 +4,7 @@ import {CommentFormComponent} from "../comment-form/comment-form.component";
 import {Store} from "@ngrx/store";
 import {AppStates} from "../../../state-management/app-state";
 import {getFilterState} from "../../../state-management/reducers/filter.reducer";
+import {GroupFbService} from "@core/services/facebook/group-fb.service";
 
 @Component({
   selector: 'app-fb-comment',
@@ -12,7 +13,8 @@ import {getFilterState} from "../../../state-management/reducers/filter.reducer"
 })
 export class FbCommentComponent implements OnInit {
 
-  constructor(private modalService: ModalService, private store: Store<AppStates>) { }
+  constructor(private modalService: ModalService, private store: Store<AppStates>,
+              private groupFbService: GroupFbService) { }
 
   ngOnInit() {
   }
@@ -27,6 +29,8 @@ export class FbCommentComponent implements OnInit {
             }
         }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
         this.store.select(getFilterState)
+            .subscribe(rs => console.log(rs));
+        this.groupFbService.getFeedOfGroup('2')
             .subscribe(rs => console.log(rs));
     }
 }
