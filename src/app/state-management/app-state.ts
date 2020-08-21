@@ -1,5 +1,6 @@
 import { ActionReducer, combineReducers, ActionReducerMap } from '@ngrx/store';
 import {FilterReducer, FilterState} from './reducers/filter.reducer';
+import {FbAuthReducer, FbAuthState} from './reducers/fb-auth.reducer';
 
 
 export interface AppStates {
@@ -11,6 +12,7 @@ export interface AppStates {
     // tableFilter: TableFilterState;
     // productFilter: ProductFilterState;
     filterState: FilterState;
+    fbAuthSate: FbAuthState;
     // notification: NotificationState;
     // reservation: ReservationState;
     // importExport: ImportExportState;
@@ -25,6 +27,7 @@ export const reducers: ActionReducerMap<AppStates> = {
     // tableFilter: tableFilterReducer,
     // productFilter: productFilterReducer,
     filterState: FilterReducer,
+    fbAuthSate: FbAuthReducer
     // notification: notificationReducer,
     // reservation: reservationReducer,
     // importExport: importExportReducer

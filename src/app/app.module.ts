@@ -26,7 +26,7 @@ export class CustomOption extends ToastOptions {
 }
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,

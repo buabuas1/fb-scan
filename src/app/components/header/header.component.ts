@@ -3,6 +3,9 @@ import {Router} from '@angular/router';
 import {AuthService} from '@core/services/auth';
 import {RouteConfigs} from '../../configs/route.configs';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {Store} from "@ngrx/store";
+import {AppStates} from "../../state-management/app-state";
+import {FbAuthActionAddAction} from "../../state-management/actions/fb-auth.action";
 declare var FB: any;
 @Component({
     selector: 'm-app-header',
@@ -14,7 +17,8 @@ export class HeaderComponent implements OnInit {
     constructor(
         private router: Router,
         private auth: AuthService,
-        private loggerService: LoggerServiceService
+        private loggerService: LoggerServiceService,
+        protected store: Store<AppStates>
     ) {
     }
 
@@ -28,13 +32,11 @@ export class HeaderComponent implements OnInit {
     }
 
     submitLogin() {
-        console.log('submit login to facebook');
         this.loggerService.success('Success!');
-        // FB.login();
         (FB as any).login((response) => {
-            console.log('submitLogin', response);
             if (response.authResponse) {
                 this.loggerService.success('Success!');
+                this.store.dispatch(new FbAuthActionAddAction(response.authResponse));
             } else {
                 console.log('User login failed');
             }
