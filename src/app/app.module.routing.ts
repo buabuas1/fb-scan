@@ -36,6 +36,14 @@ const mainRoutes: Routes = [
         loadChildren: 'app/components/token/token.module#TokenModule'
     },
     {
+        path: 'term',
+        loadChildren: 'app/components/term/term.module#TermModule'
+    },
+    {
+        path: 'policy',
+        loadChildren: 'app/components/policy/policy.module#PolicyModule'
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     },
