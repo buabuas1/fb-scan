@@ -4,13 +4,14 @@ import {PageNotFoundComponent} from '@shared/page-not-found';
 import {HeaderComponent} from '../header';
 import {AuthGuard} from '@core/services/auth/auth.guard';
 import {TokenComponent} from './token.component';
+import {SuperAdminGuard} from "@core/services/auth/super-admin.guard";
 
 const mainRoutes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        canActivate: [SuperAdminGuard],
+        canActivateChild: [SuperAdminGuard],
         component: TokenComponent,
         outlet: 'body'
     },

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth';
-import {RouteConfigs} from "../../configs/route.configs";
+import {RouteConfigs} from '../../configs/route.configs';
 
 @Component({
   selector: 'm-app-auth',

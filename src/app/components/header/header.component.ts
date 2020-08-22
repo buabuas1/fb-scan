@@ -32,7 +32,6 @@ export class HeaderComponent implements OnInit {
     }
 
     submitLogin() {
-        this.loggerService.success('Success!');
         (FB as any).login((response) => {
             if (response.authResponse) {
                 this.loggerService.success('Success!');

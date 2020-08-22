@@ -6,6 +6,7 @@ import {TokenModuleRouting} from './token.module.routing';
 import {SharedModule} from '@shared/shared.module';
 import {CoreModule} from '@core/core.module';
 import {HeaderModule} from '../header';
+import {SuperAdminGuard} from '@core/services/auth';
 
 @NgModule({
     imports: [
@@ -13,9 +14,12 @@ import {HeaderModule} from '../header';
         SharedModule,
         CoreModule,
         HeaderModule,
-        TokenModuleRouting
+        TokenModuleRouting,
     ],
-    declarations: [TokenComponent, TokenFormComponent]
+    declarations: [TokenComponent, TokenFormComponent],
+    providers: [
+        SuperAdminGuard
+    ]
 })
 export class TokenModule {
 }

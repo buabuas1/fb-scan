@@ -1,3 +1,19 @@
-<p>
-  token works!
-</p>
+<kendo-grid
+    [data]="tokens"
+    [pageSize]="10"
+    [skip]="0"
+    [sortable]="true"
+    [pageable]="true"
+    scrollable="none"
+    (cellClick)="onOpenDetail($event)"
+>
+    <kendo-grid-column field="userID" width="130"></kendo-grid-column>
+    <kendo-grid-column field="expiresIn" width="200"></kendo-grid-column>
+    <kendo-grid-column field="Action" width="200">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <button class="btn btn-danger" kendoButton (click)="DeleteToken(dataItem)">Xóa</button>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="accessToken" width="200"></kendo-grid-column>
+
+</kendo-grid>

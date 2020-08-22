@@ -7,7 +7,9 @@ import {KendoDateTimePickerDirective} from '@shared/directive/kendo-date-time-pi
 import {KendoDatePickerDirective} from '@shared/directive/kendo-date-picker.directive';
 import {ModalComponent} from '../common/modal/modal.component';
 import {ConfirmComponent} from '../common/confirm/confirm.component';
-import {BsModalService} from "ngx-bootstrap";
+import {BsModalService} from 'ngx-bootstrap';
+import {GridModule} from '@progress/kendo-angular-grid';
+import {SharedModule as KendoShare} from '@progress/kendo-angular-grid';
 
 @NgModule({
     declarations: [
@@ -22,12 +24,16 @@ import {BsModalService} from "ngx-bootstrap";
         KendoDatePickerDirective,
         KendoDateTimePickerDirective,
         ModalComponent,
-        ConfirmComponent
+        ConfirmComponent,
+        GridModule,
+        KendoShare
     ],
     imports: [
         CommonModule,
         FormsModule,
-        RouterModule
+        RouterModule,
+        GridModule,
+        KendoShare
     ],
     entryComponents: [
         ModalComponent,
