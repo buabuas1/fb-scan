@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import {BdsType, BdsTypeArray, MAX_DBS_PRICE, MID_DBS_PRICE} from '../../common/constants';
 import * as R from 'ramda';
 import {DecimalPipe} from '@angular/common';
+import {GroupFbService} from "@core/services/facebook/group-fb.service";
+import {LoggerServiceService} from "@core/services/logger-service/logger-service.service";
 
 @Component({
     selector: 'm-app-dashboard',
@@ -48,7 +50,10 @@ export class DashboardComponent implements OnInit {
     public dateOptions: kendo.ui.DateTimePickerOptions = {
         format: 'dd/MM/yyyy HH:mm',
     };
-    constructor(private decimalPipe: DecimalPipe) {
+
+    constructor(private decimalPipe: DecimalPipe,
+                private groupFbService: GroupFbService,
+                private loggerService: LoggerServiceService) {
     }
 
     ngOnInit() {
@@ -67,7 +72,6 @@ export class DashboardComponent implements OnInit {
         this.file = $event.target.files[0];
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-            console.log(fileReader.result);
             const a = fileReader.result;
             this.data = JSON.parse(a);
             this.data = this.data.map(m => {
@@ -195,5 +199,31 @@ export class DashboardComponent implements OnInit {
 
     onPriceChange($event: any) {
         this.updateFilter();
+    }
+
+    public getFeed() {
+        this.groupFbService.getFeedOfGroup('123')
+            .subscribe(rs => {
+                    console.log('feed', rs);
+                    this.loggerService.success('Token đang hoạt động');
+                },
+                error => {
+                    console.log('get feed error', error);
+                    this.loggerService.error('Token không hoạt động');
+                });
+    }
+
+    public postComment() {
+        this.groupFbService.postGroupComment('3219247554857348', {
+            message: 'Good',
+            attachment_url: 'https://live.staticflickr.com/65535/49976872231_9dc20f7be7_w.jpg'
+        })
+            .subscribe(rs => {
+                console.log('post rs ', rs);
+                this.loggerService.success('Posted');
+            }, error => {
+                console.log('post error ', error);
+                this.loggerService.error('Post unsuccessfully');
+            });
     }
 }

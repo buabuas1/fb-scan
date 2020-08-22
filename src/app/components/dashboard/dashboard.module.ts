@@ -8,6 +8,8 @@ import {ExcelExportModule} from '@progress/kendo-angular-excel-export';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import {SharedModule} from '@shared/shared.module';
 import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
+import {GroupFbService} from "@core/services/facebook/group-fb.service";
+import {LoggerServiceService} from "@core/services/logger-service/logger-service.service";
 
 @NgModule({
     imports: [
@@ -21,7 +23,10 @@ import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
         SharedModule,
         DropDownsModule
     ],
-    providers: [DecimalPipe],
+    providers: [DecimalPipe,
+    GroupFbService,
+    LoggerServiceService
+    ],
   declarations: [
     DashboardComponent
   ],
