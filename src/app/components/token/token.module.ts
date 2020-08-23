@@ -7,6 +7,8 @@ import {SharedModule} from '@shared/shared.module';
 import {CoreModule} from '@core/core.module';
 import {HeaderModule} from '../header';
 import {SuperAdminGuard} from '@core/services/auth';
+import {ModalService} from "@core/services/modal/modal.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [
@@ -15,10 +17,15 @@ import {SuperAdminGuard} from '@core/services/auth';
         CoreModule,
         HeaderModule,
         TokenModuleRouting,
+        FormsModule,
     ],
     declarations: [TokenComponent, TokenFormComponent],
     providers: [
-        SuperAdminGuard
+        SuperAdminGuard,
+        ModalService
+    ],
+    entryComponents: [
+        TokenFormComponent
     ]
 })
 export class TokenModule {

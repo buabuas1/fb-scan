@@ -226,4 +226,18 @@ export class DashboardComponent implements OnInit {
                 this.loggerService.error('Post unsuccessfully');
             });
     }
+
+    public postContent() {
+        this.groupFbService.postGroupContent('2295575987153701', {
+            caption: 'Good',
+            url: 'https://live.staticflickr.com/65535/49976872231_9dc20f7be7_w.jpg'
+        })
+            .subscribe(rs => {
+                console.log('post rs ', rs);
+                this.loggerService.success('Posted');
+            }, error => {
+                console.log('post error ', error);
+                this.loggerService.error('Post unsuccessfully');
+            });
+    }
 }

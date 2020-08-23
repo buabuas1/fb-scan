@@ -18,4 +18,11 @@ export class GroupFbService extends BaseFbService {
     postGroupComment(postId: string, params) {
         return this.postFb('3219247554857348/comments', params);
     }
+
+    // postGroupContent(groupId: string, params) {
+    //     return this.postFb(groupId + '/feed', params);
+    // }
+    postGroupContent(groupId: string, params) {
+        return this.postFb(groupId + '/photos', params);
+    }
 }

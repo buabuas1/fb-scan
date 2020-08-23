@@ -20,6 +20,16 @@ export function FbAuthReducer(state = initialState, action: FbAuthActions): FbAu
             return {...state, tokens: state.tokens.filter(t => t.userID !== (action.payload as TokenModel).userID)};
         case FbAuthActionTypes.FB_AUTH_ADD_LIST:
             return {...state, tokens: R.clone(action.payload)};
+        case FbAuthActionTypes.FB_AUTH_UPDATE:
+            const tokens = state.tokens.map(t => {
+                if (t.userID === (action.payload as TokenModel).userID) {
+                    t = action.payload as TokenModel;
+                    return t;
+                } else {
+                    return t;
+                }
+            });
+            return {...state, tokens: tokens};
         default:
             return state;
     }
