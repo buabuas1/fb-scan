@@ -4,7 +4,9 @@ import {BaseFbService} from '@core/services/facebook/base-fb.service';
 import {HttpClient} from '@angular/common/http';
 import {Store} from '@ngrx/store';
 import {AppStates} from '../../../state-management/app-state';
-
+import {from} from 'rxjs/observable/from';
+import {forkJoin} from 'rxjs/observable/forkJoin';
+import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class GroupFbService extends BaseFbService {
     constructor(http: HttpClient, store: Store<AppStates>) {
@@ -24,5 +26,25 @@ export class GroupFbService extends BaseFbService {
     // }
     postGroupContent(groupId: string, params) {
         return this.postFb(groupId + '/photos', params);
+    }
+
+    posMultipleImage(edgeId: string, imageUrls: Array<string>) {
+        const request = (url: string) => from(this.postFbWithoutSDK(edgeId + '/photos', {
+            url: url,
+            published: false,
+        }));
+        const arr = [];
+        // if (imageUrls && imageUrls.length > 0) {
+        //     imageUrls.forEach(u => {
+        //         arr.push(request(u));
+        //     });
+        //     return forkJoin(arr).subscribe(rs => console.log('rs', rs));
+        // } else {
+        //     Observable.of([]);
+        // }
+        return forkJoin([
+            request(imageUrls[0]),
+            request(imageUrls[1])
+        ]).subscribe(rs => console.log('rs', rs));
     }
 }

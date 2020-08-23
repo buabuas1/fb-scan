@@ -5,7 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {Store} from '@ngrx/store';
 import {AppStates} from '../../../state-management/app-state';
 import {getFbAuthToken} from '../../../state-management/reducers/fb-auth.reducer';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 declare var FB: any;
 @Injectable()
 export class BaseFbService {
@@ -45,7 +45,7 @@ export class BaseFbService {
         // return this.http.get(this.fbApi + url, op);
     }
 
-    postFb(url: string, option: RequestOptionsArgs) {
+    postFb(url: string, option: any): Observable<any[]> {
         return Observable.create(rs => {
             (FB as any).api(
                 '/' + url,
@@ -70,6 +70,16 @@ export class BaseFbService {
         //     op.params = Object.assign(op.params, option.params);
         // }
         // return this.http.get(this.fbApi + url, op);
+    }
+
+    postFbWithoutSDK(url: string, option: any) {
+        let op = {
+            access_token: this.currentToken
+        };
+        if (!!option) {
+            op = Object.assign(op, option);
+        }
+        return this.http.post(this.fbApi + url, op);
     }
 
 
