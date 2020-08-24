@@ -228,21 +228,17 @@ export class DashboardComponent implements OnInit {
     }
 
     public postContent() {
-        // this.groupFbService.postGroupContent('2295575987153701', {
-        //     caption: 'Good',
-        //     url: 'https://live.staticflickr.com/65535/49976872231_9dc20f7be7_w.jpg'
-        // })
-        //     .subscribe(rs => {
-        //         console.log('post rs ', rs);
-        //         this.loggerService.success('Posted');
-        //     }, error => {
-        //         console.log('post error ', error);
-        //         this.loggerService.error('Post unsuccessfully');
-        //     });
-        this.groupFbService.posMultipleImage('2295575987153701',
-            [
-                'https://live.staticflickr.com/65535/49976872231_9dc20f7be7_w.jpg',
-                'https://www.facebook.com/images/fb_icon_325x325.png'
-            ]);
+        this.groupFbService.postGroupContent('2295575987153701',
+            {
+                imageUrls: [
+                    'https://live.staticflickr.com/65535/49976872231_9dc20f7be7_w.jpg',
+                    'https://www.facebook.com/images/fb_icon_325x325.png'
+                ],
+                message: 'SAY HELLO'
+            }).subscribe(rs => {
+                this.loggerService.success('Posted');
+        }, error => {
+                this.loggerService.error('Lỗi ', error);
+        });
     }
 }

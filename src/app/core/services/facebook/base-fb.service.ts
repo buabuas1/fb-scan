@@ -45,6 +45,31 @@ export class BaseFbService {
         // return this.http.get(this.fbApi + url, op);
     }
 
+    getFbWithoutSDK(url: string, option: RequestOptionsArgs) {
+        // return Observable.create(rs => {
+        //     (FB as any).api(
+        //         '/' + url,
+        //         function (response) {
+        //             if (response && !response.error) {
+        //                 /* handle the result */
+        //                 rs.next(response);
+        //             } else {
+        //                 rs.error(response.error);
+        //             }
+        //         }
+        //     );
+        // });
+
+        const op = {
+            params: {
+            access_token: this.currentToken
+        }};
+        if (!!option) {
+            op.params = Object.assign(op.params, option.params);
+        }
+        return this.http.get(this.fbApi + url, op);
+    }
+
     postFb(url: string, option: any): Observable<any[]> {
         return Observable.create(rs => {
             (FB as any).api(
