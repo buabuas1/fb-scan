@@ -1,13 +1,17 @@
 <div class="float-right mt-2">
-    <button class="btn btn-sm btn-primary m-auto" (click)="getFeed()">Check token</button>
-    <button class="btn btn-sm btn-primary m-auto">Cài đặt nội dung comment</button>
-    <button class="btn btn-sm btn-primary m-auto" (click)="postComment()">Post comment</button>
-    <button class="btn btn-sm btn-primary m-auto" (click)="postContent()">Post content</button>
+<!--    <button class="btn btn-sm btn-primary m-auto" (click)="getFeed()">Check token</button>-->
+<!--    <button class="btn btn-sm btn-primary m-auto" (click)="callFb()">Cài đặt nội dung comment</button>-->
+<!--    <button class="btn btn-sm btn-primary m-auto" (click)="postComment()">Post comment</button>-->
+<!--    <button class="btn btn-sm btn-primary m-auto" (click)="postContent()">Post content</button>-->
 </div>
 <div class="row">
     <div class="col-md-3">
         <div class="Block">
             <input type='file' (change)="fileChanged($event)" onclick="this.value = null">
+        </div>
+        <div class="Block">
+            <label>read</label>
+            <input type='file' (change)="fileChangedMultiple($event)" onclick="this.value = null">
         </div>
         <button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
         <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
@@ -112,7 +116,7 @@
     </kendo-grid-column>
     <kendo-grid-column title="Giá" width="50">
         <ng-template kendoGridCellTemplate let-dataItem>
-            <div>{{dataItem.costs.join('-')}}</div>
+            <div>{{dataItem.costs ? dataItem.costs.join('-') : '-'}}</div>
         </ng-template>
     </kendo-grid-column>
     <kendo-grid-column title="Thời gian bài đăng" width="100">

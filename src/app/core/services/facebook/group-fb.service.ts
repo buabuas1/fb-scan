@@ -16,7 +16,7 @@ export class GroupFbService extends BaseFbService {
     }
 
     getFeedOfGroup(groupId: string) {
-        return this.getFbWithoutSDK('1854370624678388/feed?limit=5', {});
+        return this.getFbWithoutSDK(groupId + '/feed?limit=5', {});
     }
 
     postGroupComment(postId: string, params) {
@@ -55,5 +55,9 @@ export class GroupFbService extends BaseFbService {
             Observable.of([]);
         }
         return forkJoin(arr);
+    }
+
+    getCT() {
+        return this.getFBContent();
     }
 }

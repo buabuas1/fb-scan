@@ -5,8 +5,10 @@ import * as moment from 'moment';
 import {BdsType, BdsTypeArray, MAX_DBS_PRICE, MID_DBS_PRICE} from '../../common/constants';
 import * as R from 'ramda';
 import {DecimalPipe} from '@angular/common';
-import {GroupFbService} from "@core/services/facebook/group-fb.service";
-import {LoggerServiceService} from "@core/services/logger-service/logger-service.service";
+import {GroupFbService} from '@core/services/facebook/group-fb.service';
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {GroupFeedModel} from '@models/facebook/group-feed.model';
+import {BdsTypeService} from '@core/services/bds-type.service';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -15,8 +17,8 @@ import {LoggerServiceService} from "@core/services/logger-service/logger-service
 })
 export class DashboardComponent implements OnInit {
     public file: any;
-    private data = [];
-    private viewData = [];
+    private data: Array<GroupFeedModel> = [];
+    private viewData: Array<GroupFeedModel> = [];
 
     gridData = [];
     pagination = {
@@ -53,7 +55,9 @@ export class DashboardComponent implements OnInit {
 
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
-                private loggerService: LoggerServiceService) {
+                private loggerService: LoggerServiceService,
+                private bdsTypeService: BdsTypeService
+                ) {
     }
 
     ngOnInit() {
@@ -123,14 +127,14 @@ export class DashboardComponent implements OnInit {
                 this.viewData.filter(d => d.postTime > this.model.from.getTime() && d.postTime < this.model.to.getTime());
         }
         // type
-        if (this.model.bdsType) {
+        if (this.model.bdsType && this.model.bdsType.length > 0) {
             this.viewData = this.viewData
                 .filter(r => R.any(f => r.contentTypes && r.contentTypes.indexOf(f.key) >= 0, this.model.bdsType));
         }
         // price
         if (this.model.typePrice === 'spec' && this.model.priceFrom >= 0) {
             this.viewData =
-                this.viewData.filter(d => R.any(nc => nc > this.model.priceFrom, d.numberCosts || []));
+                this.viewData.filter(d => R.any(nc => nc >= this.model.priceFrom, d.numberCosts || []));
         }
         if (this.model.typePrice === 'spec' && this.model.priceTo >= 0) {
             this.viewData =
@@ -202,7 +206,7 @@ export class DashboardComponent implements OnInit {
     }
 
     public getFeed() {
-        this.groupFbService.getFeedOfGroup('123')
+        this.groupFbService.getFeedOfGroup('1723212891281598')
             .subscribe(rs => {
                     console.log('feed', rs);
                     this.loggerService.success('Token đang hoạt động');
@@ -240,5 +244,56 @@ export class DashboardComponent implements OnInit {
         }, error => {
                 this.loggerService.error('Lỗi ', error);
         });
+    }
+
+    public callFb() {
+    }
+
+    fileChangedMultiple($event: any) {
+        const file = $event.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            const a = fileReader.result;
+            const b = a.split('\n');
+            b.forEach(c => {
+               const f = JSON.parse(c);
+               // console.log(f);
+            });
+            const content = JSON.parse(b[0]);
+            const feeds: Array<any> = content.data && content.data.group && content.data.group.group_feed &&
+                content.data.group.group_feed.edges || [];
+            if (!feeds || (feeds && feeds.length === 0)) {
+                this.loggerService.error('Không có thông tin bài viết!');
+            } else {
+                feeds.splice(0, 1); // delete first element unused;
+                const postContent = feeds.map(fe => {
+                    return new GroupFeedModel(fe);
+                });
+                this.data = postContent.filter(c => c.url);
+                // this.data = this.data.map(m => {
+                //     m.postTimeView = new Date(m.postTime);
+                //     m.costsView = m.costs.join('-');
+                //     return m;
+                // });
+                this.data = this.classify(this.data);
+                this.data = this.convertData(this.data);
+                this.updateFilter();
+                this.loadItems();
+            }
+            // this.data = JSON.parse(a);
+            // this.data = this.data.map(m => {
+            //     m.postTimeView = new Date(m.postTime);
+            //     m.costsView = m.costs.join('-');
+            //     return m;
+            // });
+            // this.data = this.convertData(this.data);
+            // this.updateFilter();
+            // this.loadItems();
+        };
+        fileReader.readAsText(file);
+    }
+
+    private classify(data: any[]) {
+        return this.bdsTypeService.classifyBDSType(data);
     }
 }
