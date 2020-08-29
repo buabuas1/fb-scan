@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build --prod --output-hashing bundles --extract-css --aot --prod --verbose true --sourcemap=false",
+    "build:dev": "ng build --prod --output-hashing bundles --extract-css --aot --prod --verbose true --sourcemap=false",
     "dev": "ng serve --live-reload=false",
     "test": "ng test",
     "lint": "ng lint",
