@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IBDSType, ICost} from '@core/services/engine/baseEngine';
 import {FindRoomEngine} from '@core/services/engine/findRoomEngine';
-import {OtherEngine} from '@core/services/engine/otherEngine';
 import {GroupFeedModel} from '@models/facebook/group-feed.model';
 import {ForRentEngine} from '@core/services/engine/forRentEngine';
 import {AllHouseEngine} from '@core/services/engine/allHouseEngine';
@@ -9,6 +8,7 @@ import {ChangeHostEngine} from '@core/services/engine/changeHostEngine';
 import {OfficeEngine} from '@core/services/engine/officeEngine';
 import {SecondHandEngine} from '@core/services/engine/secondHandEngine';
 import {CostEngine} from '@core/services/engine/costEngine';
+import {CommentModel} from "@models/facebook/comment.model";
 
 @Injectable()
 export class BdsTypeService {
@@ -114,4 +114,52 @@ export class BdsTypeService {
         return data.filter(r => !r.node.suggested_users);
     }
 
+    public getCommentFromFeeds(feeds: any[]): Array<IBDSModel> {
+        const rs: Array<IBDSModel> = [];
+        feeds.forEach(f => {
+            try {
+                if (f.node.comet_sections.feedback.story.feedback_context
+                    .feedback_target_with_context.display_comments && f.node.comet_sections.feedback.story.feedback_context
+                    .feedback_target_with_context.display_comments.edges) {
+                    f.node.comet_sections.feedback.story.feedback_context
+                        .feedback_target_with_context.display_comments.edges.forEach(c => {
+                        rs.push(new CommentModel(c));
+                    });
+                }
+            } catch (e) {
+                console.log('Lỗi ', e);
+                console.log('record lỗi ', f);
+            }
+        });
+        return rs;
+    }
+
+    public convertData(data: any[]) {
+        data.forEach(value => {
+            if (value && value.costs && value.costs.length > 0) {
+                value.numberCosts = this.makeValueFromString(value.costs);
+                value.costsView = value.costs.join('-');
+                value.postTimeView = new Date(value.postTime);
+            }
+        });
+        return data;
+    }
+    private makeValueFromString(values: [any]) {
+        const rsArr = [];
+        try {
+            values.forEach(valueStr => {
+                let result = 0;
+                const arrDecimal = valueStr.split('tr');
+                result = parseFloat(arrDecimal[0].replace(',', '.')) * 1000000; // * 1tr
+                if (arrDecimal.length === 2 && !isNaN(parseFloat('0.' + arrDecimal[1]))) {
+                    result += parseFloat('0.' + arrDecimal[1]) * 1000000; // * 100 ng
+                }
+                rsArr.push(result);
+            });
+            return rsArr;
+        } catch (e) {
+            alert('Không thể convert string to number: ' + values);
+        }
+
+    }
 }

@@ -8,8 +8,9 @@ import {DecimalPipe} from '@angular/common';
 import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {GroupFeedModel} from '@models/facebook/group-feed.model';
-import {BdsTypeService} from '@core/services/bds-type.service';
+import {BdsTypeService} from '@core/services/bds/bds-type.service';
 import {CommentModel} from '@models/facebook/comment.model';
+import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
 
 @Component({
     selector: 'm-app-dashboard',
@@ -57,12 +58,24 @@ export class DashboardComponent implements OnInit {
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
                 private loggerService: LoggerServiceService,
-                private bdsTypeService: BdsTypeService
+                private bdsTypeService: BdsTypeService,
+                private bdsContentApiService: BdsContentApiService
                 ) {
     }
 
     ngOnInit() {
         this.makePriceDropDown();
+        this.bdsContentApiService.getFbContent()
+            .subscribe(rs => {
+                this.data = rs as IBDSModel[];
+                this.initData();
+            });
+    }
+
+    initData()  {
+        this.data = this.bdsTypeService.convertData(this.data);
+        this.updateFilter();
+        this.loadItems();
     }
 
     login() {
@@ -79,9 +92,10 @@ export class DashboardComponent implements OnInit {
         fileReader.onload = (e) => {
             const a = fileReader.result;
             this.data = JSON.parse(a);
-            this.data = this.convertData(this.data);
-            this.updateFilter();
-            this.loadItems();
+            // this.data = this.bdsTypeService.convertData(this.data);
+            // this.updateFilter();
+            // this.loadItems();
+            this.initData();
         };
         fileReader.readAsText(this.file);
     }
@@ -168,36 +182,6 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    makeValueFromString(values: [any]) {
-        const rsArr = [];
-        try {
-            values.forEach(valueStr => {
-                let result = 0;
-                const arrDecimal = valueStr.split('tr');
-                result = parseFloat(arrDecimal[0].replace(',', '.')) * 1000000; // * 1tr
-                if (arrDecimal.length === 2 && !isNaN(parseFloat('0.' + arrDecimal[1]))) {
-                    result += parseFloat('0.' + arrDecimal[1]) * 1000000; // * 100 ng
-                }
-                rsArr.push(result);
-            });
-            return rsArr;
-        } catch (e) {
-            alert('Không thể convert string to number: ' + values);
-        }
-
-    }
-
-    private convertData(data: any[]) {
-        data.forEach(value => {
-            if (value && value.costs && value.costs.length > 0) {
-                value.numberCosts = this.makeValueFromString(value.costs);
-                value.costsView = value.costs.join('-');
-                value.postTimeView = new Date(value.postTime);
-            }
-        });
-        return data;
-    }
-
     onPriceChange($event: any) {
         this.updateFilter();
     }
@@ -254,7 +238,6 @@ export class DashboardComponent implements OnInit {
             const b = a.split('\n');
             b.forEach(c => {
                const f = JSON.parse(c);
-               // console.log(f);
             });
             const content = JSON.parse(b[0]);
             let feeds: Array<any> = content.data && content.data.group && content.data.group.group_feed &&
@@ -270,50 +253,21 @@ export class DashboardComponent implements OnInit {
                 });
                 // get Comment content
                 let commentContent: Array<IBDSModel> = [];
-                commentContent = this.getCommentFromFeeds(feeds);
+                commentContent = this.bdsTypeService.getCommentFromFeeds(feeds);
                 postContent = postContent.concat(commentContent);
-                console.log('comment ', commentContent);
                 this.data = postContent.filter(c => c.url);
                 this.data = this.classify(this.data);
-                this.data = this.convertData(this.data);
-                this.updateFilter();
-                this.loadItems();
+                // this.data = this.bdsTypeService.convertData(this.data);
+                // this.updateFilter();
+                // this.loadItems();
+                this.initData();
             }
-            // this.data = JSON.parse(a);
-            // this.data = this.data.map(m => {
-            //     m.postTimeView = new Date(m.postTime);
-            //     m.costsView = m.costs.join('-');
-            //     return m;
-            // });
-            // this.data = this.convertData(this.data);
-            // this.updateFilter();
-            // this.loadItems();
         };
         fileReader.readAsText(file);
     }
 
     private classify(data: any[]) {
         return this.bdsTypeService.classifyBDSType(data);
-    }
-
-    private getCommentFromFeeds(feeds: any[]): Array<IBDSModel> {
-        const rs: Array<IBDSModel> = [];
-        feeds.forEach(f => {
-            try {
-                if (f.node.comet_sections.feedback.story.feedback_context
-                    .feedback_target_with_context.display_comments && f.node.comet_sections.feedback.story.feedback_context
-                    .feedback_target_with_context.display_comments.edges) {
-                    f.node.comet_sections.feedback.story.feedback_context
-                        .feedback_target_with_context.display_comments.edges.forEach(c => {
-                            rs.push(new CommentModel(c));
-                    });
-                }
-            } catch (e) {
-                console.log('Lỗi ', e);
-                console.log('record lỗi ', f);
-            }
-        });
-        return rs;
     }
 
     saveToDB() {

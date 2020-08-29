@@ -10,7 +10,8 @@ import {SharedModule} from '@shared/shared.module';
 import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
-import {BdsTypeService} from '@core/services/bds-type.service';
+import {BdsTypeService} from '@core/services/bds/bds-type.service';
+import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import {BdsTypeService} from '@core/services/bds-type.service';
     providers: [DecimalPipe,
         GroupFbService,
         LoggerServiceService,
-        BdsTypeService
+        BdsTypeService,
+        BdsContentApiService
     ],
     declarations: [
         DashboardComponent
