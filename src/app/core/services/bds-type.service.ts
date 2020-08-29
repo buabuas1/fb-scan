@@ -110,4 +110,8 @@ export class BdsTypeService {
         });
     }
 
+    public removeUnusedContent(data: any[]) {
+        return data.filter(r => !r.node.suggested_users);
+    }
+
 }

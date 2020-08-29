@@ -9,6 +9,7 @@ import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {GroupFeedModel} from '@models/facebook/group-feed.model';
 import {BdsTypeService} from '@core/services/bds-type.service';
+import {CommentModel} from '@models/facebook/comment.model';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -17,8 +18,8 @@ import {BdsTypeService} from '@core/services/bds-type.service';
 })
 export class DashboardComponent implements OnInit {
     public file: any;
-    private data: Array<GroupFeedModel> = [];
-    private viewData: Array<GroupFeedModel> = [];
+    private data: Array<IBDSModel> = [];
+    private viewData: Array<IBDSModel> = [];
 
     gridData = [];
     pagination = {
@@ -78,11 +79,6 @@ export class DashboardComponent implements OnInit {
         fileReader.onload = (e) => {
             const a = fileReader.result;
             this.data = JSON.parse(a);
-            this.data = this.data.map(m => {
-                m.postTimeView = new Date(m.postTime);
-                m.costsView = m.costs.join('-');
-                return m;
-            });
             this.data = this.convertData(this.data);
             this.updateFilter();
             this.loadItems();
@@ -192,10 +188,11 @@ export class DashboardComponent implements OnInit {
     }
 
     private convertData(data: any[]) {
-        // convert price string to number
         data.forEach(value => {
             if (value && value.costs && value.costs.length > 0) {
                 value.numberCosts = this.makeValueFromString(value.costs);
+                value.costsView = value.costs.join('-');
+                value.postTimeView = new Date(value.postTime);
             }
         });
         return data;
@@ -260,21 +257,23 @@ export class DashboardComponent implements OnInit {
                // console.log(f);
             });
             const content = JSON.parse(b[0]);
-            const feeds: Array<any> = content.data && content.data.group && content.data.group.group_feed &&
+            let feeds: Array<any> = content.data && content.data.group && content.data.group.group_feed &&
                 content.data.group.group_feed.edges || [];
             if (!feeds || (feeds && feeds.length === 0)) {
                 this.loggerService.error('Không có thông tin bài viết!');
             } else {
+                feeds = this.bdsTypeService.removeUnusedContent(feeds);
                 feeds.splice(0, 1); // delete first element unused;
-                const postContent = feeds.map(fe => {
-                    return new GroupFeedModel(fe);
+                // get Post content
+                let postContent: Array<IBDSModel> = feeds.map(fe => {
+                    return new GroupFeedModel(fe) as IBDSModel;
                 });
+                // get Comment content
+                let commentContent: Array<IBDSModel> = [];
+                commentContent = this.getCommentFromFeeds(feeds);
+                postContent = postContent.concat(commentContent);
+                console.log('comment ', commentContent);
                 this.data = postContent.filter(c => c.url);
-                // this.data = this.data.map(m => {
-                //     m.postTimeView = new Date(m.postTime);
-                //     m.costsView = m.costs.join('-');
-                //     return m;
-                // });
                 this.data = this.classify(this.data);
                 this.data = this.convertData(this.data);
                 this.updateFilter();
@@ -295,5 +294,29 @@ export class DashboardComponent implements OnInit {
 
     private classify(data: any[]) {
         return this.bdsTypeService.classifyBDSType(data);
+    }
+
+    private getCommentFromFeeds(feeds: any[]): Array<IBDSModel> {
+        const rs: Array<IBDSModel> = [];
+        feeds.forEach(f => {
+            try {
+                if (f.node.comet_sections.feedback.story.feedback_context
+                    .feedback_target_with_context.display_comments && f.node.comet_sections.feedback.story.feedback_context
+                    .feedback_target_with_context.display_comments.edges) {
+                    f.node.comet_sections.feedback.story.feedback_context
+                        .feedback_target_with_context.display_comments.edges.forEach(c => {
+                            rs.push(new CommentModel(c));
+                    });
+                }
+            } catch (e) {
+                console.log('Lỗi ', e);
+                console.log('record lỗi ', f);
+            }
+        });
+        return rs;
+    }
+
+    saveToDB() {
+        console.log(this.viewData);
     }
 }

@@ -1,7 +1,7 @@
 import {ICost} from '@core/services/engine/baseEngine';
 
 export class CostEngine implements ICost {
-    private regex = /\dtr\d|\dt\d|\dtr|\dt/gmiu;
+    private regex = /\d,\d tr|\d.\d tr\dtr\d|\dt\d|\dtr|\dt/gmiu;
     getCosts(entity: IBDSModel): any[] {
         let m;
         const cost = [];

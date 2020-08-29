@@ -7,4 +7,7 @@ interface IBDSModel {
     content: string;
     bdsType: string;
     contentTypes: any[];
+    fbType: string;
+    id: string;
+    url: string;
 }

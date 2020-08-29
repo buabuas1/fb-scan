@@ -7,13 +7,13 @@
 <div class="row">
     <div class="col-md-3">
         <div class="Block">
-            <input type='file' (change)="fileChanged($event)" onclick="this.value = null">
+            <input [title]="'Chọn file public'" type='file' (change)="fileChanged($event)" onclick="this.value = null">
+            <input [title]="'Chọn file private'" type='file' (change)="fileChangedMultiple($event)" onclick="this.value = null">
         </div>
-        <div class="Block">
-            <label>read</label>
-            <input type='file' (change)="fileChangedMultiple($event)" onclick="this.value = null">
+        <div>
+            <button type="button" class="btn btn-sm btn-success" (click)="excelexport.save()">Export To Excel</button>
+            <button type="button" class="btn btn-sm btn-warning" (click)="saveToDB()">Save to DB</button>
         </div>
-        <button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
         <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
             <kendo-excelexport-column field="content" [locked]="true" title="Nội dung" [width]="200" [cellOptions]="{ wrap: true }">
             </kendo-excelexport-column>
@@ -25,6 +25,8 @@
             </kendo-excelexport-column>
             <kendo-excelexport-column field="commentCount" title="Số comment" [width]="350">
             </kendo-excelexport-column>
+            <kendo-grid-column field="id" title="Id" width="10">
+            </kendo-grid-column>
         </kendo-excelexport>
     </div>
     <div class="col-md-1"></div>
@@ -124,6 +126,8 @@
             <div>{{dataItem.postTime | date: 'HH:mm dd/MM/yyyy'}}</div>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="commentCount" title="Số comment" width="80">
+    <kendo-grid-column field="commentCount" title="Số comment" width="70">
+    </kendo-grid-column>
+    <kendo-grid-column field="id" title="Id" width="50">
     </kendo-grid-column>
 </kendo-grid>
