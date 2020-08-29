@@ -6,13 +6,14 @@
 </div>
 <div class="row">
     <div class="col-md-3">
-        <div class="Block">
+        <div class="Block" *ngIf="authService.isSuperAdmin()">
             <input [title]="'Chọn file public'" type='file' (change)="fileChanged($event)" onclick="this.value = null">
             <input [title]="'Chọn file private'" type='file' (change)="fileChangedMultiple($event)" onclick="this.value = null">
         </div>
         <div>
             <button type="button" class="btn btn-sm btn-success" (click)="excelexport.save()">Export To Excel</button>
-            <button type="button" class="btn btn-sm btn-warning" (click)="saveToDB()">Save to DB</button>
+            <button *ngIf="authService.isSuperAdmin()"  type="button" class="btn btn-sm btn-warning"
+                    (click)="saveToDB()">Save to DB</button>
         </div>
         <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
             <kendo-excelexport-column field="content" [locked]="true" title="Nội dung" [width]="200" [cellOptions]="{ wrap: true }">

@@ -12,6 +12,7 @@ import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {BdsTypeService} from '@core/services/bds/bds-type.service';
 import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
+import {AuthService} from "@core/services/auth";
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
         GroupFbService,
         LoggerServiceService,
         BdsTypeService,
-        BdsContentApiService
+        BdsContentApiService,
+        AuthService
     ],
     declarations: [
         DashboardComponent

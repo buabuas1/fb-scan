@@ -150,10 +150,11 @@ export class BdsTypeService {
         try {
             values.forEach(valueStr => {
                 let result = 0;
-                const arrDecimal = valueStr.split('tr');
+                const arrDecimal = valueStr.indexOf('tr') >= 0 ? valueStr.split('tr') :
+                    valueStr.split('t');
                 result = parseFloat(arrDecimal[0].replace(',', '.')) * 1000000; // * 1tr
                 if (arrDecimal.length === 2 && !isNaN(parseFloat('0.' + arrDecimal[1]))) {
-                    result += parseFloat('0.' + arrDecimal[1]) * 1000000; // * 100 ng
+                    result += parseFloat('0.' + arrDecimal[1].replace(' ', '')) * 1000000; // * 100 ng
                 }
                 rsArr.push(result);
             });

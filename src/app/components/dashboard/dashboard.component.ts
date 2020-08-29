@@ -12,6 +12,7 @@ import {BdsTypeService} from '@core/services/bds/bds-type.service';
 import {CommentModel} from '@models/facebook/comment.model';
 import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
+import {AuthService} from "@core/services/auth";
 
 @Component({
     selector: 'm-app-dashboard',
@@ -60,7 +61,8 @@ export class DashboardComponent implements OnInit {
                 private groupFbService: GroupFbService,
                 private loggerService: LoggerServiceService,
                 private bdsTypeService: BdsTypeService,
-                private bdsContentApiService: BdsContentApiService
+                private bdsContentApiService: BdsContentApiService,
+                public authService: AuthService
                 ) {
     }
 

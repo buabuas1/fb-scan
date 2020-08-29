@@ -24,7 +24,7 @@ export class AuthService {
 
     public isSuperAdmin(): boolean {
         const user = this.session.getCurrentData();
-        return !!user && this.isAuthenticated() && user.name === 'sonnv';
+        return !!user && this.isAuthenticated() && user.roles && user.roles.indexOf('admin') >= 0;
     }
 
     public login(name: string, password: string): Observable<any> {

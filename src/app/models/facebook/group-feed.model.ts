@@ -20,6 +20,7 @@ export class GroupFeedModel implements IBDSModel {
                 .subscription_target_id;
         } catch (e) {
             console.log('Lỗi tại ', feed);
+            console.log('Link ', this.url);
             console.log('Lỗi ', e);
         }
     }
