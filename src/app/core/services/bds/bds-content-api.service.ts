@@ -8,11 +8,12 @@ export class BdsContentApiService {
     constructor(private httpClient: HttpClient) {
     }
 
-    getFbContent() {
-        return this.httpClient.get(this.host + 'api/fbcontent');
+    getFbContent(postTime: Date) {
+        return this.httpClient.get(this.host + 'api/fbcontent', {params:
+                {postTime: postTime.toISOString()}});
     }
 
-    saveFbContent() {
-        return this.httpClient.post(this.host + 'api/fbcontent', {});
+    saveFbContent(data) {
+        return this.httpClient.post(this.host + 'api/fbcontent/bulk', {data: data});
     }
 }

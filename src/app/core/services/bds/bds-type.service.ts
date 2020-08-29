@@ -8,7 +8,7 @@ import {ChangeHostEngine} from '@core/services/engine/changeHostEngine';
 import {OfficeEngine} from '@core/services/engine/officeEngine';
 import {SecondHandEngine} from '@core/services/engine/secondHandEngine';
 import {CostEngine} from '@core/services/engine/costEngine';
-import {CommentModel} from "@models/facebook/comment.model";
+import {CommentModel} from '@models/facebook/comment.model';
 
 @Injectable()
 export class BdsTypeService {
@@ -140,6 +140,7 @@ export class BdsTypeService {
                 value.numberCosts = this.makeValueFromString(value.costs);
                 value.costsView = value.costs.join('-');
                 value.postTimeView = new Date(value.postTime);
+                value.postTime = new Date(value.postTime);
             }
         });
         return data;

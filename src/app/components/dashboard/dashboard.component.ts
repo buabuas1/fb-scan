@@ -10,7 +10,8 @@ import {LoggerServiceService} from '@core/services/logger-service/logger-service
 import {GroupFeedModel} from '@models/facebook/group-feed.model';
 import {BdsTypeService} from '@core/services/bds/bds-type.service';
 import {CommentModel} from '@models/facebook/comment.model';
-import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
+import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
+import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -42,7 +43,7 @@ export class DashboardComponent implements OnInit {
     public listItems = BdsTypeArray;
     model: any = {
         typeDate: 'all',
-        from: moment(new Date().setHours(0, 0, 0, 0)).toDate(),
+        from: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
         to: new Date(),
         bdsType: [BdsTypeArray[1]], // TIM_PHONG
         typePrice: 'all',
@@ -65,7 +66,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.makePriceDropDown();
-        this.bdsContentApiService.getFbContent()
+        this.bdsContentApiService.getFbContent(this.model.from)
             .subscribe(rs => {
                 this.data = rs as IBDSModel[];
                 this.initData();
@@ -126,7 +127,12 @@ export class DashboardComponent implements OnInit {
         } else {
             this.model.to = $event;
         }
-        this.updateFilter();
+        this.bdsContentApiService.getFbContent(this.model.from)
+            .subscribe(rs => {
+                this.data = rs as IBDSModel[];
+                this.initData();
+            });
+        // this.updateFilter();
     }
 
     public updateFilter() {
@@ -272,5 +278,12 @@ export class DashboardComponent implements OnInit {
 
     saveToDB() {
         console.log(this.viewData);
+        const save = this.viewData.map(v => {
+            return new BdsMongoModel(v);
+        });
+        this.bdsContentApiService.saveFbContent(save)
+            .subscribe(rs => {
+                this.loggerService.success(rs.toString());
+            }, error => this.loggerService.error(JSON.stringify(error)));
     }
 }
