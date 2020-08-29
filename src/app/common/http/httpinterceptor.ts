@@ -3,21 +3,29 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
+import {SessionSettingsService} from '@core/services/settings';
+import {AuthService} from '@core/services/auth';
 
 @Injectable()
 export class MyHttpInterceptor implements HttpInterceptor {
-    constructor() { }
+    constructor(private sessionSettingsService: SessionSettingsService,
+                private authService: AuthService
+    ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        console.log('intercepted request ... ');
+        // console.log('intercepted request ... ');
 
         // Clone the request to add the new header.
-        const authReq = req.clone(
+        let token = '';
+        if (this.authService.isAuthenticated()) {
+            token = this.sessionSettingsService.getToken();
+        }
+        const authReq = token ?
+            req.clone(
             {
-                // headers: req.headers.set('headerName', 'headerValue')
-            }
-        );
+                headers: req.headers.set('Authorization', `Bearer ${token}`)
+            }) : req.clone({});
 
         console.log('Sending request with new header now ...');
 

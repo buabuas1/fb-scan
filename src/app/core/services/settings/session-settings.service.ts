@@ -20,9 +20,8 @@ export class SessionSettingsService {
     ) {
     }
 
-    public createNewSession(data: any) {
+    public createNewSession(data: any, token: string) {
         if (data) {
-            const token = moment().toString();
             const encryptedToken = CryptoJS.DES.encrypt((token), this.key);
             localStorage.setItem(this.tokenNameConst, encryptedToken.toString());
             const encryptedData = CryptoJS.DES.encrypt(JSON.stringify(data), encryptedToken.toString());
@@ -32,7 +31,7 @@ export class SessionSettingsService {
 
     public readUserSession(): any {
         const token = this.getToken();
-        this.logger.debug('token: ', token);
+        // this.logger.debug('token: ', token);
         if (!token) {
             return null;
         }

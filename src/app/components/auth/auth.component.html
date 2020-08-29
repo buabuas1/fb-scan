@@ -15,14 +15,11 @@
                   Name must be at least 4.
                 </div>
               </div>
-              <input name="password" type="password" class="form-control" placeholder="Password" required [(ngModel)]="password" minlength="4"
+              <input name="password" type="password" class="form-control" placeholder="Password" required [(ngModel)]="password"
                 #userPassword="ngModel">
               <div *ngIf="userPassword.invalid && (userPassword.dirty || userPassword.touched)" class="alert alert-danger error">
                 <div *ngIf="userPassword.errors.required">
                   Password is required.
-                </div>
-                <div *ngIf="userPassword.errors.minlength">
-                  Password must be at least 4.
                 </div>
               </div>
               <input [disabled]="isLoginInProgress" type="submit" class="btn btn-lg btn-default btn-block sign-in" value="Sign In" />
