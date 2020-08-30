@@ -1,21 +1,24 @@
 import {ICost} from '@core/services/engine/baseEngine';
+import {removeVietnameseTones} from '../../../common/util';
 
 export class CostEngine implements ICost {
-    private regex = /\d.tr.\d|\d,\d.tr|\d.\d*tr|\d*tr\d|\dt.\d|\dtr|\dt\d|\d.\dt|\d.\dtr/gmiu;
+    private regex = /((?<![\d])[\d]{1,3}([,.][\d]{1,2})?( )?t(r)?[\d]?)|(\d+(\.\d+)+)/gmiu;
+    private regexTrash = /t[^r \d \W]|tr[^i\d \W]/gmiu;
     getCosts(entity: IBDSModel): any[] {
         let m;
         const cost = [];
-        while ((m = this.regex.exec(entity.content)) !== null) {
+        const content = entity.content ? removeVietnameseTones(entity.content)
+            .replace(this.regexTrash, '') : entity.content;
+        while ((m = this.regex.exec(content)) !== null) {
             // This is necessary to avoid infinite loops with zero-width matches
             if (m.index === this.regex.lastIndex) {
                 this.regex.lastIndex++;
             }
 
             // The result can be accessed through the `m`-variable.
-            m.forEach((match, groupIndex) => {
-                // console.log(`Found match, group ${groupIndex}: ${match}`);
-                cost.push(match);
-            });
+            if (m[0] && m[0].indexOf('t') !== -1) {
+                cost.push(m[0]);
+            }
         }
         return cost;
     }
