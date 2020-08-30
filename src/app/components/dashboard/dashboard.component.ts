@@ -13,6 +13,7 @@ import {CommentModel} from '@models/facebook/comment.model';
 import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
 import {AuthService} from "@core/services/auth";
+import {getIdFromErrorMessage, getMessageFromError} from "../../common/util";
 
 @Component({
     selector: 'm-app-dashboard',
@@ -285,7 +286,28 @@ export class DashboardComponent implements OnInit {
         });
         this.bdsContentApiService.saveFbContent(save)
             .subscribe(rs => {
-                this.loggerService.success(rs.toString());
-            }, error => this.loggerService.error(JSON.stringify(error)));
+                this.loggerService.success(`${rs.toString()} ${save.length}`);
+            }, async error => {
+                await this.handleError(save, error);
+            });
+    }
+
+    private async handleError(save: any, error: any) {
+        this.loggerService.error(getMessageFromError(error));
+        for (let i = 0; i < save.length; i++) {
+            let dupId = getIdFromErrorMessage(getMessageFromError(error));
+            save = save.filter(s => s.id !== dupId);
+            if (save && save.length > 0) {
+                try {
+                    await this.bdsContentApiService.saveFbContent(save)
+                        .toPromise();
+                    this.loggerService.success(`Thành công ${save.length}`);
+                } catch (e) {
+                    dupId = getIdFromErrorMessage(getMessageFromError(e));
+                    save = save.filter(s => s.id !== dupId);
+                    console.log('duplicate key ', dupId);
+                }
+            }
+        }
     }
 }

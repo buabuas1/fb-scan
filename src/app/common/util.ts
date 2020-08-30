@@ -18,3 +18,22 @@ export function execCb(callback, ...params) {
         }
     }
 }
+
+export function getIdFromErrorMessage(mes: string) {
+    const regex = /\d{7,20}/gmiu;
+    const rs = regex.exec(mes);
+    return rs[0] ? rs[0] : '';
+}
+
+export function getMessageFromError(error: any) {
+    if (typeof error === 'string') {
+        return error;
+    }
+    if (error && error.error && typeof error.error === 'string') {
+        return error.error;
+    }
+    if (error && error.error && typeof error.error.message === 'string') {
+        return error.error.message;
+    }
+    return '';
+}
