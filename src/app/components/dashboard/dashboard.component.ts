@@ -294,9 +294,10 @@ export class DashboardComponent implements OnInit {
 
     private async handleError(save: any, error: any) {
         this.loggerService.error(getMessageFromError(error));
-        for (let i = 0; i < save.length; i++) {
-            let dupId = getIdFromErrorMessage(getMessageFromError(error));
-            save = save.filter(s => s.id !== dupId);
+        let dupId = getIdFromErrorMessage(getMessageFromError(error));
+        save = save.filter(s => s.id !== dupId);
+        const length = save.length;
+        for (let i = 0; i < length; i++) {
             if (save && save.length > 0) {
                 try {
                     await this.bdsContentApiService.saveFbContent(save)
