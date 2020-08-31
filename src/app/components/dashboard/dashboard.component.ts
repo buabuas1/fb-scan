@@ -303,6 +303,7 @@ export class DashboardComponent implements OnInit {
                     await this.bdsContentApiService.saveFbContent(save)
                         .toPromise();
                     this.loggerService.success(`Thành công ${save.length}`);
+                    break;
                 } catch (e) {
                     dupId = getIdFromErrorMessage(getMessageFromError(e));
                     save = save.filter(s => s.id !== dupId);
