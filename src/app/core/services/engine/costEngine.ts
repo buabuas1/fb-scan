@@ -2,7 +2,7 @@ import {ICost} from '@core/services/engine/baseEngine';
 import {removeVietnameseTones} from '../../../common/util';
 
 export class CostEngine implements ICost {
-    private regex = /((?<![\d])[\d]{1,3}([,.][\d]{1,2})?( )?t(r)?[\d]?)|(\d+(\.\d+)+)/gmiu;
+    private regex = /([\d]{1,3}([,.][\d]{1,2})?( )?t(r)?[\d]?)|(\d+(\.\d+)+)/gmiu;
     private regexTrash = /t[^r \d \W]|tr[^i\d \W]/gmiu;
     getCosts(entity: IBDSModel): any[] {
         let m;
