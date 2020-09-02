@@ -264,7 +264,7 @@ export class DashboardComponent implements OnInit {
                 let commentContent: Array<IBDSModel> = [];
                 commentContent = this.bdsTypeService.getCommentFromFeeds(feeds);
                 postContent = postContent.concat(commentContent);
-                this.data = postContent.filter(c => c.url);
+                this.data = postContent.filter(c => c.url && c.content);
                 this.data = this.classify(this.data);
                 // this.data = this.bdsTypeService.convertData(this.data);
                 // this.updateFilter();
