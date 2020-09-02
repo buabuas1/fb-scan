@@ -76,9 +76,11 @@ export class DashboardComponent implements OnInit {
             });
     }
 
-    initData()  {
+    initData(isFilter: boolean = true)  {
         this.data = this.bdsTypeService.convertData(this.data);
-        this.updateFilter();
+        if (isFilter) {
+            this.updateFilter();
+        }
         this.loadItems();
     }
 
@@ -311,5 +313,13 @@ export class DashboardComponent implements OnInit {
                 }
             }
         }
+    }
+
+    public reClassify() {
+        this.data = this.classify(this.data);
+        // this.data = this.bdsTypeService.convertData(this.data);
+        // this.updateFilter();
+        // this.loadItems();
+        this.initData(false);
     }
 }

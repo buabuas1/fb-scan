@@ -14,6 +14,8 @@
             <button type="button" class="btn btn-sm btn-success" (click)="excelexport.save()">Export To Excel</button>
             <button *ngIf="authService.isSuperAdmin()"  type="button" class="btn btn-sm btn-warning"
                     (click)="saveToDB()">Save to DB</button>
+            <button *ngIf="authService.isSuperAdmin()"  type="button" class="btn btn-sm btn-warning"
+                    (click)="reClassify()">Phân lọa lại</button>
         </div>
         <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
             <kendo-excelexport-column field="content" [locked]="true" title="Nội dung" [width]="200" [cellOptions]="{ wrap: true }">
