@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {getMessageFromError} from '../../../common/util';
 import {Observable} from 'rxjs/Observable';
+import {SeriesClickEvent} from "@progress/kendo-angular-charts";
 
 @Component({
     selector: 'app-fb-comment',
@@ -17,6 +18,7 @@ import {Observable} from 'rxjs/Observable';
     styleUrls: ['./fb-comment.component.scss']
 })
 export class FbCommentComponent implements OnInit {
+    public fbLinkConst = 'https://www.facebook.com/groups';
 
     constructor(private modalService: ModalService, private store: Store<AppStates>,
                 private groupFbService: GroupFbService,
@@ -28,12 +30,17 @@ export class FbCommentComponent implements OnInit {
     public chartSeries: any[] = [{data: [1, 2, 3, 5]}];
     public chartTitle: any = {text: 'Sample Chart'};
     public chartTopGroupTitle: any = {text: 'TOP GROUP CÓ NHIỀU NGƯỜI TÌM PHÒNG NHẤT'};
+    public chartTopPostTitle: any = {text: 'TOP POST CÓ NHIỀU NGƯỜI COMMENT NHẤT'};
     public groupData: any[] = [];
+    public postData: any[] = [];
     public limit = 10;
     public filter = {
         postTime: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'months').toDate()
     };
     public $limitChange = new EventEmitter<number>();
+    public dateOptions: kendo.ui.DateTimePickerOptions = {
+        format: 'dd/MM/yyyy HH:mm',
+    };
     ngOnInit() {
         this.getDataFromApi();
         this.$limitChange
@@ -47,6 +54,17 @@ export class FbCommentComponent implements OnInit {
             .subscribe(rs => {
                 this.groupData = rs as any[];
                 this.groupData = this.groupData.map(g => {
+                    g.color = this.getRandomColor();
+                    return g;
+                });
+            }, error => {
+                this.loggerService.error(getMessageFromError(error));
+            });
+
+        this.bdsContentApiService.getTopPostChart(this.filter.postTime, this.limit)
+            .subscribe(rs => {
+                this.postData = rs as any[];
+                this.postData = this.postData.map(g => {
                     g.color = this.getRandomColor();
                     return g;
                 });
@@ -76,5 +94,24 @@ export class FbCommentComponent implements OnInit {
             color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
+    }
+
+    onChartItemClick(event: any) {
+        const fbLink = this.makeFbLinkGroup(event.category);
+        window.open(fbLink, '_blank');
+    }
+
+    private makeFbLinkGroup(category: any) {
+        return `${this.fbLinkConst}/${category}`;
+    }
+
+    onDateChange($event: Date, b: boolean) {
+        this.filter.postTime = $event;
+        this.getDataFromApi();
+    }
+
+    onChartCommentItemClick($event: SeriesClickEvent) {
+        const item = this.postData.find(p => p.id === $event.category);
+        window.open(item.url, '_blank');
     }
 }
