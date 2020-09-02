@@ -15,7 +15,8 @@ export class FbCommentComponent implements OnInit {
 
   constructor(private modalService: ModalService, private store: Store<AppStates>,
               private groupFbService: GroupFbService) { }
-
+    public chartSeries: any[] = [{ data: [1, 2, 3, 5] }];
+    public chartTitle: any = { text: 'Sample Chart' };
   ngOnInit() {
   }
 

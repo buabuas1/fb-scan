@@ -70,6 +70,10 @@
             <label><b>Nội dung:</b></label>
             <input type="text" [(ngModel)]="model.searchText" (ngModelChange)="updateFilter()" [placeholder]="'ví dụ: đống đa'">
         </div>
+        <div>
+            <label><b>Id nhóm:</b></label>
+            <input type="text" [(ngModel)]="model.groupIds" (ngModelChange)="updateGroupFilter($event)" [placeholder]="'ví dụ: đống đa'">
+        </div>
     </div>
     <div class="col-md-4">
         <div>

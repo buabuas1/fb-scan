@@ -6,5 +6,5 @@
 export const environment = {
     production: false,
     fbApi: 'https://graph.facebook.com/',
-    beHost: 'https://fs-be.herokuapp.com/'
+    beHost: 'http://localhost:4040/'
 };

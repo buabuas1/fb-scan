@@ -7,7 +7,8 @@ import {CoreModule} from '@core/core.module';
 import {HeaderModule} from '../header';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import {ModalService} from '@core/services/modal/modal.service';
-import {GroupFbService} from "@core/services/facebook/group-fb.service";
+import {GroupFbService} from '@core/services/facebook/group-fb.service';
+import {ChartModule} from '@progress/kendo-angular-charts';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {GroupFbService} from "@core/services/facebook/group-fb.service";
         SharedModule,
         CoreModule,
         HeaderModule,
-        FbCommentModuleRouting
+        FbCommentModuleRouting,
+        ChartModule
     ],
     declarations: [FbCommentComponent, CommentFormComponent],
     providers: [

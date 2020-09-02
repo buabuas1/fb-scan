@@ -51,7 +51,8 @@ export class DashboardComponent implements OnInit {
         typePrice: 'all',
         priceFrom: 0,
         priceTo: 100000000,
-        searchText: ''
+        searchText: '',
+        groupIds: ''
     };
     public listItemsPrice = [];
     public dateOptions: kendo.ui.DateTimePickerOptions = {
@@ -69,7 +70,11 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.makePriceDropDown();
-        this.bdsContentApiService.getFbContent(this.model.from)
+        this.getDataFromApi();
+    }
+
+    getDataFromApi() {
+        this.bdsContentApiService.getFbContent(this.model.from, this.model.groupIds)
             .subscribe(rs => {
                 this.data = rs as IBDSModel[];
                 this.initData();
@@ -132,11 +137,12 @@ export class DashboardComponent implements OnInit {
         } else {
             this.model.to = $event;
         }
-        this.bdsContentApiService.getFbContent(this.model.from)
-            .subscribe(rs => {
-                this.data = rs as IBDSModel[];
-                this.initData();
-            });
+        // this.bdsContentApiService.getFbContent(this.model.from)
+        //     .subscribe(rs => {
+        //         this.data = rs as IBDSModel[];
+        //         this.initData();
+        //     });
+        this.getDataFromApi();
         // this.updateFilter();
     }
 
@@ -321,5 +327,9 @@ export class DashboardComponent implements OnInit {
         // this.updateFilter();
         // this.loadItems();
         this.initData(false);
+    }
+
+    updateGroupFilter($event) {
+        this.getDataFromApi();
     }
 }

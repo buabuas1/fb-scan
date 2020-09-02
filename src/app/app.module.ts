@@ -10,6 +10,8 @@ import {AppRoutingModule} from './app.module.routing';
 import {DashboardModule} from './components/dashboard';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GridModule} from '@progress/kendo-angular-grid';
+import { ChartsModule } from '@progress/kendo-angular-charts';
+import 'hammerjs';
 import '@progress/kendo-ui';
 import {BsModalService} from 'ngx-bootstrap';
 import {reducers} from './state-management/app-state';
@@ -44,6 +46,7 @@ export class CustomOption extends ToastOptions {
         true ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
         ToastModule.forRoot(),
         HttpClientModule,
+        ChartsModule
     ],
     providers: [
         BsModalService,
