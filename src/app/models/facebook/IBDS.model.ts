@@ -10,4 +10,6 @@ interface IBDSModel {
     fbType: string;
     id: string;
     url: string;
+    groupId: string;
+    commentCount: number;
 }

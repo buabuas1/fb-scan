@@ -9,6 +9,9 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
 import {ModalService} from '@core/services/modal/modal.service';
 import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {ChartModule} from '@progress/kendo-angular-charts';
+import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
+import {LoggerServiceService} from "@core/services/logger-service/logger-service.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [
@@ -17,12 +20,15 @@ import {ChartModule} from '@progress/kendo-angular-charts';
         CoreModule,
         HeaderModule,
         FbCommentModuleRouting,
-        ChartModule
+        ChartModule,
+        FormsModule
     ],
     declarations: [FbCommentComponent, CommentFormComponent],
     providers: [
         ModalService,
-        GroupFbService
+        GroupFbService,
+        BdsContentApiService,
+        LoggerServiceService
     ],
     entryComponents: [CommentFormComponent]
 })

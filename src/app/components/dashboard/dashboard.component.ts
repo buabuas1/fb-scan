@@ -325,7 +325,7 @@ export class DashboardComponent implements OnInit {
         this.data = this.classify(this.data);
         // this.data = this.bdsTypeService.convertData(this.data);
         // this.updateFilter();
-        // this.loadItems();
+        // this.loadItems();moment
         this.initData(false);
     }
 

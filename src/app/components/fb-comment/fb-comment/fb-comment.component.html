@@ -1,8 +1,20 @@
-<div class="row">
-    <div class="col-6">
-        <kendo-chart [title]="chartTitle" [series]="chartSeries">
+<div>
+    <label>Tối đa</label>
+    <input type="number" [(ngModel)]="limit" (ngModelChange)="$limitChange.emit($event)">
+</div>
+<div class="row mb-2">
+    <div class="col-12">
+        <kendo-chart [transitions]="false" [title]="chartTopGroupTitle">
+            <kendo-chart-series>
+                <kendo-chart-series-item
+                    type="column" [data]="groupData" [colorField]="'color'"
+                    field="totalPost" categoryField="_id">
+                </kendo-chart-series-item>
+            </kendo-chart-series>
         </kendo-chart>
     </div>
+</div>
+<div class="row">
     <div class="col-6">
         <kendo-chart [title]="chartTitle" [series]="chartSeries">
         </kendo-chart>

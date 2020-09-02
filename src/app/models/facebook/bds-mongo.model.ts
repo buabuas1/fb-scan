@@ -6,6 +6,9 @@ export class BdsMongoModel {
     public numberCosts: any[];
     public postTime: Date;
     public url: string;
+    public groupId: string;
+    public commentCount: number;
+
     constructor(source: any) {
         this.content = source.content;
         this.contentTypes = source.contentTypes;
@@ -14,5 +17,7 @@ export class BdsMongoModel {
         this.numberCosts = source.numberCosts;
         this.postTime = source.postTime;
         this.url = source.url;
+        this.groupId = source.groupId;
+        this.commentCount = source.commentCount;
     }
 }

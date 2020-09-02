@@ -65,3 +65,7 @@ export function removeVietnameseTones(str) {
     // Bỏ dấu câu, kí tự đặc biệt
     return str;
 }
+
+export function getGroupIdFromUrl(url: string) {
+    return url.split('/')[4];
+}

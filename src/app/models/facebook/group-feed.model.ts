@@ -1,4 +1,8 @@
+import {getGroupIdFromUrl} from "../../common/util";
+
 export class GroupFeedModel implements IBDSModel {
+    public groupId: string;
+    public commentCount: number;
     public url: string;
     public content: string;
     public postTime: Date;
@@ -18,6 +22,9 @@ export class GroupFeedModel implements IBDSModel {
                 .context_layout.story.comet_sections.timestamp.story.creation_time * 1000);
             this.id = feed.node.comet_sections.feedback.story.feedback_context.feedback_target_with_context
                 .subscription_target_id;
+            this.commentCount = feed.node.comet_sections.feedback.story.feedback_context.feedback_target_with_context
+                .comment_count.total_count;
+            this.groupId = getGroupIdFromUrl(this.url);
         } catch (e) {
             console.log('Lỗi tại ', feed);
             console.log('Link ', this.url);
