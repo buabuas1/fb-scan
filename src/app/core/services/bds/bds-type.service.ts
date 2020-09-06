@@ -139,9 +139,9 @@ export class BdsTypeService {
             if (value && value.costs && value.costs.length > 0) {
                 value.numberCosts = this.makeValueFromString(value.costs);
                 value.costsView = value.costs.join('-');
-                value.postTimeView = new Date(value.postTime);
-                value.postTime = new Date(value.postTime);
             }
+            value.postTimeView = new Date(value.postTime);
+            value.postTime = new Date(value.postTime);
         });
         return data;
     }

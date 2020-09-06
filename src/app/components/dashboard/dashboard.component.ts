@@ -12,8 +12,8 @@ import {BdsTypeService} from '@core/services/bds/bds-type.service';
 import {CommentModel} from '@models/facebook/comment.model';
 import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
-import {AuthService} from "@core/services/auth";
-import {getIdFromErrorMessage, getMessageFromError} from "../../common/util";
+import {AuthService} from '@core/services/auth';
+import {getIdFromErrorMessage, getMessageFromError} from '../../common/util';
 
 @Component({
     selector: 'm-app-dashboard',
