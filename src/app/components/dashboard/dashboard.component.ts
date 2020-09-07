@@ -151,7 +151,8 @@ export class DashboardComponent implements OnInit {
         this.viewData = this.data;
         if (this.model.typeDate === 'spec') {
             this.viewData =
-                this.viewData.filter(d => d.postTime > this.model.from.getTime() && d.postTime < this.model.to.getTime());
+                this.viewData.filter(d => d.postTime.getTime() > this.model.from.getTime()
+                    && d.postTime.getTime() < this.model.to.getTime());
         }
         // type
         if (this.model.bdsType && this.model.bdsType.length > 0) {
