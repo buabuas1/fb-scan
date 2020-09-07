@@ -332,4 +332,9 @@ export class DashboardComponent implements OnInit {
     updateGroupFilter($event) {
         this.getDataFromApi();
     }
+
+    public getUserId() {
+        const Ids = this.viewData.filter(r => r.authorId).map(m => m.authorId);
+        console.log(`"${Ids.join('","')}"`);
+    }
 }
