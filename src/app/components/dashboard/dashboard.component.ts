@@ -335,7 +335,8 @@ export class DashboardComponent implements OnInit {
     }
 
     public getUserId() {
-        const Ids = this.viewData.filter(r => r.authorId).map(m => m.authorId);
+        let Ids = this.viewData.filter(r => r.authorId).map(m => m.authorId);
+        Ids = R.uniq(Ids.concat(Ids));
         console.log(`"${Ids.join('","')}"`);
     }
 }
