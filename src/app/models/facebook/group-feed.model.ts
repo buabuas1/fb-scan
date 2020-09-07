@@ -14,7 +14,7 @@ export class GroupFeedModel implements IBDSModel {
     public numberCosts: any[];
     public fbType: string;
     public id: string;
-    public author: string;
+    public authorId: string;
     constructor(feed: any) {
         try {
             this.url = feed.node.comet_sections.context_layout.story.comet_sections.timestamp.story.url;
@@ -25,7 +25,7 @@ export class GroupFeedModel implements IBDSModel {
                 .subscription_target_id;
             this.commentCount = feed.node.comet_sections.feedback.story.feedback_context.feedback_target_with_context
                 .comment_count.total_count;
-            this.author = feed.node.comet_sections.context_layout.story.actors[0].id;
+            this.authorId = feed.node.comet_sections.context_layout.story.actors[0].id;
             this.groupId = getGroupIdFromUrl(this.url);
         } catch (e) {
             console.log('Lỗi tại ', feed);

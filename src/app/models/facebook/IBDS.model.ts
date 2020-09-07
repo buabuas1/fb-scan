@@ -12,5 +12,5 @@ interface IBDSModel {
     url: string;
     groupId: string;
     commentCount: number;
-    author: string;
+    authorId: string;
 }
