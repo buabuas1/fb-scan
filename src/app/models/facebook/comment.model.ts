@@ -14,6 +14,7 @@ export class CommentModel implements IBDSModel {
     public url: string;
     public groupId: string;
     public commentCount: number;
+    public author: string;
 
     constructor(feed: any) {
         this.url = feed.node.url;
@@ -21,5 +22,8 @@ export class CommentModel implements IBDSModel {
         this.postTime = new Date(feed.node.created_time * 1000);
         this.id = feed.node.legacy_fbid;
         this.groupId = getGroupIdFromUrl(this.url);
+        this.author = feed.node.node.author.id;
     }
+
+
 }

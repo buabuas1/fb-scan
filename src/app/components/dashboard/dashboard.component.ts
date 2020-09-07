@@ -170,7 +170,7 @@ export class DashboardComponent implements OnInit {
         // search text
         if (this.model.searchText) {
             this.viewData =
-                this.viewData.filter(v => v.content.indexOf(this.model.searchText) >= 0);
+                this.viewData.filter(v => v.content.toLowerCase().indexOf(this.model.searchText.toLowerCase()) >= 0);
         }
         this.skip = 0;
         this.loadItems();
