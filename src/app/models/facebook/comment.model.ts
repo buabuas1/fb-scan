@@ -15,6 +15,7 @@ export class CommentModel implements IBDSModel {
     public groupId: string;
     public commentCount: number;
     public authorId: string;
+    public viewContent: string;
 
     constructor(feed: any) {
         this.url = feed.node.url;

@@ -70,7 +70,7 @@
         </div>
         <div>
             <label><b>Nội dung:</b></label>
-            <input type="text" [(ngModel)]="model.searchText" (ngModelChange)="updateFilter()" [placeholder]="'ví dụ: đống đa'">
+            <input type="text" [(ngModel)]="model.searchText" (ngModelChange)="searchTextChange$.emit()" [placeholder]="'ví dụ: đống đa'">
         </div>
         <div>
             <label><b>Id nhóm:</b></label>
@@ -119,7 +119,10 @@
             <div>{{rowIndex}}</div>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="content" title="Nội dung" width="400">
+    <kendo-grid-column title="Nội dung" width="400">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div [innerHTML]="dataItem.viewContent"></div>
+        </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="url" title="Link bài viết" width="100">
     </kendo-grid-column>

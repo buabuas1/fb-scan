@@ -13,4 +13,5 @@ interface IBDSModel {
     groupId: string;
     commentCount: number;
     authorId: string;
+    viewContent: string;
 }

@@ -142,6 +142,7 @@ export class BdsTypeService {
             }
             value.postTimeView = new Date(value.postTime);
             value.postTime = new Date(value.postTime);
+            value.viewContent = value.content;
         });
         return data;
     }
@@ -163,5 +164,25 @@ export class BdsTypeService {
             alert('Không thể convert string to number: ' + values);
         }
 
+    }
+
+    makeSearchContent(viewData: Array<IBDSModel>, searchText: string[]) {
+        viewData = viewData.map(m => {
+            m.viewContent = this.getMatchPosition(m.content, searchText);
+            return m;
+        });
+        return viewData;
+    }
+
+    getMatchPosition(str: string, regexes: string[]) {
+        regexes.forEach(r => {
+            const regex = new RegExp(r, 'gmui');
+            str = str.replace(regex, `<b class="text-white bg-dark">${r}</b>`);
+        });
+        return str;
+    }
+
+    stringSplice(strInput: string, idx, rem, str: string) {
+        return strInput.slice(0, idx) + str + strInput.slice(idx + Math.abs(rem));
     }
 }

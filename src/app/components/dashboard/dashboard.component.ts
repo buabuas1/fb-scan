@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
 import {aggregateBy, process} from '@progress/kendo-data-query';
 import * as moment from 'moment';
@@ -14,6 +14,7 @@ import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
 import {AuthService} from '@core/services/auth';
 import {getIdFromErrorMessage, getMessageFromError} from '../../common/util';
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'm-app-dashboard',
@@ -24,6 +25,7 @@ export class DashboardComponent implements OnInit {
     public file: any;
     private data: Array<IBDSModel> = [];
     private viewData: Array<IBDSModel> = [];
+    public searchTextChange$ = new EventEmitter<string>();
 
     gridData = [];
     pagination = {
@@ -71,6 +73,11 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         this.makePriceDropDown();
         this.getDataFromApi();
+        this.searchTextChange$
+            .debounceTime(500)
+            .subscribe(() => {
+                this.updateFilter();
+            });
     }
 
     getDataFromApi() {
@@ -171,7 +178,9 @@ export class DashboardComponent implements OnInit {
         // search text
         if (this.model.searchText) {
             this.viewData =
-                this.viewData.filter(v => v.content.toLowerCase().indexOf(this.model.searchText.toLowerCase()) >= 0);
+                this.viewData.filter(v =>
+                    R.any(st => v.content.toLowerCase().indexOf(st.toLowerCase()) !== -1, this.model.searchText.split(',')));
+            this.viewData = this.bdsTypeService.makeSearchContent(this.viewData, this.model.searchText.split(','));
         }
         this.skip = 0;
         this.loadItems();
