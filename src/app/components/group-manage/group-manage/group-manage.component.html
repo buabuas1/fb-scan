@@ -1,0 +1,34 @@
+<div class="row border border-dark mb-4">
+    <div class="col-md-8">
+        <label>Thêm vào blacklist</label>
+        <input [(ngModel)]="blacklist">
+        <button class="btn-sm btn-success" (click)="saveBlackList()">Lưu</button>
+    </div>
+    <div class="col-md-4">
+        <label>Danh sách 5 người mới thêm</label>
+        <div>{{blackListDataStr}}</div>
+        <div>{{blackListDataDate}}</div>
+    </div>
+
+</div>
+<div class="row border border-dark mb-4">
+    <div class="col-md-8">
+        <label>User đã mời kết bạn</label>
+        <input [(ngModel)]="userFriend">
+        <button class="btn-sm btn-success" (click)="saveUserFriend()">Lưu</button>
+    </div>
+    <div class="col-md-4">
+        <label>Danh sách 5 người mới thêm</label>
+        <div>{{userFriendDataStr}}</div>
+        <div>{{userFriendDataDate}}</div>
+    </div>
+
+</div>
+<div class="row border border-dark mb-4">
+    <div class="col-md-8">
+        <label>User đã mời vô nhóm</label>
+        <input [(ngModel)]="userGroup" (click)="saveGroupUser()">
+        <button class="btn-sm btn-success">Lưu</button>
+    </div>
+    <div class="col-md-4"></div>
+</div>

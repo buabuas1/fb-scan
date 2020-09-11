@@ -44,6 +44,10 @@ const mainRoutes: Routes = [
         loadChildren: 'app/components/policy/policy.module#PolicyModule'
     },
     {
+        path: 'group',
+        loadChildren: 'app/components/group-manage/group-manage.module#GroupManageModule'
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     },

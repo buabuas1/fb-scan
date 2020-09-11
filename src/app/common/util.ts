@@ -69,3 +69,7 @@ export function removeVietnameseTones(str) {
 export function getGroupIdFromUrl(url: string) {
     return url.split('/')[4];
 }
+
+export function removeSpace(str: string) {
+    return str.replace(/ /gmui, '');
+}

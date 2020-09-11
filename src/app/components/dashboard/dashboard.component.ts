@@ -14,7 +14,6 @@ import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
 import {AuthService} from '@core/services/auth';
 import {getIdFromErrorMessage, getMessageFromError} from '../../common/util';
-import {Observable} from "rxjs";
 
 @Component({
     selector: 'm-app-dashboard',
