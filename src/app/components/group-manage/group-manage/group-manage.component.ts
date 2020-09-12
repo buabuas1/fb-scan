@@ -19,7 +19,7 @@ export class GroupManageComponent implements OnInit {
     public userFriendData: UserFriendModel[] = [];
     public userFriendDataStr = '';
     public blackListDataDate = '';
-    private userFriendDataDate = '';
+    public userFriendDataDate = '';
 
     constructor(
         private groupManageApiService: GroupManageApiService,
@@ -27,26 +27,26 @@ export class GroupManageComponent implements OnInit {
     ) {
     }
 
-    async ngOnInit() {
+    public async ngOnInit() {
         await this.getBlackList();
         await this.getUserFriend();
     }
 
-    async getBlackList() {
+    public async getBlackList() {
         this.blackListData = await this.groupManageApiService.getBlackListUser().toPromise() as BlackListModel[];
         this.blackListDataStr = this.blackListData.map(r => r.userId).join(',');
         this.blackListDataDate += this.blackListDataStr ?
             `ModifiedDate: ${new Date(this.blackListData[0].modifiedDate).toLocaleString()}` : '';
     }
 
-    async getUserFriend() {
+    public async getUserFriend() {
         this.userFriendData = await this.groupManageApiService.getUserFriend().toPromise() as UserFriendModel[];
         this.userFriendDataStr = this.userFriendData.map(r => r.userId).join(',');
         this.userFriendDataDate += this.userFriendDataStr ?
             `ModifiedDate: ${new Date(this.userFriendData[0].modifiedDate).toLocaleString()}` : '';
     }
 
-    saveBlackList() {
+    public saveBlackList() {
         const data = removeSpace(this.blacklist).split(',').map(r => {
             const d = new BlackListModel();
             d.userId = r;
@@ -58,11 +58,11 @@ export class GroupManageComponent implements OnInit {
             }, error => this.loggerService.error(getMessageFromError(error)));
     }
 
-    saveUserFriend() {
+    public saveUserFriend() {
 
     }
 
-    saveGroupUser() {
+    public saveGroupUser() {
 
     }
 }
