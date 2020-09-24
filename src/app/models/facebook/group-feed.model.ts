@@ -16,6 +16,7 @@ export class GroupFeedModel implements IBDSModel {
     public id: string;
     public authorId: string;
     public viewContent: string;
+    public phone: string;
     constructor(feed: any) {
         try {
             this.url = feed.node.comet_sections.context_layout.story.comet_sections.timestamp.story.url;

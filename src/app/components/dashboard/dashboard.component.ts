@@ -14,6 +14,7 @@ import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
 import {AuthService} from '@core/services/auth';
 import {getIdFromErrorMessage, getMessageFromError} from '../../common/util';
+import {ToolKitService} from '@core/services/tool-kit/tool-kit.service';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -59,13 +60,15 @@ export class DashboardComponent implements OnInit {
     public dateOptions: kendo.ui.DateTimePickerOptions = {
         format: 'dd/MM/yyyy HH:mm',
     };
+    public toolkitToken: any;
 
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
                 private loggerService: LoggerServiceService,
                 private bdsTypeService: BdsTypeService,
                 private bdsContentApiService: BdsContentApiService,
-                public authService: AuthService
+                public authService: AuthService,
+                private toolKitService: ToolKitService
                 ) {
     }
 
@@ -346,5 +349,17 @@ export class DashboardComponent implements OnInit {
         let Ids = this.viewData.filter(r => r.authorId).map(m => m.authorId);
         Ids = R.uniq(Ids.concat(Ids));
         console.log(`"${Ids.join('","')}"`);
+    }
+
+    public setTokenTK() {
+        this.toolKitService.setToolkitToken(this.toolkitToken);
+    }
+
+    public getPhone(dataItem: IBDSModel) {
+        this.toolKitService.getPhoneByUid(dataItem.authorId)
+            .subscribe(rs => {
+                dataItem.phone = rs.Mobile;
+                this.loggerService.success(rs.Mobile);
+            }, error => this.loggerService.error(JSON.stringify(error)));
     }
 }

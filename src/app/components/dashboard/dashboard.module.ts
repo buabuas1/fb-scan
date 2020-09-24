@@ -11,8 +11,9 @@ import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {BdsTypeService} from '@core/services/bds/bds-type.service';
-import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
-import {AuthService} from "@core/services/auth";
+import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
+import {AuthService} from '@core/services/auth';
+import {ToolKitService} from '@core/services/tool-kit/tool-kit.service';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import {AuthService} from "@core/services/auth";
         LoggerServiceService,
         BdsTypeService,
         BdsContentApiService,
-        AuthService
+        AuthService,
+        ToolKitService
     ],
     declarations: [
         DashboardComponent

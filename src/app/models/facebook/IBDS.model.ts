@@ -14,4 +14,5 @@ interface IBDSModel {
     commentCount: number;
     authorId: string;
     viewContent: string;
+    phone: string;
 }
