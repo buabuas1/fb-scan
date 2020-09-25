@@ -18,9 +18,6 @@
                     (click)="reClassify()">Phân lọa lại</button>
             <button *ngIf="authService.isSuperAdmin()"  type="button" class="btn btn-sm btn-warning"
                     (click)="getUserId()">Lấy danh sách user Id</button>
-            <input [(ngModel)]="toolkitToken">
-            <button  type="button" class="btn btn-sm btn-warning"
-                    (click)="setTokenTK()">Set Token</button>
         </div>
         <kendo-excelexport [data]="dataExport" fileName="Products.xlsx" #excelexport>
             <kendo-excelexport-column field="content" [locked]="true" title="Nội dung" [width]="200" [cellOptions]="{ wrap: true }">
@@ -146,7 +143,7 @@
     <kendo-grid-column width="50">
         <ng-template kendoGridCellTemplate let-dataItem>
             <div>
-                <button (click)="getPhone(dataItem)">Get Phone</button>
+                <button class="btn btn-sm btn-success" (click)="getPhone(dataItem)">Get Phone</button>
                 <div>{{dataItem.phone}}</div>
             </div>
         </ng-template>

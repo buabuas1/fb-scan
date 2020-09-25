@@ -351,13 +351,9 @@ export class DashboardComponent implements OnInit {
         console.log(`"${Ids.join('","')}"`);
     }
 
-    public setTokenTK() {
-        this.toolKitService.setToolkitToken(this.toolkitToken);
-    }
-
     public getPhone(dataItem: IBDSModel) {
         this.toolKitService.getPhoneByUid(dataItem.authorId)
-            .subscribe(rs => {
+            .subscribe(rs  => {
                 dataItem.phone = rs.Mobile;
                 this.loggerService.success(rs.Mobile);
             }, error => this.loggerService.error(JSON.stringify(error)));

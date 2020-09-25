@@ -7,21 +7,12 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ToolKitService {
-    private host = environment.toolKit;
-    private TK_KEY = 'TOOL_KIT';
+    private host = environment.beHost;
     constructor(private httpClient: HttpClient, private loggerService: LoggerServiceService) {
     }
 
-    public getPhoneByUid(uid: string) {
-        const token = localStorage.getItem(this.TK_KEY);
-        if (!token) {
-            this.loggerService.error('Bạn chưa set token');
-            return Observable.of(null);
-        }
-        return this.httpClient.get(this.host + `api/Convert?uid=${uid}&apikey=${token}`);
+    public getPhoneByUid(uid: string): Observable<any> {
+        return this.httpClient.get(this.host + `api/group/user/phone?uid=${uid}`);
     }
 
-    public setToolkitToken(token: string) {
-        localStorage.setItem(this.TK_KEY, token);
-    }
 }
