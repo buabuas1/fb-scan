@@ -183,6 +183,11 @@ export class DashboardComponent implements OnInit {
                 this.viewData.filter(v =>
                     R.any(st => v.content.toLowerCase().indexOf(st.toLowerCase()) !== -1, this.model.searchText.split(',')));
             this.viewData = this.bdsTypeService.makeSearchContent(this.viewData, this.model.searchText.split(','));
+        } else {
+            this.viewData = this.viewData.map(v => {
+                v.viewContent = v.content;
+                return v;
+            });
         }
         this.skip = 0;
         this.loadItems();
