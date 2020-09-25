@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import 'rxjs/add/observable/throw';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import {SessionSettingsService} from '@core/services/settings';
 import {AuthService} from '@core/services/auth';

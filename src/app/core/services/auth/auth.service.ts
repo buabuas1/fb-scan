@@ -8,6 +8,7 @@ import {AppStates} from '../../../state-management/app-state';
 import {AuthActionAddAction, AuthActionRemoveAction} from '../../../state-management/actions/auth.action';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class AuthService {
