@@ -74,7 +74,7 @@
         </div>
         <div>
             <label><b>Id nhóm:</b></label>
-            <input type="text" [(ngModel)]="model.groupIds" (ngModelChange)="updateGroupFilter($event)" [placeholder]="'ví dụ: đống đa'">
+            <input type="text" [(ngModel)]="model.groupIds" (ngModelChange)="updateGroupFilter($event)" [placeholder]="'ví dụ: 929901307031871'">
         </div>
     </div>
     <div class="col-md-4">
@@ -140,7 +140,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="commentCount" title="Số comment" width="70">
     </kendo-grid-column>
-    <kendo-grid-column width="50">
+    <kendo-grid-column title="Thao tác" width="100" >
         <ng-template kendoGridCellTemplate let-dataItem>
             <div>
                 <button class="btn btn-sm btn-success" (click)="getPhone(dataItem)">Get Phone</button>
