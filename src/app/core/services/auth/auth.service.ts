@@ -42,7 +42,7 @@ export class AuthService {
                 .subscribe((rs: any) => {
                     this.session.createNewSession(rs.user, rs.token);
                     obs.next(rs.user);
-                });
+                }, error => obs.error(error));
         });
     }
 
@@ -50,5 +50,16 @@ export class AuthService {
         this.session.removeSession();
         this.store.dispatch(new AuthActionRemoveAction({}));
         return Observable.of();
+    }
+
+    public getCurrentSession(): Observable<any> {
+        return new Observable(obs => {
+            this.httpClient.get(this.host + 'api/auth/me')
+                .take(1)
+                .subscribe((rs: any) => {
+                    this.session.createNewSession(rs.user, rs.token);
+                    obs.next(rs.user);
+                }, error => obs.error(error));
+        });
     }
 }

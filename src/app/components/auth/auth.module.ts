@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth.module.routing';
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 
 @NgModule({
   imports: [
@@ -12,6 +13,9 @@ import { AuthRoutingModule } from './auth.module.routing';
   ],
   declarations: [
     AuthComponent
-  ]
+  ],
+    providers: [
+        LoggerServiceService
+    ]
 })
 export class AuthModule { }

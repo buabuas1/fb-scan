@@ -17,15 +17,11 @@ import {BsModalService} from 'ngx-bootstrap';
 import {reducers} from './state-management/app-state';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {StoreModule} from '@ngrx/store';
-import {ToastModule, ToastOptions} from 'ng2-toastr';
+import {ToastrModule } from 'ng6-toastr-notifications';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MyHttpInterceptor} from './common/http/httpinterceptor';
-export class CustomOption extends ToastOptions {
-    animate = 'flyRight'; // you can override any options available
-    newestOnTop = false;
-    showCloseButton = true;
-    positionClass = 'toast-bottom-right';
-}
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -44,18 +40,18 @@ export class CustomOption extends ToastOptions {
         CoreModule,
         BrowserAnimationsModule,
         true ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
-        ToastModule.forRoot(),
+        ToastrModule.forRoot(),
         HttpClientModule,
         ChartsModule
     ],
     providers: [
         BsModalService,
-        {provide: ToastOptions, useClass: CustomOption},
         {
             provide: HTTP_INTERCEPTORS,
             useClass: MyHttpInterceptor,
             multi: true
         },
+        LoggerServiceService
     ],
     bootstrap: [AppComponent]
 })

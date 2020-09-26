@@ -3,6 +3,8 @@ import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '@core/services/auth';
 import {RouteConfigs} from '../../configs/route.configs';
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {getMessageFromError} from '../../common/util';
 
 @Component({
     selector: 'm-app-auth',
@@ -20,7 +22,8 @@ export class AuthComponent {
 
     constructor(
         private router: Router,
-        private auth: AuthService
+        private auth: AuthService,
+        private loggerService: LoggerServiceService
     ) {
     }
 
@@ -33,8 +36,9 @@ export class AuthComponent {
                         this.router.navigate([RouteConfigs.appRoute]);
                     },
                     err => {
-                        this.errorMessage = 'Oops, something went wrong.Please try again later.';
-                        this.isLoginInProgress = false;
+                        this.errorMessage = getMessageFromError(err);
+                        // this.isLoginInProgress = false;
+                        this.loggerService.error(getMessageFromError(err));
                     }
                 );
         }

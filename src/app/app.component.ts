@@ -1,5 +1,7 @@
-import {Component, ViewContainerRef, ViewEncapsulation} from '@angular/core';
-import {ToastsManager} from 'ng2-toastr';
+import {Component, OnInit, ViewContainerRef, ViewEncapsulation} from '@angular/core';
+import {AuthService} from '@core/services/auth';
+import {getMessageFromError} from './common/util';
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 
 @Component({
   selector: 'm-app-root',
@@ -7,9 +9,16 @@ import {ToastsManager} from 'ng2-toastr';
   styleUrls: ['./app.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
-    constructor(private toastr: ToastsManager, vcr: ViewContainerRef) {
-        this.toastr.setRootViewContainerRef(vcr);
+export class AppComponent implements OnInit {
+    constructor(vcr: ViewContainerRef,
+                private authService: AuthService, private loggerService: LoggerServiceService) {
         kendo.culture('vi-VN');
+    }
+    ngOnInit(): void {
+        this.authService.getCurrentSession().subscribe(rs => {
+            console.log('refresh');
+        }, error => {
+            this.loggerService.error(getMessageFromError(error));
+        });
     }
 }

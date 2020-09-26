@@ -260,7 +260,7 @@ export class DashboardComponent implements OnInit {
             }).subscribe(rs => {
                 this.loggerService.success('Posted');
         }, error => {
-                this.loggerService.error('Lỗi ', error);
+                this.loggerService.error('Lỗi ');
         });
     }
 

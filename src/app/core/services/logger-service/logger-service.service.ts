@@ -1,26 +1,33 @@
 import {Injectable} from '@angular/core';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Injectable()
 export class LoggerServiceService {
-    constructor(
-        private toastr: ToastsManager
-    ) {
+    position = 'bottom-right';
+    constructor(public toastr: ToastrManager) {
     }
 
-    info(message: string, title?: string): void {
-        this.toastr.info(message, title);
+    public success(mess: string) {
+        this.toastr.successToastr(mess, '', {
+            position: this.position
+        });
     }
 
-    success(message: string, title?: string): void {
-        this.toastr.success(message, title);
+    public error(mess: string) {
+        this.toastr.errorToastr(mess, '', {
+            position: this.position
+        });
     }
 
-    error(message: string, title?: string, options?: any): void {
-        this.toastr.error(message, title, options);
+    public warning(mess: string) {
+        this.toastr.warningToastr(mess, 'Alert!',{
+            position: this.position
+        });
     }
 
-    warn(message: string, title?: string): void {
-        this.toastr.warning(message, title);
+    public info(mess: string) {
+        this.toastr.infoToastr(mess, '', {
+            position: this.position
+        });
     }
 }
