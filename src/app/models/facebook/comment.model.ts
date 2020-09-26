@@ -24,7 +24,7 @@ export class CommentModel implements IBDSModel {
         this.postTime = new Date(feed.node.created_time * 1000);
         this.id = feed.node.legacy_fbid;
         this.groupId = getGroupIdFromUrl(this.url);
-        this.authorId = feed.node.node.author.id;
+        this.authorId = feed.node.author.id;
     }
 
 
