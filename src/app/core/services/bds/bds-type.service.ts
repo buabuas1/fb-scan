@@ -169,7 +169,7 @@ export class BdsTypeService {
 
     makeSearchContent(viewData: Array<IBDSModel>, searchText: string[]) {
         viewData = viewData.map(m => {
-            m.viewContent = this.getMatchPosition(m.content, searchText);
+            m.viewContent = this.getMatchPosition(m.viewContent, searchText);
             return m;
         });
         return viewData;
