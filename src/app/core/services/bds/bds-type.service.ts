@@ -9,6 +9,7 @@ import {OfficeEngine} from '@core/services/engine/officeEngine';
 import {SecondHandEngine} from '@core/services/engine/secondHandEngine';
 import {CostEngine} from '@core/services/engine/costEngine';
 import {CommentModel} from '@models/facebook/comment.model';
+import {IBDSModel} from '@models/facebook/IBDS.model';
 
 @Injectable()
 export class BdsTypeService {
@@ -142,7 +143,7 @@ export class BdsTypeService {
             }
             value.postTimeView = new Date(value.postTime);
             value.postTime = new Date(value.postTime);
-            value.viewContent = value.content;
+            value.viewContent = !value.isComment ? value.content : value.content + '<br>' + value.parentContent;
         });
         return data;
     }

@@ -1,4 +1,4 @@
-interface IBDSModel {
+export interface IBDSModel {
     numberCosts: any[];
     postTime: any;
     costs: any;
@@ -15,4 +15,6 @@ interface IBDSModel {
     authorId: string;
     viewContent: string;
     phone: string;
+    isComment: boolean;
+    parentContent: string;
 }

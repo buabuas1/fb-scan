@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit} from '@angular/core';
 import {GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
 import {aggregateBy, process} from '@progress/kendo-data-query';
 import * as moment from 'moment';
-import {BdsType, BdsTypeArray, MAX_DBS_PRICE, MID_DBS_PRICE} from '../../common/constants';
+import {BdsTypeArray, MAX_DBS_PRICE, MID_DBS_PRICE} from '../../common/constants';
 import * as R from 'ramda';
 import {DecimalPipe} from '@angular/common';
 import {GroupFbService} from '@core/services/facebook/group-fb.service';
@@ -15,6 +15,7 @@ import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
 import {AuthService} from '@core/services/auth';
 import {getIdFromErrorMessage, getMessageFromError} from '../../common/util';
 import {ToolKitService} from '@core/services/tool-kit/tool-kit.service';
+import {IBDSModel} from '@models/facebook/IBDS.model';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -181,11 +182,13 @@ export class DashboardComponent implements OnInit {
         if (this.model.searchText) {
             this.viewData =
                 this.viewData.filter(v =>
-                    R.any(st => v.content.toLowerCase().indexOf(st.toLowerCase()) !== -1, this.model.searchText.split(',')));
+                    R.any(st => v.content.toLowerCase().indexOf(st.toLowerCase()) !== -1
+                        || (v.parentContent && v.parentContent.toLowerCase().indexOf(st.toLowerCase()) !== -1),
+                        this.model.searchText.split(',')));
             this.viewData = this.bdsTypeService.makeSearchContent(this.viewData, this.model.searchText.split(','));
         } else {
             this.viewData = this.viewData.map(v => {
-                v.viewContent = v.content;
+                v.viewContent = v.viewContent;
                 return v;
             });
         }

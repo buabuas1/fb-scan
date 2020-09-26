@@ -1,4 +1,5 @@
 import {IBDSType} from '@core/services/engine/baseEngine';
+import {IBDSModel} from '@models/facebook/IBDS.model';
 
 export class FindRoomEngine implements IBDSType {
     private regex = /Cần tìm phòng|tìm phòng|muốn thuê phòng|tìm phòg|tìm nhà|cần thuê|Cần tìm|tìm trọ/muig;

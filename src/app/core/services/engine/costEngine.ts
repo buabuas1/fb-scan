@@ -1,5 +1,6 @@
 import {ICost} from '@core/services/engine/baseEngine';
 import {removeVietnameseTones} from '../../../common/util';
+import {IBDSModel} from '@models/facebook/IBDS.model';
 
 export class CostEngine implements ICost {
     private regex = /([\d]{1,3}([,.][\d]{1,2})?( )?t(r)?[\d]?)|(\d+(\.\d+)+)/gmiu;
