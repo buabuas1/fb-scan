@@ -9,10 +9,14 @@ export class BdsContentApiService {
     constructor(private httpClient: HttpClient) {
     }
 
-    getFbContent(postTime: Date, groupIds: string) {
+    getFbContent(postTime: Date, groupIds: string, option: any) {
         return this.httpClient.get(this.host + 'api/fbcontent', {
             params:
-                {postTime: postTime.toISOString(), groupIds: groupIds}
+                {
+                    postTime: postTime.toISOString(),
+                    groupIds: groupIds,
+                    createdDate: option.createdDate.toISOString()
+                }
         });
     }
 

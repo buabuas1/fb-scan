@@ -55,7 +55,8 @@ export class DashboardComponent implements OnInit {
         priceFrom: 0,
         priceTo: 100000000,
         searchText: '',
-        groupIds: ''
+        groupIds: '',
+        createdDate: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
     };
     public listItemsPrice = [];
     public dateOptions: kendo.ui.DateTimePickerOptions = {
@@ -84,7 +85,8 @@ export class DashboardComponent implements OnInit {
     }
 
     getDataFromApi() {
-        this.bdsContentApiService.getFbContent(this.model.from, this.model.groupIds)
+        this.bdsContentApiService.getFbContent(this.model.from, this.model.groupIds,
+            {createdDate: this.model.createdDate})
             .subscribe(rs => {
                 this.data = rs as IBDSModel[];
                 this.initData();
@@ -365,5 +367,10 @@ export class DashboardComponent implements OnInit {
                 dataItem.phone = rs.Mobile;
                 this.loggerService.success(rs.Mobile);
             }, error => this.loggerService.error(JSON.stringify(error)));
+    }
+
+    public onCreatedDateChange($event: Date) {
+        this.model.createdDate = $event;
+        this.getDataFromApi();
     }
 }

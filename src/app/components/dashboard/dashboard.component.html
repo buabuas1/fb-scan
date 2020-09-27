@@ -34,10 +34,10 @@
             </kendo-grid-column>
         </kendo-excelexport>
     </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-4">
+<!--    <div class="col-md-1"></div>-->
+    <div class="col-md-3">
         <div>
-            <label><b>Thời gian:</b></label>
+            <label><b>Thời gian tạo/cập nhât của bài viết:</b></label>
             <div>
                 <input class="k-radio" type="radio" name="type" id="female" (change)="changeViewType('all')" [(ngModel)]="model.typeDate" value="all">
                 <label class="k-radio-label text-success font-weight-bold" for="female">Tất cả</label>
@@ -66,18 +66,23 @@
                         />
                     </div>
                 </div>
+                <div>
+                    <div class="mb-10">
+                        <div><b>Thu thập từ:</b></div>
+                        <input kvKendoDateTimePicker
+                               [kvOptions]="dateOptions"
+                               [placeholder]="'Từ'"
+                               (kvModelChange)="onCreatedDateChange($event)"
+                               [(kvModel)]="model.createdDate"
+                               style="width: 200px"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
-        <div>
-            <label><b>Nội dung:</b></label>
-            <input type="text" [(ngModel)]="model.searchText" (ngModelChange)="searchTextChange$.emit()" [placeholder]="'ví dụ: đống đa'">
-        </div>
-        <div>
-            <label><b>Id nhóm:</b></label>
-            <input type="text" [(ngModel)]="model.groupIds" (ngModelChange)="updateGroupFilter($event)" [placeholder]="'ví dụ: 929901307031871'">
-        </div>
+
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div>
             <label><b>Giá:</b></label>
             <input class="k-radio" type="radio" name="price" id="priceF" (change)="changeViewPriceType('all')" [(ngModel)]="model.typePrice" value="all">
@@ -103,6 +108,16 @@
         <div>
             <label><b>Loại:</b></label>
             <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div>
+            <label><b>Id nhóm:</b></label>
+            <input type="text" [(ngModel)]="model.groupIds" (ngModelChange)="updateGroupFilter($event)" [placeholder]="'ví dụ: 929901307031871'">
+        </div>
+        <div>
+            <label><b>Nội dung:</b></label>
+            <input type="text" [(ngModel)]="model.searchText" (ngModelChange)="searchTextChange$.emit()" [placeholder]="'ví dụ: đống đa'">
         </div>
     </div>
 </div>
