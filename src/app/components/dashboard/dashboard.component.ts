@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
         priceTo: 100000000,
         searchText: '',
         groupIds: '',
+        area: '',
         createdDate: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
     };
     public listItemsPrice = [];
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
         format: 'dd/MM/yyyy HH:mm',
     };
     public toolkitToken: any;
+    public areaItems: any = [];
 
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
@@ -185,12 +187,15 @@ export class DashboardComponent implements OnInit {
         }
         // search text
         if (this.model.searchText) {
-            this.viewData =
-                this.viewData.filter(v =>
-                    R.any(st => v.content.toLowerCase().indexOf(st.toLowerCase()) !== -1
-                        || (v.parentContent && v.parentContent.toLowerCase().indexOf(st.toLowerCase()) !== -1),
-                        this.model.searchText.split(',')));
-            this.viewData = this.bdsTypeService.makeSearchContent(this.viewData, this.model.searchText.split(','));
+            const searchData = this.model.searchText.split(',').filter(t => !!t);
+            if (searchData && searchData.length > 0) {
+                this.viewData =
+                    this.viewData.filter(v =>
+                        R.any(st => v.content.toLowerCase().indexOf(st.toLowerCase()) !== -1
+                            || (v.parentContent && v.parentContent.toLowerCase().indexOf(st.toLowerCase()) !== -1),
+                            searchData));
+                this.viewData = this.bdsTypeService.makeSearchContent(this.viewData, searchData);
+            }
         } else {
             this.viewData = this.viewData.map(v => {
                 v.viewContent = v.viewContent;
@@ -379,15 +384,32 @@ export class DashboardComponent implements OnInit {
 
     addArea() {
         this.modalService.openModal({
-            title: '',
+            title: 'Thêm mới danh sách từ khóa theo khu vực',
             component: AreaFormComponent,
             // isCustomModalHeader: true,
             inputs: [{key: 'areContent', value: {}}],
-            onSubmit: () => {
+            onSubmit: (area) => {
+                this.bdsContentApiService.saveArea(area)
+                    .subscribe(a => {
+                       this.loggerService.success('Thành công!');
+                       this.refreshArea();
+                    });
             },
             onModalClose: () => {
 
             }
         }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
+    }
+
+    private refreshArea() {
+        this.bdsContentApiService.getArea()
+            .subscribe(rs => {
+                this.areaItems = rs;
+            });
+    }
+
+    onAreaChange($event: any[]) {
+        this.model.searchText = $event.map(e => e.content).join(',');
+        this.updateFilter();
     }
 }

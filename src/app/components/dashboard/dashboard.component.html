@@ -9,7 +9,7 @@
                 <label>Tìm theo khu vực</label>
                 <a (click)="addArea()"><span class="fa fa-plus text-success"></span></a>
             </div>
-            <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
+            <kendo-multiselect [data]="areaItems" [(ngModel)]="model.area" [textField]="'name'" [valueField]="'_id'" (valueChange)="onAreaChange($event)"></kendo-multiselect>
         </div>
         <div>
             <button type="button" class="btn btn-sm btn-success" (click)="excelexport.save()">Export To Excel</button>

@@ -10,6 +10,8 @@ import {SecondHandEngine} from '@core/services/engine/secondHandEngine';
 import {CostEngine} from '@core/services/engine/costEngine';
 import {CommentModel} from '@models/facebook/comment.model';
 import {IBDSModel} from '@models/facebook/IBDS.model';
+import * as R from 'ramda';
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 
 @Injectable()
 export class BdsTypeService {
@@ -70,7 +72,7 @@ export class BdsTypeService {
         }
     ];
 
-    constructor() {
+    constructor(private loggerService: LoggerServiceService) {
     }
 
     public factoryBDSType = (engineType: string): IBDSType => {
@@ -168,8 +170,14 @@ export class BdsTypeService {
     }
 
     makeSearchContent(viewData: Array<IBDSModel>, searchText: string[]) {
+        const specialRegex = /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/m;
+        const unValid = searchText.filter(t => specialRegex.test(t));
+        const valid = searchText.filter(t => !(specialRegex.test(t)));
+        if (unValid && unValid.length > 0) {
+            this.loggerService.warning('Không thể đánh dấu đượcc những từ khóa sau có kí tự đặc biệt: ' + unValid.join(','));
+        }
         viewData = viewData.map(m => {
-            m.viewContent = this.getMatchPosition(m.viewContent, searchText);
+            m.viewContent = this.getMatchPosition(m.viewContent, valid);
             return m;
         });
         return viewData;

@@ -47,4 +47,12 @@ export class BdsContentApiService {
             params: params
         });
     }
+
+    saveArea(area) {
+        return this.httpClient.post(this.host + 'api/area', area);
+    }
+
+    getArea() {
+        return this.httpClient.get(this.host + 'api/area');
+    }
 }
