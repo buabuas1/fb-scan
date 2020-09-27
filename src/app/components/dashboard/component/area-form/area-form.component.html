@@ -1,0 +1,11 @@
+<div>
+    <p>
+        {{areContent._id ? 'Thêm khu vực': 'Sửa khu vực'}}
+    </p>
+    <div>
+        <div>Các từ khóa cho khu vực</div>
+        <input [(ngModel)]="areContent.content">
+        <button class="btn btn-sm btn-success" (click)="onSave()">Save</button>
+        <button class="btn btn-sm btn-dark" (click)="onCancel()">Cancel</button>
+    </div>
+</div>

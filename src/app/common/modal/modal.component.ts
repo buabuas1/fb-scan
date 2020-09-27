@@ -108,7 +108,7 @@ export class ModalComponent implements OnInit, AfterViewInit, OnDestroy, DoCheck
     }
 
     public close(): void {
-        if (this.cmpRef.instance.onModalClose) {
+        if (this.cmpRef && this.cmpRef.instance.onModalClose) {
             this.cmpRef.instance.onModalClose();
         }
 

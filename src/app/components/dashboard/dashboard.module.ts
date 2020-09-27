@@ -14,6 +14,8 @@ import {BdsTypeService} from '@core/services/bds/bds-type.service';
 import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {AuthService} from '@core/services/auth';
 import {ToolKitService} from '@core/services/tool-kit/tool-kit.service';
+import { AreaFormComponent } from './component/area-form/area-form.component';
+import {ModalService} from '@core/services/modal/modal.service';
 
 @NgModule({
     imports: [
@@ -33,13 +35,18 @@ import {ToolKitService} from '@core/services/tool-kit/tool-kit.service';
         BdsTypeService,
         BdsContentApiService,
         AuthService,
-        ToolKitService
+        ToolKitService,
+        ModalService
     ],
     declarations: [
-        DashboardComponent
+        DashboardComponent,
+        AreaFormComponent
     ],
     exports: [
         DashboardComponent
+    ],
+    entryComponents: [
+        AreaFormComponent
     ]
 })
 export class DashboardModule {

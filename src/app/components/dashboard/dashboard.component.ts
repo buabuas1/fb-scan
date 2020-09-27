@@ -9,13 +9,15 @@ import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {GroupFeedModel} from '@models/facebook/group-feed.model';
 import {BdsTypeService} from '@core/services/bds/bds-type.service';
-import {CommentModel} from '@models/facebook/comment.model';
 import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {BdsMongoModel} from '@models/facebook/bds-mongo.model';
 import {AuthService} from '@core/services/auth';
 import {getIdFromErrorMessage, getMessageFromError} from '../../common/util';
 import {ToolKitService} from '@core/services/tool-kit/tool-kit.service';
 import {IBDSModel} from '@models/facebook/IBDS.model';
+import {ModalService} from '@core/services/modal/modal.service';
+import {getFilterState} from '../../state-management/reducers/filter.reducer';
+import {AreaFormComponent} from './component/area-form/area-form.component';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -70,7 +72,8 @@ export class DashboardComponent implements OnInit {
                 private bdsTypeService: BdsTypeService,
                 private bdsContentApiService: BdsContentApiService,
                 public authService: AuthService,
-                private toolKitService: ToolKitService
+                private toolKitService: ToolKitService,
+                private modalService: ModalService
                 ) {
     }
 
@@ -372,5 +375,19 @@ export class DashboardComponent implements OnInit {
     public onCreatedDateChange($event: Date) {
         this.model.createdDate = $event;
         this.getDataFromApi();
+    }
+
+    addArea() {
+        this.modalService.openModal({
+            title: '',
+            component: AreaFormComponent,
+            // isCustomModalHeader: true,
+            inputs: [{key: 'areContent', value: {}}],
+            onSubmit: () => {
+            },
+            onModalClose: () => {
+
+            }
+        }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
     }
 }

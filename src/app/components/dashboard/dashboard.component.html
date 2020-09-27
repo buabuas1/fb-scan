@@ -1,14 +1,15 @@
 <div class="float-right mt-2">
-<!--    <button class="btn btn-sm btn-primary m-auto" (click)="getFeed()">Check token</button>-->
-<!--    <button class="btn btn-sm btn-primary m-auto" (click)="callFb()">Cài đặt nội dung comment</button>-->
-<!--    <button class="btn btn-sm btn-primary m-auto" (click)="postComment()">Post comment</button>-->
-<!--    <button class="btn btn-sm btn-primary m-auto" (click)="postContent()">Post content</button>-->
 </div>
 <div class="row">
     <div class="col-md-3">
         <div class="Block" *ngIf="authService.isSuperAdmin()">
-            <input [title]="'Chọn file public'" type='file' (change)="fileChanged($event)" onclick="this.value = null">
+<!--            <input [title]="'Chọn file public'" type='file' (change)="fileChanged($event)" onclick="this.value = null">-->
             <input [title]="'Chọn file private'" type='file' (change)="fileChangedMultiple($event)" onclick="this.value = null">
+            <div class="bold">
+                <label>Tìm theo khu vực</label>
+                <a (click)="addArea()"><span class="fa fa-plus text-success"></span></a>
+            </div>
+            <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
         </div>
         <div>
             <button type="button" class="btn btn-sm btn-success" (click)="excelexport.save()">Export To Excel</button>
@@ -34,7 +35,6 @@
             </kendo-grid-column>
         </kendo-excelexport>
     </div>
-<!--    <div class="col-md-1"></div>-->
     <div class="col-md-3">
         <div>
             <label><b>Thời gian tạo/cập nhât của bài viết:</b></label>
