@@ -18,6 +18,7 @@ import {IBDSModel} from '@models/facebook/IBDS.model';
 import {ModalService} from '@core/services/modal/modal.service';
 import {getFilterState} from '../../state-management/reducers/filter.reducer';
 import {AreaFormComponent} from './component/area-form/area-form.component';
+import {AreaListComponent} from './component/area-list/area-list.component';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -87,6 +88,7 @@ export class DashboardComponent implements OnInit {
             .subscribe(() => {
                 this.updateFilter();
             });
+        this.refreshArea();
     }
 
     getDataFromApi() {
@@ -405,8 +407,21 @@ export class DashboardComponent implements OnInit {
             });
     }
 
-    onAreaChange($event: any[]) {
+    public onAreaChange($event: any[]) {
         this.model.searchText = $event.map(e => e.content).join(',');
         this.updateFilter();
+    }
+
+    public viewAllArea() {
+        this.modalService.openModal({
+            title: 'Danh sách từ khóa theo khu vực',
+            component: AreaListComponent,
+            // isCustomModalHeader: true,
+            inputs: [],
+            onSubmit: () => {
+            },
+            onModalClose: () => {
+            }
+        }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
     }
 }

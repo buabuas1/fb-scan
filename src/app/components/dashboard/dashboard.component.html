@@ -8,6 +8,7 @@
             <div class="bold">
                 <label>Tìm theo khu vực</label>
                 <a (click)="addArea()"><span class="fa fa-plus text-success"></span></a>
+                <a (click)="viewAllArea()"><span class="fa fa-list text-success"></span></a>
             </div>
             <kendo-multiselect [data]="areaItems" [(ngModel)]="model.area" [textField]="'name'" [valueField]="'_id'" (valueChange)="onAreaChange($event)"></kendo-multiselect>
         </div>

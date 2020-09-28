@@ -1,0 +1,21 @@
+<kendo-grid [data]="gridView"
+            [pageSize]="pageSize"
+            [skip]="skip"
+            [resizable]="true"
+            [pageable]="true"
+            style="height: 100%"
+            (pageChange)="pageChange($event)">
+    <kendo-grid-column title="STT" width="60">
+        <ng-template kendoGridCellTemplate let-dataItem, let-rowIndex="rowIndex">
+            <div>{{rowIndex}}</div>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="name" title="Tên cụm từ khoá"></kendo-grid-column>
+    <kendo-grid-column field="content" title="Danh sách từ khoá"></kendo-grid-column>
+    <kendo-grid-column field="content" title="Thao tác">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <button class="btn btn-sm btn-warning" (click)="onUpdate(dataItem)">Sửa</button>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(dataItem)">Xoá</button>
+        </ng-template>
+    </kendo-grid-column>
+</kendo-grid>

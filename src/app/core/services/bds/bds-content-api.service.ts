@@ -55,4 +55,8 @@ export class BdsContentApiService {
     getArea() {
         return this.httpClient.get(this.host + 'api/area');
     }
+
+    deleteArea(area) {
+        return this.httpClient.delete(this.host + `api/area/${area._id}`);
+    }
 }
