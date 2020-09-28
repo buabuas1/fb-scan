@@ -197,10 +197,7 @@ export class DashboardComponent implements OnInit {
                 this.viewData = this.bdsTypeService.makeSearchContent(this.viewData, searchData);
             }
         } else {
-            this.viewData = this.viewData.map(v => {
-                v.viewContent = v.viewContent;
-                return v;
-            });
+            this.viewData = this.bdsTypeService.resetSearchContent(this.viewData);
         }
         this.skip = 0;
         this.loadItems();

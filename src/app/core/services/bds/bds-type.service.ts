@@ -183,6 +183,12 @@ export class BdsTypeService {
         return viewData;
     }
 
+    resetSearchContent(data: Array<IBDSModel>) {
+        data.forEach(value => {
+            value.viewContent = !value.isComment ? value.content : value.content + '<br>' + value.parentContent;
+        });
+        return data;
+    }
     getMatchPosition(str: string, regexes: string[]) {
         regexes.forEach(r => {
             const regex = new RegExp(r, 'gmui');
