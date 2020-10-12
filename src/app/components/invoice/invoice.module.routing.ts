@@ -5,7 +5,7 @@ import {PageNotFoundComponent} from '@shared/page-not-found';
 import {AppComponent} from '../../app.component';
 import {HeaderComponent} from '../header';
 import {AuthGuard} from '@core/services/auth/auth.guard';
-import {HrComponent} from './hr.component';
+import {InvoiceComponent} from './invoice.component';
 
 const mainRoutes: Routes = [
     {
@@ -13,7 +13,7 @@ const mainRoutes: Routes = [
         pathMatch: 'full',
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
-        component: HrComponent,
+        component: InvoiceComponent,
         outlet: 'body'
     },
     {
@@ -35,5 +35,5 @@ const mainRoutes: Routes = [
         RouterModule
     ]
 })
-export class HrModuleRouting {
+export class InvoiceModuleRouting {
 }

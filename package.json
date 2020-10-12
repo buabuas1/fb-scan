@@ -51,6 +51,7 @@
     "ng6-toastr-notifications": "^1.0.4",
     "ngx-bootstrap": "^2.0.5",
     "path": "^0.12.7",
+    "print-html-element": "^0.5.1",
     "ramda": "^0.27.0",
     "reselect": "^4.0.0",
     "rxjs": "5.5.6",

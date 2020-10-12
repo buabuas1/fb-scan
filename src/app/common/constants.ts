@@ -69,3 +69,82 @@ export const BDS_REGEX = [
         ]
     }
 ];
+
+export enum PrintTypes {
+    Invoice = 1
+}
+
+/* tslint:disable */
+export const invoicePrintTemplate = `
+<div><kv-print-div><kv-print-div><kv-print-div>
+    <table style="width:100%">
+        <tbody>
+        <tr>
+            <td style="text-align:center">
+                <p>{Ten_Nha}<span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif"><strong></strong></span></span><br />
+                    <span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">Đ/C: {Dia_Chi_Nha}</span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif"><strong>HÓA ĐƠN THANH TOÁN<br />
+			Số HĐ:</strong> </span></span><span style="font-size:16px"><span style="font-family:Arial,Helvetica,sans-serif"><strong>{Ma_Hoa_Don}</strong></span></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="height:5px">&nbsp;</div>
+
+    <div style="height:5px">&nbsp;</div>
+
+    <div style="height:5px">&nbsp;</div>
+
+    <table border="1" cellpadding="3" cellspacing="0" style="border-collapse:collapse; margin-top:20px; width:100%">
+        <tbody>
+            <tr>
+                <td><strong>STT</strong></td>
+                <td><strong>Tên hàng hóa, dịch vụ</strong></td>
+                <td style="text-align:right"><strong>Đơn vị</strong></td>
+                <td style="text-align:right"><strong>Số lượng</strong></td>
+                <td style="text-align:right"><strong>Đơn giá</strong></td>
+                <td style="text-align:right"><strong>Thành tiền</strong></td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{STT}</span></span><br /></td>
+                <td style="border-bottom:1px solid black; text-align:left"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{Ten_Khoan_Thu}</span></span></td>
+                <td style="border-bottom:1px solid black; text-align:right"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{Don_Vi}</span></span></td>
+                <td style="border-bottom:1px solid black; text-align:right"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{So_Luong}</span></span></td>
+                <td style="border-bottom:1px solid black; text-align:right"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{Don_Gia}</span></span></td>
+                <td style="border-bottom:1px solid black; text-align:right"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{Thanh_Tien}</span></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table border="0" cellpadding="3" cellspacing="0" style="border-collapse:collapse; margin-top:5px; width:98%">
+        <tfoot>
+        <tr>
+            <td style="font-size:11px; font-weight:bold; text-align:left; white-space:nowrap"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">Tổng tiền cần thu:</span></span></td>
+            <td>&nbsp;</td>
+            <td style="font-size:11px; font-weight:bold; text-align:right"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{Tong_Tien_Can_Thu}</span></span></td>
+        </tr>
+        <tr>
+            <td style="font-size:11px; font-weight:bold; text-align:left; white-space:nowrap"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">Phụ huynh thanh toán:</span></span></td>
+            <td>&nbsp;</td>
+            <td style="font-size:11px; font-weight:bold; text-align:right"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{Tong_Tien_Thanh_Toan}</span></span></td>
+        </tr>
+        <tr>
+            <td style="font-size:11px; font-weight:bold; text-align:left; white-space:nowrap"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">Tổng tiền còn thiếu:</span></span></td>
+            <td>&nbsp;</td>
+            <td style="font-size:11px; font-weight:bold; text-align:right"><span style="font-size:12px"><span style="font-family:Arial,Helvetica,sans-serif">{Tong_Tien_Con_Thieu}</span></span></td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <div style="border-bottom:1px solid black; height:10px">&nbsp;</div>
+    <div style="border-bottom:1px solid black; height:5px">&nbsp;</div>
+
+    <div style="text-align:center"><br />
+        &nbsp;</div>
+</kv-print-div></kv-print-div> </kv-print-div></div>
+`;
+
+/* tslint:enable */

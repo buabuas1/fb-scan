@@ -21,6 +21,8 @@ import {ToastrModule } from 'ng6-toastr-notifications';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MyHttpInterceptor} from './common/http/httpinterceptor';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {PrintService} from '@core/services/print/print.service';
+import {PrintTemplateService} from '@core/services/print/print-template.service';
 
 @NgModule({
     declarations: [
@@ -51,7 +53,9 @@ import {LoggerServiceService} from '@core/services/logger-service/logger-service
             useClass: MyHttpInterceptor,
             multi: true
         },
-        LoggerServiceService
+        LoggerServiceService,
+        PrintService,
+        PrintTemplateService
     ],
     bootstrap: [AppComponent]
 })

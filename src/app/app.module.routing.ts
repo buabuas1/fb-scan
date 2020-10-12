@@ -24,8 +24,8 @@ const mainRoutes: Routes = [
         ]
     },
     {
-        path: 'hr',
-        loadChildren: 'app/components/hr/hr.module#HrModule'
+        path: 'invoice',
+        loadChildren: 'app/components/invoice/invoice.module#InvoiceModule'
     },
     {
         path: 'fb',
