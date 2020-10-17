@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {InvoiceComponent} from './invoice.component';
 import {InvoiceModuleRouting} from './invoice.module.routing';
@@ -6,6 +6,14 @@ import {SharedModule} from '@shared/shared.module';
 import {CoreModule} from '@core/core.module';
 import {HeaderModule} from '../header';
 import {PrintService} from '@core/services/print/print.service';
+import {ProductService} from '@core/services/product/product.service';
+import {RoomService} from '@core/services/room/room.service';
+import { InvoiceFormComponent } from './component/invoice-form/invoice-form.component';
+import {ModalService} from '@core/services/modal/modal.service';
+import {FormsModule} from '@angular/forms';
+import {IntlModule} from '@progress/kendo-angular-intl';
+import {InvoiceService} from '@core/services/invoice/invoice.service';
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 
 
 @NgModule({
@@ -15,11 +23,21 @@ import {PrintService} from '@core/services/print/print.service';
         CoreModule,
         InvoiceModuleRouting,
         HeaderModule,
+        FormsModule,
+        IntlModule,
     ],
     providers: [
-        PrintService
+        PrintService,
+        ProductService,
+        RoomService,
+        ModalService,
+        InvoiceService,
+        LoggerServiceService
     ],
-    declarations: [InvoiceComponent]
+    declarations: [InvoiceComponent, InvoiceFormComponent],
+    entryComponents: [
+        InvoiceFormComponent
+    ]
 })
 export class InvoiceModule {
 }

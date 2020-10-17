@@ -1,0 +1,45 @@
+import {Injectable} from '@angular/core';
+import {environment} from '../../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {InvoiceModel} from '@models/manage/invoice.model';
+import {InvoiceDetailModel} from '@models/manage/invoice.detail.model';
+import {RoomModel} from '@models/manage/room.model';
+import {InvoiceDBModel} from '@models/db/invoice.DB.model';
+
+@Injectable()
+export class InvoiceService {
+    private host = environment.beHost;
+
+    constructor(private httpClient: HttpClient) {
+    }
+
+    getInvoice(postTime: Date, groupIds: string, option: any) {
+        return this.httpClient.get(this.host + 'api/invoice');
+    }
+
+    makeInvoice(detailItems: Array<InvoiceDetailModel>, room: RoomModel) {
+        return {
+            item: detailItems,
+            code: new Date().getTime().toString(),
+            customer: room.customer,
+            house: room.house,
+            room: room,
+            total: detailItems.reduce((accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity), 0)
+        } as InvoiceModel;
+    }
+
+    recalculateInvoice(invoice: InvoiceModel) {
+        invoice.total = invoice.item.reduce((accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity), 0);
+        return invoice;
+    }
+
+    saveInvoice(invoice: InvoiceModel) {
+        const invoiceDB = {
+            code: invoice.code,
+            customer: invoice.customer._id,
+            room: invoice.room._id,
+            total: invoice.total
+        } as InvoiceDBModel;
+        return this.httpClient.post(this.host + 'api/invoice', invoiceDB);
+    }
+}

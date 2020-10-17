@@ -1,34 +1,34 @@
 
 export let invoiceTokens: Array<any> = [
     {
-        value: '{Ten_Khoan_Thu}', text: '#: Item[i].Name #'
+        value: '{Ten_Khoan_Thu}', text: '#: item[i].name #'
     },
     {
-        value: '{Don_Vi}', text: '#: Item[i].Unit #'
+        value: '{Don_Vi}', text: '#: item[i].unit #'
     },
     {
-        value: '{So_Luong}', text: '#: Item[i].Quantity #'
+        value: '{So_Luong}', text: '#: item[i].quantity #'
     },
     {
-        value: '{Don_Gia}', text: '#=kendo.toString((Item[i].Price), \'n0\') #'
+        value: '{Don_Gia}', text: '#=kendo.toString((item[i].price), \'n0\') #'
     },
     {
-        value: '{Thanh_Tien}', text: '#=kendo.toString((Item[i].TotalPrice),\'n0\')#'
+        value: '{Thanh_Tien}', text: '#=kendo.toString((item[i].totalPrice),\'n0\')#'
     },
     {
-        value: '{Ghi_Chu}', text: '#: Item[i].Note #'
+        value: '{Ghi_Chu}', text: '#: item[i].note ? item[i].note : "" #'
     },
     {
-        value: '{Ma_Hoa_Don}', text: '#: data.Code #'
+        value: '{Ma_Hoa_Don}', text: '#: data.code #'
     },
     {
-        value: '{Ten_Nha}', text: '#: data.HouseName #'
+        value: '{Ten_Nha}', text: '#: data.house ? data.house.name : "" #'
     },
     {
-        value: '{Dia_Chi_Nha}', text: '#: data.HouseAddress #'
+        value: '{Dia_Chi_Nha}', text: '#: data.house ? data.house.address : "" #'
     },
     {
-        value: '{Tong_Tien_Can_Thu}', text: '#: data.Total #'
+        value: '{Tong_Tien_Can_Thu}', text: '#=kendo.toString(data.total, \'n0\') #'
     },
     {
         value: '{Tong_Tien_Thanh_Toan}', text: '#: data.CustomerAmount #'
@@ -37,7 +37,7 @@ export let invoiceTokens: Array<any> = [
         value: '{Tong_Tien_Con_Thieu}', text: '#: data.CustomerMiss #'
     },
     {
-        value: '{First}', text: '#for (var i = 0; i < data.Item.length; i++) { if (!data.Item[i].ToppingParentUuid) { #'
+        value: '{First}', text: '#for (var i = 0; i < data.item.length; i++) { if (!data.item[i].ToppingParentUuid) { #'
     },
     {
         value: '{Last}', text: '# }} #'

@@ -1,0 +1,42 @@
+<div>
+    <div class="pl-3">
+        <div>Phòng: {{room.name}}</div>
+        <div>Khách hàng: {{room.customer?.name}}</div>
+        <kendo-grid [data]="gridView"
+                    [pageSize]="pageSize"
+                    [skip]="skip"
+                    [resizable]="true"
+                    [pageable]="true"
+                    style="height: 100%"
+                    (cellClick)="onItemSelect($event)"
+                    (pageChange)="pageChange($event)">
+            <kendo-grid-column title="STT" width="60">
+                <ng-template kendoGridCellTemplate let-dataItem, let-rowIndex="rowIndex">
+                    <div>{{rowIndex + 1}}</div>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="name" title="Tên khoản thu">
+            </kendo-grid-column>
+            <kendo-grid-column field="unit" title="Đơn vị">
+            </kendo-grid-column>
+            <kendo-grid-column field="price" title="Giá">
+            </kendo-grid-column>
+            <kendo-grid-column title="Số lượng">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <input (ngModelChange)="recalculate(dataItem)" class="w-75" type="number" [value]="1" [(ngModel)]="dataItem.quantity">
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column title="Tổng tiền">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <label>{{dataItem.totalPrice}}</label>
+                </ng-template>
+            </kendo-grid-column>
+        </kendo-grid>
+        <div>Tổng: {{invoice.total | kendoNumber}}</div>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-sm btn-success" (click)="onPrint()">In hóa đơn</button>
+        <button class="btn btn-sm btn-success" (click)="onSave()">Tạo hóa đơn</button>
+        <button class="btn btn-sm btn-dark" (click)="onCancel()">Cancel</button>
+    </div>
+</div>
