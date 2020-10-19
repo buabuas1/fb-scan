@@ -8,6 +8,8 @@ import {PrintService} from '@core/services/print/print.service';
 import {invoicePrintTemplate, PrintTypes} from '../../../../common/constants';
 import {InvoiceService} from '@core/services/invoice/invoice.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {CustomerModel} from '@models/manage/customer.model';
+import {CustomerService} from '@core/services/customer/customer.service';
 
 @Component({
     selector: 'app-invoice-form',
@@ -23,13 +25,16 @@ export class InvoiceFormComponent implements OnInit {
     public pageSize = 5;
     public skip = 0;
     private invoice: InvoiceModel;
+    public listCustomer: Array<CustomerModel> = [];
     constructor(private printService: PrintService,
                 private invoiceService: InvoiceService,
-                private loggerService: LoggerServiceService) {
+                private loggerService: LoggerServiceService,
+                private customerService: CustomerService) {
     }
 
     ngOnInit() {
         this.makeInvoice();
+        this.getCustomerFromApi();
     }
 
     onSave() {
@@ -84,5 +89,16 @@ export class InvoiceFormComponent implements OnInit {
 
     public onPrint() {
         this.printService.printContent(invoicePrintTemplate, this.invoice, true, PrintTypes.Invoice);
+    }
+
+    public onCustomerChange($event: any) {
+
+    }
+
+    public getCustomerFromApi() {
+        this.customerService.getCustomer()
+            .subscribe(rs => {
+                this.listCustomer = rs as CustomerModel[];
+            });
     }
 }

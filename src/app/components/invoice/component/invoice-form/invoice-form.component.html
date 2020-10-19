@@ -1,7 +1,11 @@
 <div>
     <div class="pl-3">
         <div>Phòng: {{room.name}}</div>
-        <div>Khách hàng: {{room.customer?.name}}</div>
+        <div>Khách hàng:
+            <kendo-dropdownlist [data]="listCustomer" [(ngModel)]="room.customer"
+                                (valueChange)="onCustomerChange($event)" [textField]="'name'" [valueField]="'_id'">
+            </kendo-dropdownlist>
+        </div>
         <kendo-grid [data]="gridView"
                     [pageSize]="pageSize"
                     [skip]="skip"

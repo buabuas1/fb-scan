@@ -14,6 +14,8 @@ import {FormsModule} from '@angular/forms';
 import {IntlModule} from '@progress/kendo-angular-intl';
 import {InvoiceService} from '@core/services/invoice/invoice.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
+import {CustomerService} from '@core/services/customer/customer.service';
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import {LoggerServiceService} from '@core/services/logger-service/logger-service
         HeaderModule,
         FormsModule,
         IntlModule,
+        DropDownListModule,
     ],
     providers: [
         PrintService,
@@ -32,7 +35,8 @@ import {LoggerServiceService} from '@core/services/logger-service/logger-service
         RoomService,
         ModalService,
         InvoiceService,
-        LoggerServiceService
+        LoggerServiceService,
+        CustomerService
     ],
     declarations: [InvoiceComponent, InvoiceFormComponent],
     entryComponents: [
