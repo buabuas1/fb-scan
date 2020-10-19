@@ -63,7 +63,7 @@ export class InvoiceFormComponent implements OnInit {
                totalPrice: p.price,
                product: p,
                name: p.name,
-               unit: p.unit
+               unit: p.unit,
            } as InvoiceDetailModel;
            return ivd;
         });

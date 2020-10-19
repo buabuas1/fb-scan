@@ -31,6 +31,11 @@
                     <label>{{dataItem.totalPrice}}</label>
                 </ng-template>
             </kendo-grid-column>
+            <kendo-grid-column title="Ghi chú">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <textarea class="w-75" type="number" [(ngModel)]="dataItem.note"></textarea>
+                </ng-template>
+            </kendo-grid-column>
         </kendo-grid>
         <div>Tổng: {{invoice.total | kendoNumber}}</div>
     </div>

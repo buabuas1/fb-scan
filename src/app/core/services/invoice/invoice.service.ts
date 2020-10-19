@@ -5,6 +5,7 @@ import {InvoiceModel} from '@models/manage/invoice.model';
 import {InvoiceDetailModel} from '@models/manage/invoice.detail.model';
 import {RoomModel} from '@models/manage/room.model';
 import {InvoiceDBModel} from '@models/db/invoice.DB.model';
+import {InvoiceDetailDBModel} from '@models/db/invoice.detail.DB.model';
 
 @Injectable()
 export class InvoiceService {
@@ -38,7 +39,17 @@ export class InvoiceService {
             code: invoice.code,
             customer: invoice.customer._id,
             room: invoice.room._id,
-            total: invoice.total
+            total: invoice.total,
+            item: invoice.item.map(i => {
+                return {
+                    product: i.product._id,
+                    quantity: i.quantity,
+                    price: i.price,
+                    totalPrice: i.totalPrice,
+                    unit: i.unit,
+                    note: i.note,
+                } as InvoiceDetailDBModel;
+            })
         } as InvoiceDBModel;
         return this.httpClient.post(this.host + 'api/invoice', invoiceDB);
     }

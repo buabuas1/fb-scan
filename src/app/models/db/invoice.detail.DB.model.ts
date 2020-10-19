@@ -1,10 +1,9 @@
 import {HouseModel} from '@models/manage/house.model';
 import {ProductModel} from '@models/manage/product.model';
 
-export class InvoiceDetailModel {
+export class InvoiceDetailDBModel {
     _id: string;
-    name: string;
-    product: ProductModel;
+    product: string;
     quantity: number;
     price: number;
     totalPrice: number;
