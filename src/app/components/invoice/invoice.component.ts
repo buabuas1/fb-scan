@@ -8,6 +8,7 @@ import {RoomModel} from '@models/manage/room.model';
 import {ModalService} from '@core/services/modal/modal.service';
 import {AreaFormComponent} from '../dashboard/component/area-form/area-form.component';
 import {InvoiceFormComponent} from './component/invoice-form/invoice-form.component';
+import {InvoiceService} from '@core/services/invoice/invoice.service';
 
 @Component({
     selector: 'app-hr',
@@ -25,7 +26,8 @@ export class InvoiceComponent implements OnInit {
         private printService: PrintService,
         private productService: ProductService,
         private roomService: RoomService,
-        private modalService: ModalService
+        private modalService: ModalService,
+        private invoiceService: InvoiceService
     ) {
     }
 
@@ -109,6 +111,7 @@ export class InvoiceComponent implements OnInit {
             component: InvoiceFormComponent,
             inputs: [{key: 'room', value: $event.dataItem}],
             onSubmit: (area) => {
+                this.invoiceService.invoiceChange$.next();
             },
             onModalClose: () => {
 

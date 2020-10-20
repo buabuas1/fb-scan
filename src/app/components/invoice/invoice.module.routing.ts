@@ -6,13 +6,14 @@ import {AppComponent} from '../../app.component';
 import {HeaderComponent} from '../header';
 import {AuthGuard} from '@core/services/auth/auth.guard';
 import {InvoiceComponent} from './invoice.component';
+import {SuperAdminGuard} from '@core/services/auth';
 
 const mainRoutes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        canActivate: [SuperAdminGuard],
+        canActivateChild: [SuperAdminGuard],
         component: InvoiceComponent,
         outlet: 'body'
     },

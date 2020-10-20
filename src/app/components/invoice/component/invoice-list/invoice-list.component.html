@@ -1,4 +1,3 @@
-<p>Danh sách phòng</p>
 <kendo-grid [data]="gridView"
             [pageSize]="pageSize"
             [skip]="skip"
@@ -12,22 +11,20 @@
             <div>{{rowIndex + 1}}</div>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="name" title="Tên phòng">
+    <kendo-grid-column field="code" title="Mã hóa đơn">
     </kendo-grid-column>
-    <kendo-grid-column title="Nhà">
+    <kendo-grid-column field="room.house.name" title="Nhà">
+    </kendo-grid-column>
+    <kendo-grid-column field="room.name" title="Phòng">
+    </kendo-grid-column>
+    <kendo-grid-column title="Tổng tiền">
         <ng-template kendoGridCellTemplate let-dataItem>
-            <div [innerHTML]="dataItem.house.name"></div>
+            <label>{{kendo.toString(dataItem.total, 'n0')}}</label>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="commentCount" title="Các loại khoản thu">
+    <kendo-grid-column title="Ngày tạo">
         <ng-template kendoGridCellTemplate let-dataItem>
-            <div>{{makeProductString(dataItem)}}</div>
+            <label>{{kendo.toString(dataItem.createdDate, 'dd/MM/yyyy HH:mm')}}</label>
         </ng-template>
     </kendo-grid-column>
 </kendo-grid>
-
-
-<div class="border-top border-dark mt-4">
-    <p>Danh sách hóa đơn</p>
-    <app-invoice-list></app-invoice-list>
-</div>

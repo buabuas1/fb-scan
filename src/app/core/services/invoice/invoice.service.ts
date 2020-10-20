@@ -6,15 +6,16 @@ import {InvoiceDetailModel} from '@models/manage/invoice.detail.model';
 import {RoomModel} from '@models/manage/room.model';
 import {InvoiceDBModel} from '@models/db/invoice.DB.model';
 import {InvoiceDetailDBModel} from '@models/db/invoice.detail.DB.model';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class InvoiceService {
     private host = environment.beHost;
-
+    public invoiceChange$ = new Subject();
     constructor(private httpClient: HttpClient) {
     }
 
-    getInvoice(postTime: Date, groupIds: string, option: any) {
+    getInvoice() {
         return this.httpClient.get(this.host + 'api/invoice');
     }
 

@@ -12,4 +12,5 @@ export class InvoiceModel {
     customer: CustomerModel;
     house: HouseModel;
     room: RoomModel;
+    createdDate: Date;
 }

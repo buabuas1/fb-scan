@@ -10,6 +10,7 @@ import {ConfirmComponent} from '../common/confirm/confirm.component';
 import {BsModalService} from 'ngx-bootstrap';
 import {GridModule} from '@progress/kendo-angular-grid';
 import {SharedModule as KendoShare} from '@progress/kendo-angular-grid';
+import { BaseComponent } from './base/base.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import {SharedModule as KendoShare} from '@progress/kendo-angular-grid';
         KendoDateTimePickerDirective,
         KendoDatePickerDirective,
         ModalComponent,
-        ConfirmComponent
+        ConfirmComponent,
+        BaseComponent
     ],
     exports: [
         PageNotFoundComponent,

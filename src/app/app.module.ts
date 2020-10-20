@@ -23,6 +23,7 @@ import {MyHttpInterceptor} from './common/http/httpinterceptor';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {PrintService} from '@core/services/print/print.service';
 import {PrintTemplateService} from '@core/services/print/print-template.service';
+import {IntlModule} from '@progress/kendo-angular-intl';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,8 @@ import {PrintTemplateService} from '@core/services/print/print-template.service'
         true ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
         ToastrModule.forRoot(),
         HttpClientModule,
-        ChartsModule
+        ChartsModule,
+        IntlModule
     ],
     providers: [
         BsModalService,
