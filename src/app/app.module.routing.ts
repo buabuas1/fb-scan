@@ -48,6 +48,10 @@ const mainRoutes: Routes = [
         loadChildren: 'app/components/group-manage/group-manage.module#GroupManageModule'
     },
     {
+        path: 'room',
+        loadChildren: 'app/components/room/room.module#RoomModule'
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     },
