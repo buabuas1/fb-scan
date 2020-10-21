@@ -60,7 +60,7 @@ export class InvoiceListComponent extends BaseComponent implements OnInit {
         this.invoiceService.getInvoice()
             .subscribe((rs: any) => {
                 this.data = rs.map(p => {
-                    p.createdDate = new Date(p.createdDate);
+                    // p.createdDate = new Date(p.createdDate);
                     return p as InvoiceModel;
                 });
                 this.viewData = this.data;

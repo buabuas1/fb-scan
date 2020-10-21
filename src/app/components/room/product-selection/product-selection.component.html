@@ -1,5 +1,3 @@
-<p>Danh sách phòng</p>
-<button class="btn btn-sm btn-success" (click)="addRoom()">Thêm mới phòng</button>
 <kendo-grid [data]="gridView"
             [pageSize]="pageSize"
             [skip]="skip"
@@ -13,16 +11,10 @@
             <div>{{rowIndex + 1}}</div>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="name" title="Tên phòng">
+    <kendo-grid-column field="name" title="Tên khoản thu">
     </kendo-grid-column>
-    <kendo-grid-column title="Nhà">
-        <ng-template kendoGridCellTemplate let-dataItem>
-            <div [innerHTML]="dataItem.house.name"></div>
-        </ng-template>
+    <kendo-grid-column field="unit" title="Đơn vị">
     </kendo-grid-column>
-    <kendo-grid-column field="commentCount" title="Các loại khoản thu">
-        <ng-template kendoGridCellTemplate let-dataItem>
-            <div>{{makeProductString(dataItem)}}</div>
-        </ng-template>
+    <kendo-grid-column field="price" title="Giá">
     </kendo-grid-column>
 </kendo-grid>

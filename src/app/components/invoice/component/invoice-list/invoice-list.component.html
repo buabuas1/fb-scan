@@ -24,7 +24,7 @@
     </kendo-grid-column>
     <kendo-grid-column title="Ngày tạo">
         <ng-template kendoGridCellTemplate let-dataItem>
-            <label>{{kendo.toString(dataItem.createdDate, 'dd/MM/yyyy HH:mm')}}</label>
+            <label>{{dataItem.createdDate | kendoDate: 'dd/MM/yyyy HH:mm'}}</label>
         </ng-template>
     </kendo-grid-column>
 </kendo-grid>

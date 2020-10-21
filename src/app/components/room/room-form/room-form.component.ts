@@ -5,18 +5,22 @@ import {ProductModel} from '@models/manage/product.model';
 import {InvoiceDetailModel} from '@models/manage/invoice.detail.model';
 import {InvoiceModel} from '@models/manage/invoice.model';
 import {PrintService} from '@core/services/print/print.service';
-import {invoicePrintTemplate, PrintTypes} from '../../../../common/constants';
+import {invoicePrintTemplate, PrintTypes} from '../../../common/constants';
 import {InvoiceService} from '@core/services/invoice/invoice.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {CustomerModel} from '@models/manage/customer.model';
 import {CustomerService} from '@core/services/customer/customer.service';
+import {HouseService} from '@core/services/house/house.service';
+import {HouseModel} from '@models/manage/house.model';
+import {ModalService} from '@core/services/modal/modal.service';
+import {ProductSelectionComponent} from '../product-selection/product-selection.component';
 
 @Component({
     selector: 'app-invoice-form',
-    templateUrl: './invoice-form.component.html',
-    styleUrls: ['./invoice-form.component.scss']
+    templateUrl: './room-form.component.html',
+    styleUrls: ['./room-form.component.scss']
 })
-export class InvoiceFormComponent implements OnInit {
+export class RoomFormComponent implements OnInit {
     @Output() close: EventEmitter<void> = new EventEmitter<void>();
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     @Input() room: RoomModel;
@@ -26,15 +30,19 @@ export class InvoiceFormComponent implements OnInit {
     public skip = 0;
     private invoice: InvoiceModel;
     public listCustomer: Array<CustomerModel> = [];
+    public listHouse: Array<HouseModel> = [];
     constructor(private printService: PrintService,
                 private invoiceService: InvoiceService,
                 private loggerService: LoggerServiceService,
-                private customerService: CustomerService) {
+                private customerService: CustomerService,
+                private houseService: HouseService,
+                private modalService: ModalService) {
     }
 
     ngOnInit() {
-        this.makeInvoice();
+        this.makeRoomProductGrid();
         this.getCustomerFromApi();
+        this.getHouseFromApi();
     }
 
     onSave() {
@@ -51,13 +59,16 @@ export class InvoiceFormComponent implements OnInit {
         this.close.emit();
     }
 
-    private makeInvoice(): void {
-        const detailItems = this.makeDetailItem(this.room.item);
-        this.gridView = {
-            data: detailItems.slice(this.skip, this.skip + this.pageSize),
-            total: detailItems.length
-        };
-        this.invoice = this.invoiceService.makeInvoice(detailItems, this.room);
+    private makeRoomProductGrid(): void {
+        // const detailItems = this.makeDetailItem(this.room.item);
+        if (this.room.item) {
+            this.gridView = {
+                data: this.room.item.slice(this.skip, this.skip + this.pageSize),
+                total: this.room.item.length
+            };
+        }
+
+        // this.invoice = this.invoiceService.makeInvoice(detailItems, this.room);
     }
 
     private makeDetailItem(data: Array<ProductModel>) {
@@ -100,5 +111,29 @@ export class InvoiceFormComponent implements OnInit {
             .subscribe(rs => {
                 this.listCustomer = rs as CustomerModel[];
             });
+    }
+
+    public getHouseFromApi() {
+        this.houseService.getHouse()
+            .subscribe(rs => {
+                this.listHouse = rs as HouseModel[];
+            });
+    }
+
+    public addProduct() {
+        this.modalService.openModal({
+            title: 'Sửa phòng',
+            component: ProductSelectionComponent,
+            inputs: [{key: 'room', value: this.room.item}],
+            onSubmit: (area) => {
+            },
+            onModalClose: () => {
+
+            }
+        }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
+    }
+
+    public onSaveRoom() {
+
     }
 }

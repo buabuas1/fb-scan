@@ -1,11 +1,23 @@
 <div>
     <div class="pl-3">
-        <div>Phòng: {{room.name}}</div>
-        <div>Khách hàng:
+        <div>
+            <label class="w-25">Nhà:</label>
+            <kendo-dropdownlist [data]="listHouse" [(ngModel)]="room.house"
+                                (valueChange)="onCustomerChange($event)" [textField]="'name'" [valueField]="'_id'">
+            </kendo-dropdownlist>
+        </div>
+        <div>
+            <label class="w-25">Phòng:</label><input [(ngModel)]="room.name">
+        </div>
+        <div>
+            <label class="w-25">Khách hàng:</label>
             <kendo-dropdownlist [data]="listCustomer" [(ngModel)]="room.customer"
                                 (valueChange)="onCustomerChange($event)" [textField]="'name'" [valueField]="'_id'">
             </kendo-dropdownlist>
         </div>
+        <button class="btn btn-sm btn-success" (click)="addProduct()">Thêm khoản thu</button>
+        <button class="btn btn-sm btn-primary" (click)="onPrint()">In hóa đơn</button>
+        <button class="btn btn-sm btn-success" (click)="onSave()">Tạo hóa đơn</button>
         <kendo-grid [data]="gridView"
                     [pageSize]="pageSize"
                     [skip]="skip"
@@ -41,11 +53,9 @@
                 </ng-template>
             </kendo-grid-column>
         </kendo-grid>
-        <div>Tổng: {{invoice.total | kendoNumber}}</div>
     </div>
     <div class="d-flex justify-content-end">
-        <button class="btn btn-sm btn-success" (click)="onPrint()">In hóa đơn</button>
-        <button class="btn btn-sm btn-success" (click)="onSave()">Tạo hóa đơn</button>
+        <button class="btn btn-sm btn-success" (click)="onSaveRoom()">Save</button>
         <button class="btn btn-sm btn-dark" (click)="onCancel()">Cancel</button>
     </div>
 </div>

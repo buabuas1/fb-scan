@@ -1,33 +1,4 @@
-<p>Danh sách phòng</p>
-<kendo-grid [data]="gridView"
-            [pageSize]="pageSize"
-            [skip]="skip"
-            [resizable]="true"
-            [pageable]="true"
-            style="height: 100%"
-            (cellClick)="onItemSelect($event)"
-            (pageChange)="pageChange($event)">
-    <kendo-grid-column title="STT" width="60">
-        <ng-template kendoGridCellTemplate let-dataItem, let-rowIndex="rowIndex">
-            <div>{{rowIndex + 1}}</div>
-        </ng-template>
-    </kendo-grid-column>
-    <kendo-grid-column field="name" title="Tên phòng">
-    </kendo-grid-column>
-    <kendo-grid-column title="Nhà">
-        <ng-template kendoGridCellTemplate let-dataItem>
-            <div [innerHTML]="dataItem.house.name"></div>
-        </ng-template>
-    </kendo-grid-column>
-    <kendo-grid-column field="commentCount" title="Các loại khoản thu">
-        <ng-template kendoGridCellTemplate let-dataItem>
-            <div>{{makeProductString(dataItem)}}</div>
-        </ng-template>
-    </kendo-grid-column>
-</kendo-grid>
-
-
-<div class="border-top border-dark mt-4">
+<div class="mt-4">
     <p>Danh sách hóa đơn</p>
     <app-invoice-list></app-invoice-list>
 </div>

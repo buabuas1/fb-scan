@@ -17,6 +17,10 @@ import {LoggerServiceService} from '@core/services/logger-service/logger-service
 import {CustomerService} from '@core/services/customer/customer.service';
 import {SuperAdminGuard} from '@core/services/auth';
 import {RoomModuleRouting} from './room.module.routing';
+import {InvoiceModule} from '../invoice/invoice.module';
+import {RoomFormComponent} from './room-form/room-form.component';
+import {HouseService} from '@core/services/house/house.service';
+import { ProductSelectionComponent } from './product-selection/product-selection.component';
 
 @NgModule({
     imports: [
@@ -27,7 +31,7 @@ import {RoomModuleRouting} from './room.module.routing';
         HeaderModule,
         FormsModule,
         IntlModule,
-        DropDownListModule,
+        DropDownListModule
     ],
     providers: [
         PrintService,
@@ -37,9 +41,17 @@ import {RoomModuleRouting} from './room.module.routing';
         InvoiceService,
         LoggerServiceService,
         CustomerService,
-        SuperAdminGuard
+        SuperAdminGuard,
+        HouseService
     ],
-    declarations: [RoomComponent]
+    declarations: [RoomComponent,
+        RoomFormComponent,
+        ProductSelectionComponent
+    ],
+    entryComponents: [
+        RoomFormComponent,
+        ProductSelectionComponent
+    ]
 })
 export class RoomModule {
 }

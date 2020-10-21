@@ -7,7 +7,7 @@ import {RoomService} from '@core/services/room/room.service';
 import {RoomModel} from '@models/manage/room.model';
 import {ModalService} from '@core/services/modal/modal.service';
 import {AreaFormComponent} from '../dashboard/component/area-form/area-form.component';
-import {InvoiceFormComponent} from './component/invoice-form/invoice-form.component';
+import {RoomFormComponent} from '../room/room-form/room-form.component';
 import {InvoiceService} from '@core/services/invoice/invoice.service';
 
 @Component({
@@ -16,12 +16,6 @@ import {InvoiceService} from '@core/services/invoice/invoice.service';
     styleUrls: ['./invoice.component.scss']
 })
 export class InvoiceComponent implements OnInit {
-    public gridView: GridDataResult;
-    public pageSize = 5;
-    public skip = 0;
-    private data: Array<RoomModel> = [];
-    private viewData: Array<RoomModel> = [];
-
     constructor(
         private printService: PrintService,
         private productService: ProductService,
@@ -32,7 +26,6 @@ export class InvoiceComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getDataFromApi();
     }
 
     public print() {
@@ -73,49 +66,5 @@ export class InvoiceComponent implements OnInit {
             HouseName: '38 Ngô sỹ Liên',
             HouseAddress: '17 ngõ 38 Ngô Sỹ Liên, Văn Miếu, Đống Đa'
         });
-    }
-
-    getDataFromApi() {
-        this.roomService.getRoom()
-            .subscribe(rs => {
-                this.data = rs as RoomModel[];
-                this.viewData = this.data;
-                this.initData();
-            });
-    }
-
-    public pageChange(event: PageChangeEvent): void {
-        this.skip = event.skip;
-        this.loadItems();
-    }
-
-    private loadItems(): void {
-        this.gridView = {
-            data: this.viewData.slice(this.skip, this.skip + this.pageSize),
-            total: this.viewData.length
-        };
-    }
-
-    private initData() {
-        this.loadItems();
-    }
-
-    public makeProductString(dataItem: RoomModel) {
-        const rs = dataItem.item.map(i => `${i.name}: ${i.price}`).join(',');
-        return rs.substring(0, rs.length - 2);
-    }
-
-    onItemSelect($event: CellClickEvent) {
-        this.modalService.openModal({
-            title: 'Tạo hóa đơn',
-            component: InvoiceFormComponent,
-            inputs: [{key: 'room', value: $event.dataItem}],
-            onSubmit: (area) => {
-                this.invoiceService.invoiceChange$.next();
-            },
-            onModalClose: () => {
-
-            }
-        }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
     }
 }

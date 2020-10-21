@@ -8,7 +8,7 @@ import {HeaderModule} from '../header';
 import {PrintService} from '@core/services/print/print.service';
 import {ProductService} from '@core/services/product/product.service';
 import {RoomService} from '@core/services/room/room.service';
-import { InvoiceFormComponent } from './component/invoice-form/invoice-form.component';
+import { RoomFormComponent } from '../room/room-form/room-form.component';
 import {ModalService} from '@core/services/modal/modal.service';
 import {FormsModule} from '@angular/forms';
 import {IntlModule, IntlService} from '@progress/kendo-angular-intl';
@@ -41,9 +41,8 @@ import { InvoiceListComponent } from './component/invoice-list/invoice-list.comp
         CustomerService,
         SuperAdminGuard
     ],
-    declarations: [InvoiceComponent, InvoiceFormComponent, InvoiceListComponent],
+    declarations: [InvoiceComponent, InvoiceListComponent],
     entryComponents: [
-        InvoiceFormComponent
     ]
 })
 export class InvoiceModule {
