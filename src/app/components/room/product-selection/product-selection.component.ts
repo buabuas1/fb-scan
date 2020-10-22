@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RoomModel} from '@models/manage/room.model';
 import {ProductModel} from '@models/manage/product.model';
-import {CellClickEvent, GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
+import {CellClickEvent, GridDataResult, PageChangeEvent, SelectAllCheckboxState} from '@progress/kendo-angular-grid';
 import {ProductService} from '@core/services/product/product.service';
 
 @Component({
@@ -14,7 +14,9 @@ export class ProductSelectionComponent implements OnInit {
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     @Input() items: Array<ProductModel>;
     public gridView: GridDataResult;
-    public pageSize = 5;
+    public mySelection: string[] = [];
+    public selectAllState: SelectAllCheckboxState = 'unchecked';
+    public pageSize = 10;
     public skip = 0;
 
     constructor(private productService: ProductService) {
@@ -41,6 +43,7 @@ export class ProductSelectionComponent implements OnInit {
             .subscribe(rs => {
                 this.items = rs as ProductModel[];
                 this.makeRoomProductGrid();
+                this.loadItems();
             });
     }
 
@@ -48,7 +51,46 @@ export class ProductSelectionComponent implements OnInit {
 
     }
 
-    pageChange($event: PageChangeEvent) {
 
+    public onSelectedKeysChange(e) {
+        const len = this.mySelection.length;
+
+        if (len === 0) {
+            this.selectAllState = 'unchecked';
+        } else if (len > 0 && len < this.items.length) {
+            this.selectAllState = 'indeterminate';
+        } else {
+            this.selectAllState = 'checked';
+        }
+    }
+
+    public onSelectAllChange(checkedState: SelectAllCheckboxState) {
+        if (checkedState === 'checked') {
+            this.mySelection = this.items.map((item) => item._id);
+            this.selectAllState = 'checked';
+        } else {
+            this.mySelection = [];
+            this.selectAllState = 'unchecked';
+        }
+    }
+
+    public pageChange(event: PageChangeEvent): void {
+        this.skip = event.skip;
+        this.loadItems();
+    }
+
+    private loadItems(): void {
+        this.gridView = {
+            data: this.items.slice(this.skip, this.skip + this.pageSize),
+            total: this.items.length
+        };
+    }
+
+    public onProduct() {
+        this.submit.emit(this.items.filter(i => this.mySelection.indexOf(i._id) !== -1));
+    }
+
+    public onCancel() {
+        this.close.emit();
     }
 }

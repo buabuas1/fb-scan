@@ -1,20 +1,28 @@
-<kendo-grid [data]="gridView"
-            [pageSize]="pageSize"
-            [skip]="skip"
-            [resizable]="true"
-            [pageable]="true"
-            style="height: 100%"
-            (cellClick)="onItemSelect($event)"
-            (pageChange)="pageChange($event)">
-    <kendo-grid-column title="STT" width="60">
-        <ng-template kendoGridCellTemplate let-dataItem, let-rowIndex="rowIndex">
-            <div>{{rowIndex + 1}}</div>
+<kendo-grid
+    [data]="gridView"
+    [pageSize]="pageSize"
+    [skip]="skip"
+    [pageable]="true"
+    (pageChange)="pageChange($event)"
+    [height]="500"
+    [selectable]="{enabled: true, checkboxOnly: true }"
+    kendoGridSelectBy="_id"
+    [selectedKeys]="mySelection"
+    (selectedKeysChange)="onSelectedKeysChange($event)"
+>
+    <kendo-grid-checkbox-column>
+        <ng-template kendoGridHeaderTemplate>
+            <input class="k-checkbox" id="selectAllCheckboxId" kendoGridSelectAllCheckbox
+                   [state]="selectAllState"
+                   (selectAllChange)="onSelectAllChange($event)">
+            <label class="k-checkbox-label" for="selectAllCheckboxId"></label>
         </ng-template>
-    </kendo-grid-column>
-    <kendo-grid-column field="name" title="Tên khoản thu">
-    </kendo-grid-column>
-    <kendo-grid-column field="unit" title="Đơn vị">
-    </kendo-grid-column>
-    <kendo-grid-column field="price" title="Giá">
-    </kendo-grid-column>
+    </kendo-grid-checkbox-column>
+    <kendo-grid-column field="name" title="Tên" [width]="300"></kendo-grid-column>
+    <kendo-grid-column field="unit" title="Đơn vị"></kendo-grid-column>
+    <kendo-grid-column field="price" title="Giá"></kendo-grid-column>
 </kendo-grid>
+<div class="d-flex justify-content-end">
+    <button class="btn btn-sm btn-success" (click)="onProduct()">Save</button>
+    <button class="btn btn-sm btn-dark" (click)="onCancel()">Cancel</button>
+</div>

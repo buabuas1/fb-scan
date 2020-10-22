@@ -21,6 +21,7 @@ import {InvoiceModule} from '../invoice/invoice.module';
 import {RoomFormComponent} from './room-form/room-form.component';
 import {HouseService} from '@core/services/house/house.service';
 import { ProductSelectionComponent } from './product-selection/product-selection.component';
+import {BodyModule} from '@progress/kendo-angular-grid';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { ProductSelectionComponent } from './product-selection/product-selection
         HeaderModule,
         FormsModule,
         IntlModule,
-        DropDownListModule
+        DropDownListModule,
+        BodyModule
     ],
     providers: [
         PrintService,
