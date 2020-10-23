@@ -1,8 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RoomModel} from '@models/manage/room.model';
 import {ProductModel} from '@models/manage/product.model';
-import {CellClickEvent, GridDataResult, PageChangeEvent, SelectAllCheckboxState} from '@progress/kendo-angular-grid';
+import {
+    CellClickEvent,
+    DataStateChangeEvent,
+    GridDataResult,
+    PageChangeEvent,
+    SelectAllCheckboxState
+} from '@progress/kendo-angular-grid';
 import {ProductService} from '@core/services/product/product.service';
+import {process, State} from '@progress/kendo-data-query';
 
 @Component({
     selector: 'app-product-selection',
@@ -16,8 +23,16 @@ export class ProductSelectionComponent implements OnInit {
     public gridView: GridDataResult;
     public mySelection: string[] = [];
     public selectAllState: SelectAllCheckboxState = 'unchecked';
-    public pageSize = 10;
-    public skip = 0;
+    public state: State = {
+        skip: 0,
+        take: 5,
+
+        // Initial filter descriptor
+        filter: {
+            logic: 'and',
+            filters: [{ field: 'name', operator: 'contains', value: '' }]
+        }
+    };
 
     constructor(private productService: ProductService) {
     }
@@ -26,23 +41,23 @@ export class ProductSelectionComponent implements OnInit {
         this.getProductFromApi();
     }
 
-    private makeRoomProductGrid(): void {
-        // const detailItems = this.makeDetailItem(this.room.item);
-        if (this.items) {
-            this.gridView = {
-                data: this.items.slice(this.skip, this.skip + this.pageSize),
-                total: this.items.length
-            };
-        }
-
-        // this.invoice = this.invoiceService.makeInvoice(detailItems, this.room);
-    }
+    // private makeRoomProductGrid(): void {
+    //     // const detailItems = this.makeDetailItem(this.room.item);
+    //     if (this.items) {
+    //         this.gridView = {
+    //             data: this.items.slice(this.state.skip, this.state.take),
+    //             total: this.items.length
+    //         };
+    //     }
+    //
+    //     // this.invoice = this.invoiceService.makeInvoice(detailItems, this.room);
+    // }
 
     private getProductFromApi() {
         this.productService.getProduct()
             .subscribe(rs => {
                 this.items = rs as ProductModel[];
-                this.makeRoomProductGrid();
+                // this.makeRoomProductGrid();
                 this.loadItems();
             });
     }
@@ -75,15 +90,12 @@ export class ProductSelectionComponent implements OnInit {
     }
 
     public pageChange(event: PageChangeEvent): void {
-        this.skip = event.skip;
+        this.state.skip = event.skip;
         this.loadItems();
     }
 
     private loadItems(): void {
-        this.gridView = {
-            data: this.items.slice(this.skip, this.skip + this.pageSize),
-            total: this.items.length
-        };
+        this.gridView = process(this.items, this.state);
     }
 
     public onProduct() {
@@ -92,5 +104,10 @@ export class ProductSelectionComponent implements OnInit {
 
     public onCancel() {
         this.close.emit();
+    }
+
+    public dataStateChange(state: DataStateChangeEvent): void {
+        this.state = state;
+        this.gridView = process(this.items, this.state);
     }
 }

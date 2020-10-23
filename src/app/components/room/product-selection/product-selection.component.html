@@ -1,14 +1,17 @@
 <kendo-grid
     [data]="gridView"
-    [pageSize]="pageSize"
-    [skip]="skip"
+    [pageSize]="state.take"
+    [skip]="state.skip"
     [pageable]="true"
     (pageChange)="pageChange($event)"
     [height]="500"
     [selectable]="{enabled: true, checkboxOnly: true }"
     kendoGridSelectBy="_id"
     [selectedKeys]="mySelection"
+    [filter]="state.filter"
+    [filterable]="true"
     (selectedKeysChange)="onSelectedKeysChange($event)"
+    (dataStateChange)="dataStateChange($event)"
 >
     <kendo-grid-checkbox-column>
         <ng-template kendoGridHeaderTemplate>
@@ -19,8 +22,8 @@
         </ng-template>
     </kendo-grid-checkbox-column>
     <kendo-grid-column field="name" title="Tên" [width]="300"></kendo-grid-column>
-    <kendo-grid-column field="unit" title="Đơn vị"></kendo-grid-column>
-    <kendo-grid-column field="price" title="Giá"></kendo-grid-column>
+    <kendo-grid-column field="unit" title="Đơn vị" [filterable]="false"></kendo-grid-column>
+    <kendo-grid-column field="price" title="Giá" [filterable]="false"></kendo-grid-column>
 </kendo-grid>
 <div class="d-flex justify-content-end">
     <button class="btn btn-sm btn-success" (click)="onProduct()">Save</button>

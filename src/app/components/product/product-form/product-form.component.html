@@ -10,9 +10,9 @@
     </div>
     <div>
         <label class="w-25">Loại:</label>
-<!--        <kendo-dropdownlist [data]="listCustomer" [(ngModel)]="room.customer"-->
-<!--                            (valueChange)="onCustomerChange($event)" [textField]="'name'" [valueField]="'_id'">-->
-<!--        </kendo-dropdownlist>-->
+        <kendo-dropdownlist [data]="listType" [(ngModel)]="product.type" [valuePrimitive]="true"
+                            (valueChange)="onTypeChange($event)" [textField]="'name'" [valueField]="'_id'">
+        </kendo-dropdownlist>
     </div>
     <div class="d-flex justify-content-end">
         <button class="btn btn-sm btn-success" (click)="onSave()">Save</button>

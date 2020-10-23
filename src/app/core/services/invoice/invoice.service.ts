@@ -47,7 +47,6 @@ export class InvoiceService {
                     quantity: i.quantity,
                     price: i.price,
                     totalPrice: i.totalPrice,
-                    unit: i.unit,
                     note: i.note,
                 } as InvoiceDetailDBModel;
             })

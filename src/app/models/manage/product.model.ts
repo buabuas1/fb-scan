@@ -5,4 +5,5 @@ export class ProductModel {
     createdDate: Date;
     modifiedDate: Date;
     unit: string;
+    type: number;
 }

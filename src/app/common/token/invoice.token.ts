@@ -25,6 +25,9 @@ export let invoiceTokens: Array<any> = [
         value: '{Ten_Nha}', text: '#: data.house ? data.house.name : "" #'
     },
     {
+        value: '{Ma_Phong}', text: '#: data.room ? data.room.name : "" #'
+    },
+    {
         value: '{Dia_Chi_Nha}', text: '#: data.house ? data.house.address : "" #'
     },
     {

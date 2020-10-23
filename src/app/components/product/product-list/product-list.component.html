@@ -1,3 +1,25 @@
-<div>
+<div class="mt-2">
     <button class="btn-success btn-sm" (click)="onAddProduct()">Thêm hàng hóa</button>
+    <kendo-grid [data]="gridView"
+                [pageSize]="pageSize"
+                [skip]="skip"
+                [resizable]="true"
+                [pageable]="true"
+                style="height: 100%"
+                (cellClick)="onItemSelect($event)"
+                (pageChange)="pageChange($event)">
+        <kendo-grid-column title="STT" width="60">
+            <ng-template kendoGridCellTemplate let-dataItem, let-rowIndex="rowIndex">
+                <div>{{rowIndex + 1}}</div>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="name" title="Tên" [width]="300"></kendo-grid-column>
+        <kendo-grid-column field="unit" title="Đơn vị"></kendo-grid-column>
+        <kendo-grid-column field="price" title="Giá"></kendo-grid-column>
+        <kendo-grid-column title="Loại">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <div>{{getType(dataItem.type)}}</div>
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid>
 </div>

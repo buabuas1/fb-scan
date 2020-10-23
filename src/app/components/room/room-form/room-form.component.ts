@@ -5,7 +5,7 @@ import {ProductModel} from '@models/manage/product.model';
 import {InvoiceDetailModel} from '@models/manage/invoice.detail.model';
 import {InvoiceModel} from '@models/manage/invoice.model';
 import {PrintService} from '@core/services/print/print.service';
-import {invoicePrintTemplate, PrintTypes} from '../../../common/constants';
+import {invoicePrintTemplate, PrintTypes, ProductTypesEnum} from '../../../common/constants';
 import {InvoiceService} from '@core/services/invoice/invoice.service';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {CustomerModel} from '@models/manage/customer.model';
@@ -14,6 +14,7 @@ import {HouseService} from '@core/services/house/house.service';
 import {HouseModel} from '@models/manage/house.model';
 import {ModalService} from '@core/services/modal/modal.service';
 import {ProductSelectionComponent} from '../product-selection/product-selection.component';
+import {RoomService} from '@core/services/room/room.service';
 
 @Component({
     selector: 'app-invoice-form',
@@ -25,18 +26,21 @@ export class RoomFormComponent implements OnInit {
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     @Input() room: RoomModel;
 
+    public kendo = (window as any).kendo;
     public gridView: GridDataResult;
-    public pageSize = 5;
+    public pageSize = 10;
     public skip = 0;
     private invoice: InvoiceModel;
     public listCustomer: Array<CustomerModel> = [];
     public listHouse: Array<HouseModel> = [];
+    public detailItems: InvoiceDetailModel[];
     constructor(private printService: PrintService,
                 private invoiceService: InvoiceService,
                 private loggerService: LoggerServiceService,
                 private customerService: CustomerService,
                 private houseService: HouseService,
-                private modalService: ModalService) {
+                private modalService: ModalService,
+                private roomService: RoomService) {
     }
 
     ngOnInit() {
@@ -60,27 +64,27 @@ export class RoomFormComponent implements OnInit {
     }
 
     private makeRoomProductGrid(): void {
-        // const detailItems = this.makeDetailItem(this.room.item);
+        this.detailItems = this.makeDetailItem(this.room.item);
         if (this.room.item) {
             this.gridView = {
-                data: this.room.item.slice(this.skip, this.skip + this.pageSize),
-                total: this.room.item.length
+                data: this.detailItems.slice(this.skip, this.skip + this.pageSize),
+                total: this.detailItems.length
             };
         }
 
-        // this.invoice = this.invoiceService.makeInvoice(detailItems, this.room);
+        this.invoice = this.invoiceService.makeInvoice(this.detailItems, this.room);
     }
 
     private makeDetailItem(data: Array<ProductModel>) {
         return data.map(p => {
            const ivd = {
-               quantity: 1,
+               quantity: p.type === ProductTypesEnum.ByPerson ? this.room.numberOfCustomer : 1,
                price: p.price,
-               totalPrice: p.price,
                product: p,
                name: p.name,
                unit: p.unit,
            } as InvoiceDetailModel;
+           ivd.totalPrice = ivd.quantity * ivd.price;
            return ivd;
         });
     }
@@ -99,6 +103,8 @@ export class RoomFormComponent implements OnInit {
     }
 
     public onPrint() {
+        // const detailItems = this.makeDetailItem(this.room.item);
+        // this.invoice = this.invoiceService.makeInvoice(this.detailItems, this.room);
         this.printService.printContent(invoicePrintTemplate, this.invoice, true, PrintTypes.Invoice);
     }
 
@@ -122,10 +128,12 @@ export class RoomFormComponent implements OnInit {
 
     public addProduct() {
         this.modalService.openModal({
-            title: 'Sửa phòng',
+            title: 'Chọn hàng',
             component: ProductSelectionComponent,
             inputs: [{key: 'room', value: this.room.item}],
-            onSubmit: (area) => {
+            onSubmit: (items) => {
+                this.room.item = [...this.room.item, ...items];
+                this.makeRoomProductGrid();
             },
             onModalClose: () => {
 
@@ -134,6 +142,10 @@ export class RoomFormComponent implements OnInit {
     }
 
     public onSaveRoom() {
-
+        this.roomService.saveRoom(this.room)
+            .subscribe(r => {
+                this.loggerService.success('Thành công');
+                this.submit.next(this.room);
+            }, error => this.loggerService.error(JSON.stringify(error)));
     }
 }

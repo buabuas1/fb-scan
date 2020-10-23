@@ -101,7 +101,7 @@ export class RoomComponent implements OnInit {
 
     public makeProductString(dataItem: RoomModel) {
         const rs = dataItem.item.map(i => `${i.name}: ${i.price}`).join(',');
-        return rs.substring(0, rs.length - 2);
+        return rs;
     }
 
     onItemSelect($event: CellClickEvent) {
@@ -110,6 +110,7 @@ export class RoomComponent implements OnInit {
             component: RoomFormComponent,
             inputs: [{key: 'room', value: $event.dataItem}],
             onSubmit: (area) => {
+                this.getDataFromApi();
             },
             onModalClose: () => {
 
@@ -123,6 +124,7 @@ export class RoomComponent implements OnInit {
             component: RoomFormComponent,
             inputs: [{key: 'room', value: {}}],
             onSubmit: (area) => {
+                this.getDataFromApi();
             },
             onModalClose: () => {
 
