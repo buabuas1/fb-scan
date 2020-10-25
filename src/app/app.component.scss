@@ -5,3 +5,25 @@
 .modal.fade {
     background: rgba(0,0,0,0.5);
 }
+.k-grid .k-hierarchy-cell {
+    width: 0;
+}
+
+.k-grid .k-header.k-hierarchy-cell {
+    border: none;
+}
+
+.k-grid .k-hierarchy-cell .k-icon {
+    display: none;
+}
+
+.k-grid .k-hierarchy-col {
+    width: 1px;
+}
+
+
+.invoice-list {
+    td, th {
+        border: 1px solid rgba(0,0,0,0.08);
+    }
+}

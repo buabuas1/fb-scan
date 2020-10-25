@@ -27,4 +27,27 @@
             <label>{{dataItem.createdDate | kendoDate: 'dd/MM/yyyy HH:mm'}}</label>
         </ng-template>
     </kendo-grid-column>
+    <ng-template kendoGridDetailTemplate let-dataItem>
+        <table class="invoice-list">
+            <tr>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+            <tr  *ngFor="let item of dataItem.item; index as i;">
+                <td>{{item.product.name}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.totalPrice}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{dataItem.total}}</td>
+            </tr>
+        </table>
+        <button class="btn-sm btn-success" (click)="printInvoice(dataItem)">In</button>
+    </ng-template>
 </kendo-grid>
