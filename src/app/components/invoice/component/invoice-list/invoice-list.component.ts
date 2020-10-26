@@ -8,6 +8,7 @@ import {IntlService} from '@progress/kendo-angular-intl';
 import {BaseComponent} from '@shared/base/base.component';
 import {PrintService} from '@core/services/print/print.service';
 import {invoicePrintTemplate, PrintTypes} from '../../../../common/constants';
+import {InvoiceDetailModel} from '@models/manage/invoice.detail.model';
 
 @Component({
     selector: 'app-invoice-list',
@@ -79,6 +80,27 @@ export class InvoiceListComponent extends BaseComponent implements OnInit {
     }
 
     public printInvoice(dataItem) {
-        this.printService.printContent(invoicePrintTemplate, dataItem, true, PrintTypes.Invoice);
+        const invoice = this.convertToInvoice(dataItem);
+        this.printService.printContent(invoicePrintTemplate, invoice, true, PrintTypes.Invoice);
+    }
+
+    private convertToInvoice(dataItem: any) {
+        return {
+            code: dataItem.code,
+            total: dataItem.total,
+            room: dataItem.room,
+            house: dataItem.room.house,
+            customer: dataItem.customer,
+            item: dataItem.item.map(i => {
+                return {
+                    price: i.price,
+                    quantity: i.quantity,
+                    totalPrice: i.totalPrice,
+                    unit: i.product.unit,
+                    name: i.product.name,
+                    note: i.note
+                } as InvoiceDetailModel;
+            })
+        } as InvoiceModel;
     }
 }

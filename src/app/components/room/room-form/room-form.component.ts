@@ -44,7 +44,6 @@ export class RoomFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.makeRoomProductGrid();
         this.getCustomerFromApi();
         this.getHouseFromApi();
     }
@@ -72,11 +71,13 @@ export class RoomFormComponent implements OnInit {
             };
         }
 
-        this.invoice = this.invoiceService.makeInvoice(this.detailItems, this.room);
+        this.invoice = this.invoiceService.makeInvoice(this.detailItems,
+            {...this.room, house: this.listHouse.find(h => this.room.house &&
+                    h._id === this.room.house._id)});
     }
 
     private makeDetailItem(data: Array<ProductModel>) {
-        return data.map(p => {
+        return data ? data.map(p => {
            const ivd = {
                quantity: p.type === ProductTypesEnum.ByPerson ? this.room.numberOfCustomer : 1,
                price: p.price,
@@ -86,7 +87,7 @@ export class RoomFormComponent implements OnInit {
            } as InvoiceDetailModel;
            ivd.totalPrice = ivd.quantity * ivd.price;
            return ivd;
-        });
+        }) : [];
     }
 
     onItemSelect($event: CellClickEvent) {
@@ -123,6 +124,7 @@ export class RoomFormComponent implements OnInit {
         this.houseService.getHouse()
             .subscribe(rs => {
                 this.listHouse = rs as HouseModel[];
+                this.makeRoomProductGrid();
             });
     }
 
@@ -130,9 +132,9 @@ export class RoomFormComponent implements OnInit {
         this.modalService.openModal({
             title: 'Chọn hàng',
             component: ProductSelectionComponent,
-            inputs: [{key: 'room', value: this.room.item}],
+            inputs: [{key: 'items', value: this.room.item}],
             onSubmit: (items) => {
-                this.room.item = [...this.room.item, ...items];
+                this.room.item = items;
                 this.makeRoomProductGrid();
             },
             onModalClose: () => {

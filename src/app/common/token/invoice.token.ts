@@ -31,6 +31,9 @@ export let invoiceTokens: Array<any> = [
         value: '{Dia_Chi_Nha}', text: '#: data.house ? data.house.address : "" #'
     },
     {
+        value: '{Chu_Nha}', text: '#: data.house && data.house.host ? (data.house.host.name + " - " + data.house.host.phone) : "" #'
+    },
+    {
         value: '{Tong_Tien_Can_Thu}', text: '#=kendo.toString(data.total, \'n0\') #'
     },
     {

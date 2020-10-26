@@ -26,6 +26,9 @@
                 <a class="nav-link" [routerLink]="['/product']" [routerLinkActive]="['active']">Hàng hóa</a>
             </li>
             <li class="nav-item" *ngIf="auth.isSuperAdmin()">
+                <a class="nav-link" [routerLink]="['/customer']" [routerLinkActive]="['active']">Khách hàng</a>
+            </li>
+            <li class="nav-item" *ngIf="auth.isSuperAdmin()">
                 <a class="nav-link" [routerLink]="['/token']" [routerLinkActive]="['active']">Quản lý tokens</a>
             </li>
             <li class="nav-item">

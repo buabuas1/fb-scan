@@ -192,8 +192,8 @@ export const invoicePrintTemplate = `
                 <div style="border-bottom:1px solid black; height:10px">&nbsp;</div>
                 <div style="border-bottom:1px solid black; height:5px">&nbsp;</div>
 
-                <div style="text-align:center"><br/>
-                    &nbsp;
+                <div style="text-align:right"><br/>
+                    &nbsp;Liên hệ: {Chu_Nha}
                 </div>
             </kv-print-div>
         </kv-print-div>

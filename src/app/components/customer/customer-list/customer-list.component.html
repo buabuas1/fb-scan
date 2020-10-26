@@ -1,0 +1,20 @@
+<p>Danh sách khách hàng</p>
+<button class="btn btn-sm btn-success" (click)="addCustomer()">Thêm khách hàng</button>
+<kendo-grid [data]="gridView"
+            [pageSize]="pageSize"
+            [skip]="skip"
+            [resizable]="true"
+            [pageable]="true"
+            style="height: 100%"
+            (cellClick)="onItemSelect($event)"
+            (pageChange)="pageChange($event)">
+    <kendo-grid-column title="STT" width="60">
+        <ng-template kendoGridCellTemplate let-dataItem, let-rowIndex="rowIndex">
+            <div>{{rowIndex + 1}}</div>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="name" title="Tên">
+    </kendo-grid-column>
+    <kendo-grid-column field="phone" title="Số điện thoại">
+    </kendo-grid-column>
+</kendo-grid>

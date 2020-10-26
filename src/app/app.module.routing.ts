@@ -56,6 +56,10 @@ const mainRoutes: Routes = [
         loadChildren: 'app/components/product/product.module#ProductModule'
     },
     {
+        path: 'customer',
+        loadChildren: 'app/components/customer/customer.module#CustomerModule'
+    },
+    {
         path: '**',
         component: PageNotFoundComponent
     },

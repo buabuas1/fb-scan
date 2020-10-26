@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
+import {CustomerModel} from '@models/manage/customer.model';
 
 @Injectable()
 export class CustomerService {
@@ -13,5 +14,9 @@ export class CustomerService {
         } else {
             return this.httpClient.get(this.host + `api/customer/${id}`);
         }
+    }
+
+    saveCustomer(customer: CustomerModel) {
+        return this.httpClient.post(this.host + 'api/customer', customer);
     }
 }

@@ -38,6 +38,7 @@ export class ProductSelectionComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.mySelection = this.items ? this.items.map(i => i._id) : [];
         this.getProductFromApi();
     }
 
