@@ -16,16 +16,17 @@ import {getIdFromErrorMessage, getMessageFromError} from '../../common/util';
 import {ToolKitService} from '@core/services/tool-kit/tool-kit.service';
 import {IBDSModel} from '@models/facebook/IBDS.model';
 import {ModalService} from '@core/services/modal/modal.service';
-import {getFilterState} from '../../state-management/reducers/filter.reducer';
 import {AreaFormComponent} from './component/area-form/area-form.component';
 import {AreaListComponent} from './component/area-list/area-list.component';
+import {AreaService} from '@core/services/area.service';
+import {BaseComponent} from '@shared/base/base.component';
 
 @Component({
     selector: 'm-app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends BaseComponent implements OnInit {
     public file: any;
     private data: Array<IBDSModel> = [];
     private viewData: Array<IBDSModel> = [];
@@ -76,8 +77,10 @@ export class DashboardComponent implements OnInit {
                 private bdsContentApiService: BdsContentApiService,
                 public authService: AuthService,
                 private toolKitService: ToolKitService,
-                private modalService: ModalService
+                private modalService: ModalService,
+                private areaService: AreaService
                 ) {
+        super();
     }
 
     ngOnInit() {
@@ -89,6 +92,11 @@ export class DashboardComponent implements OnInit {
                 this.updateFilter();
             });
         this.refreshArea();
+        this.areaService.areaChange$
+            .takeUntil(this.destroyed$)
+            .subscribe(_ => {
+                this.refreshArea();
+            });
     }
 
     getDataFromApi() {
@@ -232,50 +240,6 @@ export class DashboardComponent implements OnInit {
         this.updateFilter();
     }
 
-    public getFeed() {
-        this.groupFbService.getFeedOfGroup('1723212891281598')
-            .subscribe(rs => {
-                    console.log('feed', rs);
-                    this.loggerService.success('Token đang hoạt động');
-                },
-                error => {
-                    console.log('get feed error', error);
-                    this.loggerService.error('Token không hoạt động');
-                });
-    }
-
-    public postComment() {
-        this.groupFbService.postGroupComment('3219247554857348', {
-            message: 'Good',
-            attachment_url: 'https://live.staticflickr.com/65535/49976872231_9dc20f7be7_w.jpg'
-        })
-            .subscribe(rs => {
-                console.log('post rs ', rs);
-                this.loggerService.success('Posted');
-            }, error => {
-                console.log('post error ', error);
-                this.loggerService.error('Post unsuccessfully');
-            });
-    }
-
-    public postContent() {
-        this.groupFbService.postGroupContent('2295575987153701',
-            {
-                imageUrls: [
-                    'https://live.staticflickr.com/65535/49976872231_9dc20f7be7_w.jpg',
-                    'https://www.facebook.com/images/fb_icon_325x325.png'
-                ],
-                message: 'SAY HELLO'
-            }).subscribe(rs => {
-                this.loggerService.success('Posted');
-        }, error => {
-                this.loggerService.error('Lỗi ');
-        });
-    }
-
-    public callFb() {
-    }
-
     fileChangedMultiple($event: any) {
         const file = $event.target.files[0];
         const fileReader = new FileReader();
@@ -392,6 +356,7 @@ export class DashboardComponent implements OnInit {
                     .subscribe(a => {
                        this.loggerService.success('Thành công!');
                        this.refreshArea();
+                       this.areaService.areaChange$.next(true);
                     });
             },
             onModalClose: () => {

@@ -1,17 +1,18 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
-import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import {ModalService} from '@core/services/modal/modal.service';
 import {IConfirmOptions} from '../../../../common/confirm/confirm.component';
 import {AreaFormComponent} from '../area-form/area-form.component';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {AreaService} from '@core/services/area.service';
+import {BaseComponent} from '@shared/base/base.component';
 
 @Component({
-    selector: 'app-area-list',
+    selector: 'm-app-area-list',
     templateUrl: './area-list.component.html',
     styleUrls: ['./area-list.component.scss']
 })
-export class AreaListComponent implements OnInit {
+export class AreaListComponent extends BaseComponent implements OnInit {
     @Output() close: EventEmitter<void> = new EventEmitter<void>();
     @Output() submit: EventEmitter<any> = new EventEmitter<any>();
     public gridView: GridDataResult;
@@ -19,13 +20,14 @@ export class AreaListComponent implements OnInit {
     public skip = 0;
     private data: Array<any> = [];
 
-    constructor(private bdsContentApiService: BdsContentApiService,
+    constructor(private areaService: AreaService,
                 private modalService: ModalService,
                 private loggerService: LoggerServiceService) {
+        super();
     }
 
     ngOnInit() {
-        this.bdsContentApiService.getArea()
+        this.areaService.getArea()
             .subscribe(rs => {
                 this.data = rs as any[];
                 this.loadItems();
@@ -51,10 +53,11 @@ export class AreaListComponent implements OnInit {
             // isCustomModalHeader: true,
             inputs: [{key: 'areContent', value: dataItem}],
             onSubmit: (area) => {
-                this.bdsContentApiService.saveArea(area)
+                this.areaService.saveArea(area)
                     .subscribe(a => {
                         this.loggerService.success('Thành công!');
                         this.refreshArea();
+                        this.areaService.areaChange$.next(true);
                     });
             },
             onModalClose: () => {
@@ -69,7 +72,7 @@ export class AreaListComponent implements OnInit {
             message: 'Bạn có chắc muốn xóa?',
         }).subscribe(async confirmed => {
             if (confirmed) {
-                this.bdsContentApiService.deleteArea(dataItem)
+                this.areaService.deleteArea(dataItem)
                     .subscribe(_ => {
                         this.refreshArea();
                     });
@@ -78,9 +81,10 @@ export class AreaListComponent implements OnInit {
     }
 
     private refreshArea() {
-        this.bdsContentApiService.getArea()
+        this.areaService.getArea()
             .subscribe(rs => {
                 this.data = rs as any[];
+                this.loadItems();
             });
     }
 }
