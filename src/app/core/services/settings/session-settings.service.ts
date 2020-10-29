@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import * as moment from 'moment';
 import { Logger } from '../logger';
+import {AppStates} from '../../../state-management/app-state';
+import {Store} from '@ngrx/store';
+import {AuthActionAddAction} from '../../../state-management/actions/auth.action';
 
 @Injectable()
 export class SessionSettingsService {
@@ -16,7 +19,8 @@ export class SessionSettingsService {
     private data: any;
 
     constructor(
-        private logger: Logger
+        private logger: Logger,
+        private store: Store<AppStates>
     ) {
     }
 
@@ -26,6 +30,7 @@ export class SessionSettingsService {
             localStorage.setItem(this.tokenNameConst, encryptedToken.toString());
             const encryptedData = CryptoJS.DES.encrypt(JSON.stringify(data), encryptedToken.toString());
             localStorage.setItem(this.dataNameConst, encryptedData.toString());
+            this.store.dispatch(new AuthActionAddAction(data));
         }
     }
 

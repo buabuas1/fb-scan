@@ -3,9 +3,10 @@ import {Router} from '@angular/router';
 import {AuthService} from '@core/services/auth';
 import {RouteConfigs} from '../../configs/route.configs';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
-import {Store} from "@ngrx/store";
-import {AppStates} from "../../state-management/app-state";
-import {FbAuthActionAddAction} from "../../state-management/actions/fb-auth.action";
+import {Store} from '@ngrx/store';
+import {AppStates} from '../../state-management/app-state';
+import {FbAuthActionAddAction} from '../../state-management/actions/fb-auth.action';
+import {getAuthState, getAuthUser} from '../../state-management/reducers/auth.reducer';
 declare var FB: any;
 @Component({
     selector: 'm-app-header',
@@ -13,7 +14,7 @@ declare var FB: any;
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+    public user: any;
     constructor(
         private router: Router,
         public auth: AuthService,
@@ -23,6 +24,10 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.store.select(getAuthUser)
+            .subscribe(u => {
+                this.user = u;
+            });
     }
 
     public logout($event: any) {

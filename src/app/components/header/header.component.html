@@ -39,10 +39,8 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto" *ngIf="auth.isAuthenticated()">
-            <li class="nav-item ">
-                <button type="button" class="btn btn-primary" (click)="submitLogin();">Login with facebook</button>
-            </li>
-            <li class="nav-item ">
+            <div class="navbar-brand"><i class="fas fa-user"></i>{{ user.fullname }}</div>
+            <li class="nav-item">
                 <a class="nav-link" href="" (click)="logout($event)">Log out</a>
             </li>
         </ul>
