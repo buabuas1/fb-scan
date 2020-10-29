@@ -9,6 +9,9 @@ import {BaseComponent} from '@shared/base/base.component';
 import {PrintService} from '@core/services/print/print.service';
 import {invoicePrintTemplate, PrintTypes} from '../../../../common/constants';
 import {InvoiceDetailModel} from '@models/manage/invoice.detail.model';
+import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
+import {ModalService} from '@core/services/modal/modal.service';
+import {IConfirmOptions} from '../../../../common/confirm/confirm.component';
 
 @Component({
     selector: 'app-invoice-list',
@@ -26,8 +29,9 @@ export class InvoiceListComponent extends BaseComponent implements OnInit {
     public kendo = (window as any).kendo;
     public expandedRow: number;
     constructor(private invoiceService: InvoiceService,
-                public intlService: IntlService,
-                private printService: PrintService
+                private printService: PrintService,
+                private loggerService: LoggerServiceService,
+                private modalService: ModalService
     ) {
         super();
     }
@@ -44,6 +48,7 @@ export class InvoiceListComponent extends BaseComponent implements OnInit {
     public onItemSelect($event: CellClickEvent) {
         if (this.expandedRow === $event.rowIndex) {
             $event.sender.collapseRow($event.rowIndex);
+            this.expandedRow = -1;
         } else {
             $event.sender.expandRow($event.rowIndex);
             $event.sender.collapseRow(this.expandedRow);
@@ -102,5 +107,20 @@ export class InvoiceListComponent extends BaseComponent implements OnInit {
                 } as InvoiceDetailModel;
             })
         } as InvoiceModel;
+    }
+
+    deleteInvoice(dataItem) {
+        this.modalService.confirm(<IConfirmOptions>{
+            title: `Thông báo`,
+            message: 'Bạn có chắc muốn xóa?',
+        }).subscribe(async confirmed => {
+            if (confirmed) {
+                this.invoiceService.deleteInvoice(dataItem)
+                    .subscribe(_ => {
+                        this.loggerService.success('Thành công');
+                        this.getDataFromApi();
+                    });
+            }
+        });
     }
 }

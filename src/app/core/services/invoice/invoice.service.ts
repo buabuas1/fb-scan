@@ -53,4 +53,8 @@ export class InvoiceService {
         } as InvoiceDBModel;
         return this.httpClient.post(this.host + 'api/invoice', invoiceDB);
     }
+
+    deleteInvoice(invoice) {
+        return this.httpClient.delete(this.host + `api/invoice/${invoice._id}`);
+    }
 }

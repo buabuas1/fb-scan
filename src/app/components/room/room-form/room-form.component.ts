@@ -30,7 +30,7 @@ export class RoomFormComponent implements OnInit {
     public gridView: GridDataResult;
     public pageSize = 10;
     public skip = 0;
-    private invoice: InvoiceModel;
+    public invoice: InvoiceModel;
     public listCustomer: Array<CustomerModel> = [];
     public listHouse: Array<HouseModel> = [];
     public detailItems: InvoiceDetailModel[];
