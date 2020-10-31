@@ -199,6 +199,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         if (this.model.searchText) {
             const searchData = this.model.searchText.split(',').filter(t => !!t);
             if (searchData && searchData.length > 0) {
+                this.viewData = this.bdsTypeService.resetSearchContent(this.viewData);
                 this.viewData =
                     this.viewData.filter(v =>
                         R.any(st => v.content.toLowerCase().indexOf(st.toLowerCase()) !== -1
