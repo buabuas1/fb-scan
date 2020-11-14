@@ -330,7 +330,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public getUserId() {
         let Ids = this.viewData.filter(r => r.authorId).map(m => m.authorId);
         Ids = R.uniq(Ids.concat(Ids));
-        console.log(`"${Ids.join('","')}"`);
+        console.log(`${Ids.join(',')}`);
     }
 
     public getPhone(dataItem: IBDSModel) {
