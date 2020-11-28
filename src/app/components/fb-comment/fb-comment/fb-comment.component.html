@@ -19,6 +19,8 @@
                 <kendo-chart-series-item
                     type="column" [data]="groupData" [colorField]="'color'"
                     field="totalPost" categoryField="_id">
+                    <kendo-chart-series-item-labels [content]="getLabelContent">
+                    </kendo-chart-series-item-labels>
                 </kendo-chart-series-item>
             </kendo-chart-series>
         </kendo-chart>

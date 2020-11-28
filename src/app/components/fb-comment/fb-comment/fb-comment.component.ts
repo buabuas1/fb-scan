@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {getMessageFromError} from '../../../common/util';
 import {Observable} from 'rxjs/Observable';
-import {SeriesClickEvent} from "@progress/kendo-angular-charts";
+import {SeriesClickEvent, SeriesLabels} from "@progress/kendo-angular-charts";
 
 @Component({
     selector: 'app-fb-comment',
@@ -53,7 +53,7 @@ export class FbCommentComponent implements OnInit {
         this.bdsContentApiService.getFindRoomChart(this.filter.postTime, this.limit)
             .subscribe(rs => {
                 this.groupData = rs as any[];
-                this.groupData = this.groupData.map(g => {
+                this.groupData = this.groupData.map((g, ind) => {
                     g.color = this.getRandomColor();
                     return g;
                 });
@@ -64,7 +64,7 @@ export class FbCommentComponent implements OnInit {
         this.bdsContentApiService.getTopPostChart(this.filter.postTime, this.limit)
             .subscribe(rs => {
                 this.postData = rs as any[];
-                this.postData = this.postData.map(g => {
+                this.postData = this.postData.map((g, ind) => {
                     g.color = this.getRandomColor();
                     return g;
                 });
@@ -113,5 +113,9 @@ export class FbCommentComponent implements OnInit {
     onChartCommentItemClick($event: SeriesClickEvent) {
         const item = this.postData.find(p => p.id === $event.category);
         window.open(item.url, '_blank');
+    }
+
+    public getLabelContent = (e: any) => {
+        return this.groupData ? `${this.groupData.findIndex(g => g._id === e.category) + 1}` : '';
     }
 }
