@@ -98,7 +98,17 @@ export class FbCommentComponent implements OnInit {
 
     onChartItemClick(event: any) {
         const fbLink = this.makeFbLinkGroup(event.category);
+        this.changeColor(event.category);
         window.open(fbLink, '_blank');
+    }
+
+    private changeColor(category: any) {
+        this.groupData = this.groupData.map((g, ind) => {
+            if (g && g._id === category) {
+                g.color = '#000';
+            }
+            return g;
+        });
     }
 
     private makeFbLinkGroup(category: any) {
