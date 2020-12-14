@@ -23,6 +23,7 @@ import {BaseComponent} from '@shared/base/base.component';
 import {Store} from '@ngrx/store';
 import {AppStates} from '../../state-management/app-state';
 import {SetShowSpinnerAction} from '../../state-management/actions/filter.action';
+import {MemberApiService} from '@core/services/member-api.service';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -82,7 +83,8 @@ export class DashboardComponent extends BaseComponent implements OnInit {
                 private toolKitService: ToolKitService,
                 private modalService: ModalService,
                 private areaService: AreaService,
-                private store: Store<AppStates>
+                private store: Store<AppStates>,
+                private memberApiService: MemberApiService
                 ) {
         super();
     }
@@ -398,5 +400,23 @@ export class DashboardComponent extends BaseComponent implements OnInit {
             onModalClose: () => {
             }
         }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
+    }
+
+    public onPushUserId() {
+        let Ids = this.viewData.filter(r => r.authorId).map(m => {
+            return {
+                userId: m.authorId,
+                groupId: m.groupId
+            };
+        });
+        Ids = R.uniqBy(c => c.userId, Ids.concat(Ids));
+        console.log(Ids);
+        this.memberApiService.saveMember(Ids)
+            .subscribe(rs => {
+                this.loggerService.success(`Thành công! ${Ids.length}`);
+            }, error => {
+                this.loggerService.success(`Lỗi`);
+                console.log(error);
+            });
     }
 }

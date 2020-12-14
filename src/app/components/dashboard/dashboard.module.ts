@@ -18,6 +18,7 @@ import { AreaFormComponent } from './component/area-form/area-form.component';
 import {ModalService} from '@core/services/modal/modal.service';
 import { AreaListComponent } from './component/area-list/area-list.component';
 import {AreaService} from '@core/services/area.service';
+import {MemberApiService} from '@core/services/member-api.service';
 
 @NgModule({
     imports: [
@@ -39,7 +40,8 @@ import {AreaService} from '@core/services/area.service';
         AuthService,
         ToolKitService,
         ModalService,
-        AreaService
+        AreaService,
+        MemberApiService
     ],
     declarations: [
         DashboardComponent,
