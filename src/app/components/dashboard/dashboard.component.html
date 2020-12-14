@@ -2,9 +2,9 @@
 </div>
 <div class="row">
     <div class="col-md-3">
-        <div class="Block" *ngIf="authService.isSuperAdmin()">
+        <div class="Block">
 <!--            <input [title]="'Chọn file public'" type='file' (change)="fileChanged($event)" onclick="this.value = null">-->
-            <input [title]="'Chọn file private'" type='file' (change)="fileChangedMultiple($event)" onclick="this.value = null">
+            <input *ngIf="authService.isSuperAdmin()" [title]="'Chọn file private'" type='file' (change)="fileChangedMultiple($event)" onclick="this.value = null">
             <div class="bold">
                 <label>Tìm theo khu vực</label>
                 <a (click)="addArea()"><span class="fa fa-plus text-success"></span></a>

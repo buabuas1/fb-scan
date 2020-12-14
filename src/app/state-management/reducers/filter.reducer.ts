@@ -6,6 +6,7 @@ export interface FilterState {
     page: any;
     isShowRevenue: boolean;
     checkinFilter: any;
+    isShowSpinner: boolean
 }
 
 const initialState: FilterState = {
@@ -13,7 +14,8 @@ const initialState: FilterState = {
     isShowRevenue: false,
     checkinFilter: {
         PackageId: ''
-    }
+    },
+    isShowSpinner: false
 };
 
 export function FilterReducer(state = initialState, action: FilterActions): FilterState {
@@ -24,6 +26,10 @@ export function FilterReducer(state = initialState, action: FilterActions): Filt
                 let cur = JSON.parse(JSON.stringify(state));
                 cur.checkinFilter = action.payload;
             return cur;
+        case FilterActionTypes.SET_SHOW_SPINNER:
+            return {
+                ...state, isShowSpinner: action.payload
+            };
         default:
             return state;
     }
@@ -32,3 +38,4 @@ export function FilterReducer(state = initialState, action: FilterActions): Filt
 export const getFilterState = (state: AppStates) => state.filterState;
 export const getFilterShowRevenue = createSelector(getFilterState, state => state.isShowRevenue);
 export const getFilterRevenue = createSelector(getFilterState, state => state.checkinFilter);
+export const getIsShowSpinner = createSelector(getFilterState, state => state.isShowSpinner);

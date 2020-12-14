@@ -20,6 +20,9 @@ import {AreaFormComponent} from './component/area-form/area-form.component';
 import {AreaListComponent} from './component/area-list/area-list.component';
 import {AreaService} from '@core/services/area.service';
 import {BaseComponent} from '@shared/base/base.component';
+import {Store} from '@ngrx/store';
+import {AppStates} from '../../state-management/app-state';
+import {SetShowSpinnerAction} from '../../state-management/actions/filter.action';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -78,7 +81,8 @@ export class DashboardComponent extends BaseComponent implements OnInit {
                 public authService: AuthService,
                 private toolKitService: ToolKitService,
                 private modalService: ModalService,
-                private areaService: AreaService
+                private areaService: AreaService,
+                private store: Store<AppStates>
                 ) {
         super();
     }
@@ -100,11 +104,15 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     }
 
     getDataFromApi() {
+        this.store.dispatch(new SetShowSpinnerAction(true));
         this.bdsContentApiService.getFbContent(this.model.from, this.model.groupIds,
             {createdDate: this.model.createdDate})
             .subscribe(rs => {
+                this.store.dispatch(new SetShowSpinnerAction(false));
                 this.data = rs as IBDSModel[];
                 this.initData();
+            }, error => {
+                this.store.dispatch(new SetShowSpinnerAction(false));
             });
     }
 
@@ -212,6 +220,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         }
         this.skip = 0;
         this.loadItems();
+        this.loggerService.success('updated!');
     }
 
     onBdsTypeChange($event: any[]) {
