@@ -402,7 +402,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
     }
 
-    public onPushUserId() {
+    public async onPushUserId() {
         let Ids = this.viewData.filter(r => r.authorId).map(m => {
             return {
                 userId: m.authorId,
@@ -411,12 +411,15 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         });
         Ids = R.uniqBy(c => c.userId, Ids.concat(Ids));
         console.log(Ids);
-        this.memberApiService.saveMember(Ids)
-            .subscribe(rs => {
-                this.loggerService.success(`Thành công! ${Ids.length}`);
-            }, error => {
+        while (Ids && Ids.length > 0) {
+            const data = Ids.splice(0, 200);
+            try {
+                const rs = await this.memberApiService.saveMember(data).toPromise();
+                this.loggerService.success(`Thành công! Còn ${Ids.length}`);
+            } catch (error) {
                 this.loggerService.success(`Lỗi`);
                 console.log(error);
-            });
+            }
+        }
     }
 }
