@@ -416,6 +416,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
             try {
                 const rs = await this.memberApiService.saveMember(data).toPromise();
                 this.loggerService.success(`Thành công! Còn ${Ids.length}`);
+                console.log(`Thành công! Còn ${Ids.length}`);
             } catch (error) {
                 this.loggerService.success(`Lỗi`);
                 console.log(error);
