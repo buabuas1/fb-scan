@@ -65,7 +65,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         searchText: '',
         groupIds: '',
         area: '',
-        createdDate: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
+        createdDate: moment(new Date().setHours(0, 0, 0, 0)).toDate(),
     };
     public listItemsPrice = [];
     public dateOptions: kendo.ui.DateTimePickerOptions = {
