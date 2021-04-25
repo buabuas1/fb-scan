@@ -56,7 +56,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public listItems = BdsTypeArray;
     model: any = {
         typeDate: 'all',
-        from: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
+        from: moment(new Date().setHours(0, 0, 0, 0)).toDate(),
         to: new Date(),
         bdsType: [BdsTypeArray[1]], // TIM_PHONG
         typePrice: 'all',
