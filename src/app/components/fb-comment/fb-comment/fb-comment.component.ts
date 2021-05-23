@@ -98,11 +98,20 @@ export class FbCommentComponent implements OnInit {
 
     onChartItemClick(event: any) {
         const fbLink = this.makeFbLinkGroup(event.category);
-        this.changeColor(event.category);
+        this.changeColor(event.category, false);
         window.open(fbLink, '_blank');
     }
 
-    private changeColor(category: any) {
+    private changeColor(category: any, isPost: boolean) {
+        if (isPost) {
+            this.postData = this.postData.map((g, ind) => {
+                if (g && g.id === category) {
+                    g.color = '#000';
+                }
+                return g;
+            });
+            return;
+        }
         this.groupData = this.groupData.map((g, ind) => {
             if (g && g._id === category) {
                 g.color = '#000';
@@ -122,6 +131,7 @@ export class FbCommentComponent implements OnInit {
 
     onChartCommentItemClick($event: SeriesClickEvent) {
         const item = this.postData.find(p => p.id === $event.category);
+        this.changeColor($event.category, true);
         window.open(item.url, '_blank');
     }
 
