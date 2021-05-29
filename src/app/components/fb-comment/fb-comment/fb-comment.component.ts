@@ -151,7 +151,12 @@ export class FbCommentComponent implements OnInit {
     }
 
     public getLabelContentPost = (e: any) => {
-        return this.postData ? `${this.postData.findIndex(g => g.id === e.category) + 1}` : '';
+        if (!this.postData) {
+            return ;
+        }
+        const index = this.postData.findIndex(g => g.id === e.category) + 1;
+        const item = this.postData.find(g => g.id === e.category);
+        return `${index} ${item.isCommented ? '✓' : ''}`;
     }
 
 }
