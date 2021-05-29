@@ -41,6 +41,9 @@ export class FbCommentComponent implements OnInit {
     public dateOptions: kendo.ui.DateTimePickerOptions = {
         format: 'dd/MM/yyyy HH:mm',
     };
+
+    public markPostOnclick = false;
+
     ngOnInit() {
         this.getDataFromApi();
         this.$limitChange
@@ -129,13 +132,26 @@ export class FbCommentComponent implements OnInit {
         this.getDataFromApi();
     }
 
-    onChartCommentItemClick($event: SeriesClickEvent) {
+    async onChartCommentItemClick($event: SeriesClickEvent) {
         const item = this.postData.find(p => p.id === $event.category);
         this.changeColor($event.category, true);
+        if (this.markPostOnclick) {
+            try {
+                await this.bdsContentApiService.markPostIsCommented(item, true).toPromise();
+                this.loggerService.success('Marked');
+            } catch (e) {
+                console.log(e);
+            }
+        }
         window.open(item.url, '_blank');
     }
 
     public getLabelContent = (e: any) => {
         return this.groupData ? `${this.groupData.findIndex(g => g._id === e.category) + 1}` : '';
     }
+
+    public getLabelContentPost = (e: any) => {
+        return this.postData ? `${this.postData.findIndex(g => g.id === e.category) + 1}` : '';
+    }
+
 }

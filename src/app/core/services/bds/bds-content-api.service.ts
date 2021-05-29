@@ -59,4 +59,10 @@ export class BdsContentApiService {
     deleteArea(area) {
         return this.httpClient.delete(this.host + `api/area/${area._id}`);
     }
+
+    markPostIsCommented(content, isMark) {
+        return isMark ?
+            this.httpClient.post(this.host + 'api/fbcontent/mark', content) :
+            this.httpClient.post(this.host + 'api/fbcontent/unmark', content);
+    }
 }

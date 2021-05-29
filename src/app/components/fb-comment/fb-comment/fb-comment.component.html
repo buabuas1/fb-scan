@@ -26,6 +26,8 @@
         </kendo-chart>
     </div>
 </div>
+<label>Đánh dấu post đã comment</label>
+<input type="checkbox" [(ngModel)]="markPostOnclick" [title]="'Đánh dấu nhóm đã comment'">
 <div class="row">
     <div class="col-12">
         <kendo-chart [transitions]="false" [title]="chartTopPostTitle" (seriesClick)="onChartCommentItemClick($event)">
@@ -33,6 +35,8 @@
                 <kendo-chart-series-item
                     type="column" [data]="postData" [colorField]="'color'"
                     field="commentCount" categoryField="id">
+                    <kendo-chart-series-item-labels [content]="getLabelContentPost">
+                    </kendo-chart-series-item-labels>
                 </kendo-chart-series-item>
             </kendo-chart-series>
         </kendo-chart>
