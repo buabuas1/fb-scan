@@ -27,7 +27,7 @@
     </div>
 </div>
 <label>Đánh dấu post đã comment</label>
-<input type="checkbox" [(ngModel)]="markPostOnclick" [title]="'Đánh dấu nhóm đã comment'">
+<input type="checkbox" [disabled]="true" [(ngModel)]="markPostOnclick" [title]="'Đánh dấu nhóm đã comment'">
 <div class="row">
     <div class="col-12">
         <kendo-chart [transitions]="false" [title]="chartTopPostTitle" (seriesClick)="onChartCommentItemClick($event)">

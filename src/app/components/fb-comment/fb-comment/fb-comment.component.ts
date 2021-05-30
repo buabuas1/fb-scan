@@ -9,8 +9,9 @@ import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import * as moment from 'moment';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {getMessageFromError} from '../../../common/util';
-import {Observable} from 'rxjs/Observable';
-import {SeriesClickEvent, SeriesLabels} from "@progress/kendo-angular-charts";
+import {SeriesClickEvent} from '@progress/kendo-angular-charts';
+import {IConfirmOptions} from '../../../common/confirm/confirm.component';
+import {AuthService} from '@core/services/auth';
 
 @Component({
     selector: 'app-fb-comment',
@@ -23,7 +24,8 @@ export class FbCommentComponent implements OnInit {
     constructor(private modalService: ModalService, private store: Store<AppStates>,
                 private groupFbService: GroupFbService,
                 private bdsContentApiService: BdsContentApiService,
-                private loggerService: LoggerServiceService
+                private loggerService: LoggerServiceService,
+                private authService: AuthService
                 ) {
     }
 
@@ -51,6 +53,9 @@ export class FbCommentComponent implements OnInit {
             .subscribe(r => {
                 this.getDataFromApi();
             });
+        if (this.authService.isSuperAdmin()) {
+            this.markPostOnclick = true;
+        }
     }
     getDataFromApi() {
         this.bdsContentApiService.getFindRoomChart(this.filter.postTime, this.limit)

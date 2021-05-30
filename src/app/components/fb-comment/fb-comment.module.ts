@@ -12,6 +12,7 @@ import {ChartModule} from '@progress/kendo-angular-charts';
 import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
 import {LoggerServiceService} from "@core/services/logger-service/logger-service.service";
 import {FormsModule} from "@angular/forms";
+import {AuthService} from '@core/services/auth';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {FormsModule} from "@angular/forms";
         ModalService,
         GroupFbService,
         BdsContentApiService,
-        LoggerServiceService
+        LoggerServiceService,
+        AuthService
     ],
     entryComponents: [CommentFormComponent]
 })
