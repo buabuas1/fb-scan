@@ -73,7 +73,11 @@ export class FbCommentComponent implements OnInit {
             .subscribe(rs => {
                 this.postData = rs as any[];
                 this.postData = this.postData.map((g, ind) => {
-                    g.color = this.getRandomColor();
+                    if (g.isCommented) {
+                        g.color = '#000';
+                    } else {
+                        g.color = this.getRandomColor();
+                    }
                     return g;
                 });
             }, error => {
