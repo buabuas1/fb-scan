@@ -36,11 +36,12 @@ export class BdsContentApiService {
         });
     }
 
-    getTopPostChart(postTime: Date, limit: number) {
+    getTopPostChart(postTime: Date, limit: number, option: any) {
         const params = new HttpParams({
             fromObject: {
                 postTime: postTime.toISOString(),
                 limit: limit.toString(),
+                isCommented: option.isCommented
             }
         });
         return this.httpClient.get(this.host + 'api/fbcontent/chart/top/post', {

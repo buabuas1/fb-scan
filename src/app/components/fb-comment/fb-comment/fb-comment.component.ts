@@ -10,7 +10,6 @@ import * as moment from 'moment';
 import {LoggerServiceService} from '@core/services/logger-service/logger-service.service';
 import {getMessageFromError} from '../../../common/util';
 import {SeriesClickEvent} from '@progress/kendo-angular-charts';
-import {IConfirmOptions} from '../../../common/confirm/confirm.component';
 import {AuthService} from '@core/services/auth';
 
 @Component({
@@ -45,6 +44,7 @@ export class FbCommentComponent implements OnInit {
     };
 
     public markPostOnclick = false;
+    public isLoadCommented = false;
 
     ngOnInit() {
         this.getDataFromApi();
@@ -69,7 +69,7 @@ export class FbCommentComponent implements OnInit {
                 this.loggerService.error(getMessageFromError(error));
             });
 
-        this.bdsContentApiService.getTopPostChart(this.filter.postTime, this.limit)
+        this.bdsContentApiService.getTopPostChart(this.filter.postTime, this.limit, {isCommented: this.isLoadCommented})
             .subscribe(rs => {
                 this.postData = rs as any[];
                 this.postData = this.postData.map((g, ind) => {
