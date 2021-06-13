@@ -1,9 +1,7 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {ModalService} from '@core/services/modal/modal.service';
-import {CommentFormComponent} from '../comment-form/comment-form.component';
 import {Store} from '@ngrx/store';
 import {AppStates} from '../../../state-management/app-state';
-import {getFilterState} from '../../../state-management/reducers/filter.reducer';
 import {GroupFbService} from '@core/services/facebook/group-fb.service';
 import {BdsContentApiService} from '@core/services/bds/bds-content-api.service';
 import * as moment from 'moment';
@@ -19,6 +17,7 @@ import {AuthService} from '@core/services/auth';
 })
 export class FbCommentComponent implements OnInit {
     public fbLinkConst = 'https://www.facebook.com/groups';
+    public contentAuto = '';
 
     constructor(private modalService: ModalService, private store: Store<AppStates>,
                 private groupFbService: GroupFbService,
@@ -83,20 +82,6 @@ export class FbCommentComponent implements OnInit {
             }, error => {
                 this.loggerService.error(getMessageFromError(error));
             });
-    }
-    open() {
-        this.modalService.openModal({
-            title: 'Thu học phí',
-            component: CommentFormComponent,
-            // isCustomModalHeader: true,
-            inputs: [{key: 'studentOrder', value: {}}],
-            onSubmit: () => {
-            }
-        }, {class: 'modal-lg modal-title-status 9', backdrop: 'static'});
-        this.store.select(getFilterState)
-            .subscribe(rs => console.log(rs));
-        this.groupFbService.getFeedOfGroup('2')
-            .subscribe(rs => console.log(rs));
     }
 
     public getRandomColor() {
@@ -166,6 +151,11 @@ export class FbCommentComponent implements OnInit {
         const index = this.postData.findIndex(g => g.id === e.category) + 1;
         const item = this.postData.find(g => g.id === e.category);
         return `${index} ${item.isCommented ? '✓' : ''}`;
+    }
+
+    public makeContentForAuto() {
+        this.contentAuto = this.postData.map(p => p.url).join('\n');
+        console.log(this.contentAuto);
     }
 
 }

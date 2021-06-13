@@ -29,7 +29,7 @@ const mainRoutes: Routes = [
     },
     {
         path: 'fb',
-        loadChildren: 'app/components/fb-comment/fb-comment.module#FbCommentModule'
+        loadChildren: 'app/components/fb-chart/fb-comment.module#FbCommentModule'
     },
     {
         path: 'token',

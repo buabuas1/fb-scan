@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from '@core/services/auth/auth.guard';
-import {FbCommentComponent} from './fb-comment/fb-comment.component';
+import {FbCommentComponent} from './fb-chart/fb-comment.component';
 import {HeaderComponent} from '../header';
 import {PageNotFoundComponent} from '@shared/page-not-found';
 
