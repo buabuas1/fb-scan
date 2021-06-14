@@ -41,7 +41,7 @@ export class BdsContentApiService {
             fromObject: {
                 postTime: postTime.toISOString(),
                 limit: limit.toString(),
-                isCommented: option.isCommented
+                commentStatus: option.commentStatus
             }
         });
         return this.httpClient.get(this.host + 'api/fbcontent/chart/top/post', {

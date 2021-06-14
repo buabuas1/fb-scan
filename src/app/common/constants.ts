@@ -264,3 +264,9 @@ export const vnCultures = {
 }
 
 /* tslint:enable */
+
+export const COMMENT_STATUS = {
+    NEW: 1,
+    ISSUE: 2,
+    SUCCESS: 3
+};

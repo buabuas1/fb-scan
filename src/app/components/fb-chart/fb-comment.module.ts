@@ -12,6 +12,7 @@ import {BdsContentApiService} from "@core/services/bds/bds-content-api.service";
 import {LoggerServiceService} from "@core/services/logger-service/logger-service.service";
 import {FormsModule} from "@angular/forms";
 import {AuthService} from '@core/services/auth';
+import {MultiSelectModule} from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import {AuthService} from '@core/services/auth';
         HeaderModule,
         FbCommentModuleRouting,
         ChartModule,
-        FormsModule
+        FormsModule,
+        MultiSelectModule
     ],
     declarations: [FbCommentComponent],
     providers: [

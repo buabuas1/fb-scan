@@ -28,9 +28,10 @@
 </div>
 <label>Đánh dấu post đã comment</label>
 <input type="checkbox" [disabled]="true" [(ngModel)]="markPostOnclick" [title]="'Đánh dấu nhóm đã comment'">
-<label>Lấy các bài viết đã comment</label>
-<input type="checkbox" [(ngModel)]="isLoadCommented" [title]="'Đánh dấu nhóm đã comment'" (ngModelChange)="getDataFromApi()">
 <textarea [(ngModel)]="contentAuto" (click)="makeContentForAuto()"></textarea>
+<kendo-multiselect [data]="listItemsStatus" [(ngModel)]="commentStatusTypes" [textField]="'value'"
+                   [valueField]="'key'" (ngModelChange)="getDataFromApi()">
+</kendo-multiselect>
 <div class="row">
     <div class="col-12">
         <kendo-chart [transitions]="false" [title]="chartTopPostTitle" (seriesClick)="onChartCommentItemClick($event)">

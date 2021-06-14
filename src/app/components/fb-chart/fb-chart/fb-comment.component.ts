@@ -9,6 +9,7 @@ import {LoggerServiceService} from '@core/services/logger-service/logger-service
 import {getMessageFromError} from '../../../common/util';
 import {SeriesClickEvent} from '@progress/kendo-angular-charts';
 import {AuthService} from '@core/services/auth';
+import {COMMENT_STATUS} from '../../../common/constants';
 
 @Component({
     selector: 'app-fb-comment',
@@ -18,6 +19,12 @@ import {AuthService} from '@core/services/auth';
 export class FbCommentComponent implements OnInit {
     public fbLinkConst = 'https://www.facebook.com/groups';
     public contentAuto = '';
+    public listItemsStatus = [
+        {key: COMMENT_STATUS.NEW, value: 'Chưa comment'},
+        {key: COMMENT_STATUS.ISSUE, value: 'Comment lỗi'},
+        {key: COMMENT_STATUS.SUCCESS, value: 'Comment thành công'},
+    ];
+    public commentStatusTypes = [this.listItemsStatus[0]];
 
     constructor(private modalService: ModalService, private store: Store<AppStates>,
                 private groupFbService: GroupFbService,
@@ -43,7 +50,6 @@ export class FbCommentComponent implements OnInit {
     };
 
     public markPostOnclick = false;
-    public isLoadCommented = false;
 
     ngOnInit() {
         this.getDataFromApi();
@@ -68,7 +74,8 @@ export class FbCommentComponent implements OnInit {
                 this.loggerService.error(getMessageFromError(error));
             });
 
-        this.bdsContentApiService.getTopPostChart(this.filter.postTime, this.limit, {isCommented: this.isLoadCommented})
+        this.bdsContentApiService.getTopPostChart(this.filter.postTime, this.limit,
+            {commentStatus: this.commentStatusTypes.map(c => c.key).join(',')})
             .subscribe(rs => {
                 this.postData = rs as any[];
                 this.postData = this.postData.map((g, ind) => {
@@ -131,6 +138,7 @@ export class FbCommentComponent implements OnInit {
         this.changeColor($event.category, true);
         if (this.markPostOnclick) {
             try {
+                item.status = COMMENT_STATUS.SUCCESS;
                 await this.bdsContentApiService.markPostIsCommented(item, true).toPromise();
                 this.loggerService.success('Marked');
             } catch (e) {
