@@ -32,6 +32,16 @@
 <kendo-multiselect [data]="listItemsStatus" [(ngModel)]="commentStatusTypes" [textField]="'value'"
                    [valueField]="'key'" (ngModelChange)="getDataFromApi()">
 </kendo-multiselect>
+<div class="mb-10">
+    <label style="width: 30px">Từ</label>
+    <input kvKendoDateTimePicker
+           [kvOptions]="dateOptions"
+           [placeholder]="'Từ'"
+           (kvModelChange)="onDatePostChange($event, true)"
+           [(kvModel)]="filter.topPostTime"
+           style="width: 200px"
+    />
+</div>
 <div class="row">
     <div class="col-12">
         <kendo-chart [transitions]="false" [title]="chartTopPostTitle" (seriesClick)="onChartCommentItemClick($event)">
@@ -40,6 +50,35 @@
                     type="column" [data]="postData" [colorField]="'color'"
                     field="commentCount" categoryField="id">
                     <kendo-chart-series-item-labels [content]="getLabelContentPost">
+                    </kendo-chart-series-item-labels>
+                </kendo-chart-series-item>
+            </kendo-chart-series>
+        </kendo-chart>
+    </div>
+</div>
+
+
+<div class="mb-10">
+    <label style="width: 30px">Từ</label>
+    <input kvKendoDateTimePicker
+           [kvOptions]="dateOptions"
+           [placeholder]="'Từ'"
+           (kvModelChange)="onDatePostChange($event, true)"
+           [(kvModel)]="filter.commentPostTime"
+           style="width: 200px"
+    />
+</div>
+<kendo-multiselect [data]="listItemsStatus" [(ngModel)]="postStatusTypes" [textField]="'value'"
+                   [valueField]="'key'" (ngModelChange)="getDataFromApi()">
+</kendo-multiselect>
+<div class="row">
+    <div class="col-12">
+        <kendo-chart [transitions]="false" [title]="'Top User Comment'">
+            <kendo-chart-series>
+                <kendo-chart-series-item
+                    type="column" [data]="postUserData"
+                    field="totalPost" categoryField="userName">
+                    <kendo-chart-series-item-labels [content]="getLabelPostUserData">
                     </kendo-chart-series-item-labels>
                 </kendo-chart-series-item>
             </kendo-chart-series>

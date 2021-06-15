@@ -25,6 +25,7 @@ export class FbCommentComponent implements OnInit {
         {key: COMMENT_STATUS.SUCCESS, value: 'Comment thành công'},
     ];
     public commentStatusTypes = [this.listItemsStatus[0]];
+    public postStatusTypes = [this.listItemsStatus[2]];
 
     constructor(private modalService: ModalService, private store: Store<AppStates>,
                 private groupFbService: GroupFbService,
@@ -40,9 +41,13 @@ export class FbCommentComponent implements OnInit {
     public chartTopPostTitle: any = {text: 'TOP POST CÓ NHIỀU NGƯỜI COMMENT NHẤT'};
     public groupData: any[] = [];
     public postData: any[] = [];
+    public postUserData: any[] = [];
     public limit = 10;
     public filter = {
-        postTime: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'months').toDate()
+        postTime: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'months').toDate(),
+        commentPostTime: moment(new Date().setHours(0, 0, 0, 0)).toDate(),
+        topPostTime: moment(new Date().setHours(0, 0, 0, 0))
+            .add(-7, 'days').toDate(),
     };
     public $limitChange = new EventEmitter<number>();
     public dateOptions: kendo.ui.DateTimePickerOptions = {
@@ -74,7 +79,7 @@ export class FbCommentComponent implements OnInit {
                 this.loggerService.error(getMessageFromError(error));
             });
 
-        this.bdsContentApiService.getTopPostChart(this.filter.postTime, this.limit,
+        this.bdsContentApiService.getTopPostChart(this.filter.topPostTime, this.limit,
             {commentStatus: this.commentStatusTypes.map(c => c.key).join(',')})
             .subscribe(rs => {
                 this.postData = rs as any[];
@@ -83,6 +88,20 @@ export class FbCommentComponent implements OnInit {
                         g.color = '#000';
                     } else {
                         g.color = this.getRandomColor();
+                    }
+                    return g;
+                });
+            }, error => {
+                this.loggerService.error(getMessageFromError(error));
+            });
+
+        this.bdsContentApiService.getTopPostUserChart(this.filter.commentPostTime, this.limit,
+            {commentStatus: this.postStatusTypes.map(c => c.key).join(',')})
+            .subscribe(rs => {
+                this.postUserData = rs as any[];
+                this.postUserData = this.postUserData.map((g, ind) => {
+                    if (g.user && g.user.length > 0) {
+                        g.userName = g.user[0].facebookName;
                     }
                     return g;
                 });
@@ -133,6 +152,11 @@ export class FbCommentComponent implements OnInit {
         this.getDataFromApi();
     }
 
+    onDatePostChange($event: Date, b: boolean) {
+        this.filter.commentPostTime = $event;
+        this.getDataFromApi();
+    }
+
     async onChartCommentItemClick($event: SeriesClickEvent) {
         const item = this.postData.find(p => p.id === $event.category);
         this.changeColor($event.category, true);
@@ -159,6 +183,14 @@ export class FbCommentComponent implements OnInit {
         const index = this.postData.findIndex(g => g.id === e.category) + 1;
         const item = this.postData.find(g => g.id === e.category);
         return `${index} ${item.isCommented ? '✓' : ''}`;
+    }
+
+    public getLabelPostUserData = (e: any) => {
+        if (!this.postUserData) {
+            return ;
+        }
+        const item = this.postUserData.find(g => g.userName === e.category);
+        return `${item.totalPost}`;
     }
 
     public makeContentForAuto() {

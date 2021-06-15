@@ -49,6 +49,19 @@ export class BdsContentApiService {
         });
     }
 
+    getTopPostUserChart(postTime: Date, limit: number, option: any) {
+        const params = new HttpParams({
+            fromObject: {
+                postTime: postTime.toISOString(),
+                limit: limit.toString(),
+                commentStatus: option.commentStatus
+            }
+        });
+        return this.httpClient.get(this.host + 'api/fbcontent/chart/top/postbyuser', {
+            params: params
+        });
+    }
+
     saveArea(area) {
         return this.httpClient.post(this.host + 'api/area', area);
     }
