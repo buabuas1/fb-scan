@@ -426,6 +426,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     }
 
     public onGetLinkClick() {
-        this.postLink = this.data.map(p => p.url).join('\n');
+        this.postLink = this.viewData.map(p => p.url).join('\n');
     }
 }
