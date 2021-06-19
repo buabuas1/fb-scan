@@ -112,6 +112,10 @@
             <label><b>Loại:</b></label>
             <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
         </div>
+        <textarea placeholder="danh sách bài viết"
+                  [(ngModel)]="postLink"
+                  (click)="onGetLinkClick()"
+        ></textarea>
     </div>
     <div class="col-md-3">
         <div>

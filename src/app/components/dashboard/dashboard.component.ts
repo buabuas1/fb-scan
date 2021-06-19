@@ -73,6 +73,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     };
     public toolkitToken: any;
     public areaItems: any = [];
+    public postLink: any = '';
 
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
@@ -422,5 +423,9 @@ export class DashboardComponent extends BaseComponent implements OnInit {
                 console.log(error);
             }
         }
+    }
+
+    public onGetLinkClick() {
+        this.postLink = this.data.map(p => p.url).join('\n');
     }
 }
