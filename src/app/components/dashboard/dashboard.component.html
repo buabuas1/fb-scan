@@ -146,7 +146,10 @@
             <div [innerHTML]="dataItem.viewContent"></div>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="url" title="Link bài viết" width="100">
+    <kendo-grid-column field="url" title="Link bài viết" width="100" >
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div (click)="openLink(dataItem)">{{dataItem.url}}</div>
+        </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="contentTypes" title="Loại" width="50">
     </kendo-grid-column>
