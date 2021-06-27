@@ -17,4 +17,5 @@ export interface IBDSModel {
     phone: string;
     isComment: boolean;
     parentContent: string;
+    commentStatus: number;
 }

@@ -126,6 +126,9 @@
             <label><b>Nội dung:</b></label>
             <input type="text" [(ngModel)]="model.searchText" (ngModelChange)="searchTextChange$.emit()" [placeholder]="'ví dụ: đống đa'">
         </div>
+        <kendo-multiselect [data]="listItemsStatus" [(ngModel)]="commentStatusTypes" [textField]="'value'"
+                           [valueField]="'key'" (ngModelChange)="updateFilter()">
+        </kendo-multiselect>
     </div>
 </div>
 

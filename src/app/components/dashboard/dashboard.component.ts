@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit} from '@angular/core';
 import {GridDataResult, PageChangeEvent} from '@progress/kendo-angular-grid';
 import {aggregateBy, process} from '@progress/kendo-data-query';
 import * as moment from 'moment';
-import {BdsTypeArray, MAX_DBS_PRICE, MID_DBS_PRICE} from '../../common/constants';
+import {BdsTypeArray, COMMENT_STATUS, MAX_DBS_PRICE, MID_DBS_PRICE} from '../../common/constants';
 import * as R from 'ramda';
 import {DecimalPipe} from '@angular/common';
 import {GroupFbService} from '@core/services/facebook/group-fb.service';
@@ -35,6 +35,12 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     private data: Array<IBDSModel> = [];
     private viewData: Array<IBDSModel> = [];
     public searchTextChange$ = new EventEmitter<string>();
+
+    public listItemsStatus = [
+        {key: COMMENT_STATUS.NEW, value: 'Chưa comment'},
+        {key: COMMENT_STATUS.ISSUE, value: 'Comment lỗi'},
+        {key: COMMENT_STATUS.SUCCESS, value: 'Comment thành công'},
+    ];
 
     gridData = [];
     pagination = {
@@ -74,6 +80,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public toolkitToken: any;
     public areaItems: any = [];
     public postLink: any = '';
+    public commentStatusTypes = this.listItemsStatus;
 
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
@@ -221,6 +228,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         } else {
             this.viewData = this.bdsTypeService.resetSearchContent(this.viewData);
         }
+        this.viewData = this.viewData.filter(v => R.any(t => t.key === v.commentStatus, this.commentStatusTypes));
         this.skip = 0;
         this.loadItems();
         this.loggerService.success('updated!');

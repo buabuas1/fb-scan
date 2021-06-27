@@ -20,6 +20,7 @@ export class GroupFeedModel implements IBDSModel {
     public phone: string;
     public isComment: boolean;
     public parentContent: string;
+    public commentStatus: number;
     constructor(feed: any) {
         try {
             this.url = feed.node.comet_sections.context_layout.story.comet_sections.timestamp.story.url;

@@ -20,6 +20,7 @@ export class CommentModel implements IBDSModel {
     public phone: string;
     public isComment: boolean;
     public parentContent: string;
+    public commentStatus: number;
 
     constructor(feed: any, parentContent?: string) {
         this.url = feed.node.url;
