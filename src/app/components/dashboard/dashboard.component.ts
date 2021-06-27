@@ -426,7 +426,9 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     }
 
     public onGetLinkClick() {
-        this.postLink = this.viewData.map(p => p.url).join('\n');
+        this.postLink = this.viewData.map(p => {
+            return p.url.indexOf('?') !== -1 ? p.url.split('?')[0] : p.url;
+        }).join('\n');
     }
 
     public openLink(dataItem: any) {
