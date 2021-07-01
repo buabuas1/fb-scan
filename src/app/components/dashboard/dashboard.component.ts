@@ -24,6 +24,7 @@ import {Store} from '@ngrx/store';
 import {AppStates} from '../../state-management/app-state';
 import {SetShowSpinnerAction} from '../../state-management/actions/filter.action';
 import {MemberApiService} from '@core/services/member-api.service';
+import {SessionSettingsService} from '@core/services/settings';
 
 @Component({
     selector: 'm-app-dashboard',
@@ -92,7 +93,8 @@ export class DashboardComponent extends BaseComponent implements OnInit {
                 private modalService: ModalService,
                 private areaService: AreaService,
                 private store: Store<AppStates>,
-                private memberApiService: MemberApiService
+                private memberApiService: MemberApiService,
+                private sessionSettingsService: SessionSettingsService
                 ) {
         super();
     }
@@ -439,7 +441,12 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         }).join('\n');
     }
 
-    public openLink(dataItem: any) {
+    public async openLink(dataItem: any) {
         window.open(dataItem.url, '_blank');
+        const user = this.sessionSettingsService.getCurrentData();
+        if (user._id === '5edcea7ab0ab291aa0839834') {
+            const content = {id: dataItem.id, modifiedBy: '100046024845887', status: COMMENT_STATUS.SUCCESS};
+            await this.bdsContentApiService.markPostIsCommented(content, true).toPromise();
+        }
     }
 }
