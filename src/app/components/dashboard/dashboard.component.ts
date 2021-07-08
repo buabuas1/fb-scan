@@ -82,6 +82,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public areaItems: any = [];
     public postLink: any = '';
     public commentStatusTypes = this.listItemsStatus;
+    public maxPostInOneGroup = 3;
 
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
@@ -436,9 +437,19 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     }
 
     public onGetLinkClick() {
-        this.postLink = this.viewData.map(p => {
-            return p.url.indexOf('?') !== -1 ? p.url.split('?')[0] : p.url;
-        }).join('\n');
+        const post = this.viewData.map(p => {
+            if (p.url.indexOf('?') !== -1) {
+                p = {...p, url: p.url.split('?')[0]};
+            }
+            return p;
+        });
+        const postWithoutMultiple = [];
+        post.forEach(item => {
+            if (postWithoutMultiple.filter(p => p.groupId.indexOf(item.groupId) !== -1).length < this.maxPostInOneGroup) {
+                postWithoutMultiple.push(item);
+            }
+        });
+        this.postLink = postWithoutMultiple.map(i => i.url).join('\n');
     }
 
     public async openLink(dataItem: any) {
