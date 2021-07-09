@@ -455,7 +455,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public async openLink(dataItem: any) {
         window.open(dataItem.url, '_blank');
         const user = this.sessionSettingsService.getCurrentData();
-        if (user._id === '5edcea7ab0ab291aa0839834') {
+        if (user._id === '5edcea7ab0ab291aa0839834' && dataItem.commentStatus !== COMMENT_STATUS.ISSUE) {
             const content = {id: dataItem.id, modifiedBy: '100046024845887', status: COMMENT_STATUS.SUCCESS};
             await this.bdsContentApiService.markPostIsCommented(content, true).toPromise();
         }
