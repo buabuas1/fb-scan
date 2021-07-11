@@ -443,12 +443,13 @@ export class DashboardComponent extends BaseComponent implements OnInit {
             }
             return p;
         });
-        const postWithoutMultiple = [];
+        let postWithoutMultiple = [];
         post.forEach(item => {
             if (postWithoutMultiple.filter(p => p.groupId.indexOf(item.groupId) !== -1).length < this.maxPostInOneGroup) {
                 postWithoutMultiple.push(item);
             }
         });
+        postWithoutMultiple = R.uniqBy(i => i.url, postWithoutMultiple);
         this.postLink = postWithoutMultiple.map(i => i.url).join('\n');
     }
 
