@@ -364,6 +364,13 @@ export class DashboardComponent extends BaseComponent implements OnInit {
             }, error => this.loggerService.error(JSON.stringify(error)));
     }
 
+    public ignoreAuthor(dataItem: IBDSModel) {
+        const currentLength = this.viewData.length;
+        this.viewData = this.viewData.filter(i => i.authorId !== dataItem.authorId);
+        this.loadItems();
+        this.loggerService.success(`filtered ${currentLength - this.viewData.length} item!`);
+    }
+
     public onCreatedDateChange($event: Date) {
         this.model.createdDate = $event;
         this.getDataFromApi();

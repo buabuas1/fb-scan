@@ -176,6 +176,7 @@
         <ng-template kendoGridCellTemplate let-dataItem>
             <div>
                 <button class="btn btn-sm btn-success" (click)="getPhone(dataItem)">Get Phone</button>
+                <button class="btn btn-sm btn-success" (click)="ignoreAuthor(dataItem)">Ignore Author</button>
                 <div>{{dataItem.phone}}</div>
             </div>
         </ng-template>
