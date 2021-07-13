@@ -465,6 +465,12 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         const user = this.sessionSettingsService.getCurrentData();
         if (user._id === '5edcea7ab0ab291aa0839834' && dataItem.commentStatus !== COMMENT_STATUS.ISSUE) {
             const content = {id: dataItem.id, modifiedBy: '100046024845887', status: COMMENT_STATUS.SUCCESS};
+            this.viewData = this.viewData.map(i => {
+                if (i.id === dataItem.id) {
+                    i.commentStatus = COMMENT_STATUS.SUCCESS;
+                }
+                return i;
+            });
             await this.bdsContentApiService.markPostIsCommented(content, true).toPromise();
         }
     }
