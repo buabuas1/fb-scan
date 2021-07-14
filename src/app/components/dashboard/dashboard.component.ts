@@ -455,7 +455,8 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         });
         let postWithoutMultiple = [];
         post.forEach(item => {
-            if (postWithoutMultiple.filter(p => p.groupId.indexOf(item.groupId) !== -1).length < this.maxPostInOneGroup) {
+            if (postWithoutMultiple.filter(p => p.groupId.indexOf(item.groupId) !== -1).length < this.maxPostInOneGroup
+            && !R.any(p => p.url.indexOf(item.url) !== -1 && p.commentStatus === COMMENT_STATUS.SUCCESS, this.data)) {
                 postWithoutMultiple.push(item);
             }
         });
