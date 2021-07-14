@@ -83,6 +83,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public postLink: any = '';
     public commentStatusTypes = this.listItemsStatus;
     public maxPostInOneGroup = 3;
+    public ignoreAuthorIds = [];
 
     constructor(private decimalPipe: DecimalPipe,
                 private groupFbService: GroupFbService,
@@ -231,7 +232,8 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         } else {
             this.viewData = this.bdsTypeService.resetSearchContent(this.viewData);
         }
-        this.viewData = this.viewData.filter(v => R.any(t => t.key === v.commentStatus, this.commentStatusTypes));
+        this.viewData = this.viewData.filter(v => R.any(t => t.key === v.commentStatus, this.commentStatusTypes) &&
+            this.ignoreAuthorIds.indexOf(v.authorId) === -1);
         this.skip = 0;
         this.loadItems();
         this.loggerService.success('updated!');
@@ -367,6 +369,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public ignoreAuthor(dataItem: IBDSModel) {
         const currentLength = this.viewData.length;
         this.viewData = this.viewData.filter(i => i.authorId !== dataItem.authorId);
+        this.ignoreAuthorIds.push(dataItem.authorId);
         this.loadItems();
         this.loggerService.success(`filtered ${currentLength - this.viewData.length} item!`);
     }
