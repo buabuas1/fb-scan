@@ -119,8 +119,9 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 
     getDataFromApi() {
         this.store.dispatch(new SetShowSpinnerAction(true));
-        this.bdsContentApiService.getFbContent(this.model.from, this.model.groupIds,
-            {createdDate: this.model.createdDate})
+        this.bdsContentApiService.getFbContent(
+            this.model.typeDate === 'all' ? moment(new Date()).add(-7, 'day') : this.model.from,
+            this.model.groupIds, {createdDate: this.model.createdDate})
             .subscribe(rs => {
                 this.store.dispatch(new SetShowSpinnerAction(false));
                 this.data = rs as IBDSModel[];
