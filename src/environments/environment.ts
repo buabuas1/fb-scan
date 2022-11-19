@@ -7,6 +7,6 @@ export const environment = {
     production: false,
     fbApi: 'https://graph.facebook.com/',
     // beHost: 'http://localhost:4040/',
-    beHost: 'https://fs-be.herokuapp.com/',
+    beHost: 'https://kind-ruby-bighorn-sheep-wig.cyclic.app/',
     toolKit: 'http://api.vltoolkit.com/'
 };
