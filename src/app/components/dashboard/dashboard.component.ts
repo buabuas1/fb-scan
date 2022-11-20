@@ -73,6 +73,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         groupIds: '',
         area: '',
         createdDate: moment(new Date().setHours(0, 0, 0, 0)).toDate(),
+        numberOfRooms: 0
     };
     public listItemsPrice = [];
     public dateOptions: kendo.ui.DateTimePickerOptions = {
@@ -83,6 +84,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     public postLink: any = '';
     public commentStatusTypes = this.listItemsStatus;
     public maxPostInOneGroup = 3;
+    public numberOfRooms = 0;
     public ignoreAuthorIds = [];
 
     constructor(private decimalPipe: DecimalPipe,
@@ -121,7 +123,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         this.store.dispatch(new SetShowSpinnerAction(true));
         this.bdsContentApiService.getFbContent(
             this.model.typeDate === 'all' ? moment(new Date()).add(-7, 'day') : this.model.from,
-            this.model.groupIds, {createdDate: this.model.createdDate})
+            this.model.groupIds, {createdDate: this.model.createdDate, numberOfRooms: this.model.numberOfRooms})
             .subscribe(rs => {
                 this.store.dispatch(new SetShowSpinnerAction(false));
                 this.data = rs as IBDSModel[];
@@ -478,5 +480,10 @@ export class DashboardComponent extends BaseComponent implements OnInit {
             });
             await this.bdsContentApiService.markPostIsCommented(content, true).toPromise();
         }
+    }
+
+    updateNumberOfRooms($event: any) {
+        this.model.numberOfRooms = $event;
+        this.getDataFromApi();
     }
 }

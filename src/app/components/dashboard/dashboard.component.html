@@ -82,6 +82,10 @@
                     </div>
                 </div>
             </div>
+            <label>
+                số lượng phòng
+                <input type="number" (ngModelChange)="updateNumberOfRooms($event)" [(ngModel)]="numberOfRooms">
+            </label>
         </div>
 
     </div>

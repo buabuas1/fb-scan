@@ -10,13 +10,17 @@ export class BdsContentApiService {
     }
 
     getFbContent(postTime: Date, groupIds: string, option: any) {
+        const params = {
+            postTime: postTime.toISOString(),
+            groupIds: groupIds,
+            createdDate: option.createdDate.toISOString(),
+        } as any;
+        if (option.numberOfRooms && option.numberOfRooms > 0) {
+            params.numberOfRooms = option.numberOfRooms;
+        }
         return this.httpClient.get(this.host + 'api/fbcontent', {
             params:
-                {
-                    postTime: postTime.toISOString(),
-                    groupIds: groupIds,
-                    createdDate: option.createdDate.toISOString()
-                }
+            params
         });
     }
 
