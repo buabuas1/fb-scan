@@ -174,9 +174,9 @@
             <div>{{dataItem.postTime | date: 'HH:mm dd/MM/yyyy'}}</div>
         </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="commentCount" title="Số comment" width="70">
-    </kendo-grid-column>
-    <kendo-grid-column title="Thao tác" width="100" >
+    <kendo-grid-column field="commentCount" title="Số comment" width="40"></kendo-grid-column>
+    <kendo-grid-column field="numberOfRooms" title="Số phòng" width="50"></kendo-grid-column>
+    <kendo-grid-column title="Thao tác" width="80" >
         <ng-template kendoGridCellTemplate let-dataItem>
             <div>
                 <button class="btn btn-sm btn-success" (click)="getPhone(dataItem)">Get Phone</button>
