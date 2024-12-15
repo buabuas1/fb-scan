@@ -41,7 +41,7 @@
     "@progress/kendo-drawing": "^1.2.0",
     "@progress/kendo-theme-default": "^2.38.2",
     "@progress/kendo-ui": "^2017.3.913",
-    "bootstrap": "4.1.0",
+    "bootstrap": "4.3.1",
     "core-js": "2.4.1",
     "crypto-js": "3.1.9-1",
     "express": "^4.17.1",
